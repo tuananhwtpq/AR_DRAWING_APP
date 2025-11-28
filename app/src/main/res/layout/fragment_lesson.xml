@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layoutDirection="ltr"
+    tools:context=".fragments.LessonFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lBeginner"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/img_beginner_2">
+
+            <TextView
+                android:id="@+id/txtBeginner"
+                style="@style/mHeading.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="7dp"
+                android:text="@string/beginner"
+                android:textColor="@color/lesson_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/beginnerDes"
+                style="@style/mTxt.P2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:includeFontPadding="false"
+                android:text="@string/learn_the_basics_step_by_step"
+                android:textColor="@color/lesson_unser_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/txtBeginner"
+                app:layout_constraintTop_toBottomOf="@id/txtBeginner" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/beginnerDes">
+
+                <SeekBar
+                    android:layout_width="220dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="4dp"
+                    android:max="10"
+                    android:thumb="@null"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/custom_seekbar_bg"
+                    android:splitTrack="false" />
+
+                <TextView
+                    android:id="@+id/tvProgressBeginner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/fredoka_medium"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/lesson_unser_text_color"
+                    android:textSize="14sp"
+                    android:text="0/10" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/frNative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lIntermediate"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/img_intermediate">
+
+            <TextView
+                android:id="@+id/txtIntermediate"
+                style="@style/mHeading.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="7dp"
+                android:text="@string/intermediate"
+                android:textColor="@color/lesson_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/intermediateDes"
+                style="@style/mTxt.P2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:includeFontPadding="false"
+                android:text="@string/enhance_your_style_and_techniques"
+                android:textColor="@color/lesson_unser_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/txtIntermediate"
+                app:layout_constraintTop_toBottomOf="@id/txtIntermediate" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/intermediateDes">
+
+                <SeekBar
+                    android:layout_width="220dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="4dp"
+                    android:max="10"
+                    android:progress="0"
+                    android:thumb="@null"
+                    android:progressDrawable="@drawable/custom_seekbar_bg"
+                    android:splitTrack="false" />
+
+                <TextView
+                    android:id="@+id/tvProgressIntermediate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/fredoka_medium"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/lesson_unser_text_color"
+                    android:textSize="14sp"
+                    android:text="0/10" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lProfessional"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/img_professional">
+
+            <TextView
+                android:id="@+id/txtProfessional"
+                style="@style/mHeading.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="7dp"
+                android:text="@string/professional"
+                android:textColor="@color/lesson_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/professionalDes"
+                style="@style/mTxt.P2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:includeFontPadding="false"
+                android:text="@string/master_advanced_and_creative_skills"
+                android:textColor="@color/lesson_unser_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/txtProfessional"
+                app:layout_constraintTop_toBottomOf="@id/txtProfessional" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/professionalDes">
+
+                <SeekBar
+                    android:layout_width="220dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="4dp"
+                    android:max="10"
+                    android:progress="0"
+                    android:thumb="@null"
+                    android:progressDrawable="@drawable/custom_seekbar_bg"
+                    android:splitTrack="false" />
+
+                <TextView
+                    android:id="@+id/tvProgressProfessional"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/fredoka_medium"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/lesson_unser_text_color"
+                    android:textSize="14sp"
+                    android:text="0/10" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

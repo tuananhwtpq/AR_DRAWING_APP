@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Язык</string>
+    <string name="english">Английский</string>
+    <string name="hindi">хинди</string>
+    <string name="spanish">испанский</string>
+    <string name="french">Французский</string>
+    <string name="arabic">арабский</string>
+    <string name="bengali">бенгальский</string>
+    <string name="russian">Русский</string>
+    <string name="portuguese">португальский</string>
+    <string name="indonesian">индонезийский</string>
+    <string name="german">немецкий</string>
+    <string name="italian">итальянский</string>
+    <string name="korean">корейский</string>
+    <string name="please_select_language">Сначала выберите язык.</string>
+    <string name="next">Следующий</string>
+</resources>
