@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    tools:context=".activities.TraceActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_detail_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnSave"
+            app:layout_constraintStart_toEndOf="@id/ivBack"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btnUndo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_undo_disable" />
+
+            <ImageView
+                android:id="@+id/btnRedo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_redo_disable" />
+
+            <ImageView
+                android:id="@+id/btnLock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_lock_black" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnSave"
+            style="@style/mBtn.a2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/done_bg"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="9dp"
+            android:text="Done"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <View-->
+<!--            android:layout_width="8.23dp"-->
+<!--            android:layout_height="9dp"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:layout_marginEnd="6.77dp"-->
+<!--            android:background="@drawable/ic_ellipse_small"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/btnSave"-->
+<!--            app:layout_constraintTop_toTopOf="@id/btnSave" />-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.snake.drawingview.DrawingView
+        android:id="@+id/drawingView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/lBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lTitle" />
+
+
+    <LinearLayout
+        android:id="@+id/lStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/lContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/btnPrevStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_prev_step" />
+
+        <TextView
+            android:id="@+id/tvStep"
+            style="@style/mTxt.P2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/bg_button_unselected"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/black"
+            tools:text="Step 1/5" />
+
+        <ImageView
+            android:id="@+id/btnNextStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next_step" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/viewLine"
+        app:layout_goneMarginBottom="0dp">
+
+        <ImageView
+            android:id="@+id/btnOpacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/selector_bg_tools"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/opacity_selector" />
+
+        <ImageView
+            android:id="@+id/btnBrush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/selector_bg_tools"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/brush_selector" />
+
+        <ImageView
+            android:id="@+id/btnErase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/selector_bg_tools"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/eraser_selector" />
+
+        <ImageView
+            android:id="@+id/btnBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/selector_bg_tools"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/pallete_selector" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/lContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/lBottom">
+
+        <LinearLayout
+            android:id="@+id/lEraser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="47dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_rounded_24"
+            android:elevation="2dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="9dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/lBottom">
+
+            <TextView
+                style="@style/mTxt.P2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eraser"
+                android:textColor="@color/black" />
+
+            <SeekBar
+                android:id="@+id/sbEraser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="99"
+                android:progress="20"
+                android:progressDrawable="@drawable/bg_progress"
+                android:splitTrack="false"
+                android:thumb="@drawable/bg_thumb" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lBrush"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="47dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_rounded_24"
+            android:elevation="2dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="9dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/lBottom">
+
+            <TextView
+                android:id="@+id/txtBrush"
+                style="@style/mTxt.P2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brush"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/sbBrush"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="99"
+                android:progress="20"
+                android:progressDrawable="@drawable/bg_progress"
+                android:splitTrack="false"
+                android:thumb="@drawable/bg_thumb"
+                app:layout_constraintBottom_toBottomOf="@id/txtBrush"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtBrush"
+                app:layout_constraintTop_toTopOf="@id/txtBrush" />
+
+            <View
+                android:id="@+id/vDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#E9E9E9"
+                app:layout_constraintTop_toBottomOf="@id/txtBrush" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvBrushColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/vDivider"
+                tools:itemCount="2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="47dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_rounded_24"
+            android:elevation="2dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="9dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/lBottom"
+            tools:itemCount="2" />
+
+        <LinearLayout
+            android:id="@+id/lOpacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="47dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_rounded_24"
+            android:elevation="2dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="9dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/lBottom">
+
+            <TextView
+                style="@style/mTxt.P2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opacity"
+                android:textColor="@color/black" />
+
+            <SeekBar
+                android:id="@+id/sbOpacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255"
+                android:progress="128"
+                android:progressDrawable="@drawable/bg_progress"
+                android:splitTrack="false"
+                android:thumb="@drawable/bg_thumb" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lLockTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDone"
+            app:layout_constraintStart_toEndOf="@id/iv"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_undo_disable"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_redo_disable"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/btnUnlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_lock" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnDone"
+            style="@style/mBtn.a1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/done_bg"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="9dp"
+            android:text="Done"
+            android:textColor="@color/mainTextColor"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/frBanner" />
+
+    <FrameLayout
+        android:id="@+id/frBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frNative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <View
+        android:id="@+id/vLock"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lTitle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:indicatorColor="@color/primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/vShowInterAds"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

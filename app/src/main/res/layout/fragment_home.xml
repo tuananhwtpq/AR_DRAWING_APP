@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layoutDirection="ltr"
+    tools:background="@color/mainBackground"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/layout_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_camera"
+                android:layout_weight="1"
+                android:background="@drawable/white_bg"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_camera"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="9dp"
+                    android:src="@drawable/ic_camera" />
+
+                <TextView
+                    android:id="@+id/tv_camera"
+                    style="@style/mHeading.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="Camera"
+                    android:textColor="@color/mainTextColor" />/
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/layout_gallery"
+                android:background="@drawable/white_bg"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_gallery"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="9dp"
+                    android:src="@drawable/ic_gallery_2" />
+
+                <TextView
+                    android:id="@+id/tv_gallery"
+                    style="@style/mHeading.H3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="Camera"
+                    android:textColor="@color/mainTextColor" />/
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/lCamera"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginEnd="6dp"-->
+        <!--            android:background="@drawable/img_camera"-->
+        <!--            app:layout_constraintDimensionRatio="W,88:158"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/lGallery"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--            <TextView-->
+        <!--                style="@style/mHeading.H3"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="20dp"-->
+        <!--                android:layout_marginTop="18dp"-->
+        <!--                android:layout_marginEnd="16dp"-->
+        <!--                android:layout_gravity="bottom|center"-->
+        <!--                android:singleLine="false"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="Camera"-->
+        <!--                android:textColor="#269DFF" />-->
+        <!--        </FrameLayout>-->
+
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/lGallery"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginStart="6dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:background="@drawable/bg_gallery1"-->
+        <!--            app:layout_constraintDimensionRatio="W,88:158"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/lCamera"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--            <TextView-->
+        <!--                style="@style/mHeading.H3"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="20dp"-->
+        <!--                android:layout_marginTop="18dp"-->
+        <!--                android:layout_marginEnd="16dp"-->
+        <!--                android:singleLine="true"-->
+        <!--                android:text="@string/library"-->
+        <!--                android:textColor="#17C598"-->
+        <!--                app:strokeColor="@color/white"-->
+        <!--                app:strokeThickness="4dp" />-->
+        <!--        </FrameLayout>-->
+
+        <FrameLayout
+            android:id="@+id/frNative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/layout_top" />
+
+        <TextView
+            android:id="@+id/txtTrending"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="4dp"
+            android:text="@string/trending"
+            android:textColor="@color/mainTextColor"
+            app:drawableEndCompat="@drawable/ic_trending"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/frNative"
+            app:layout_goneMarginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvSeeAllTrending"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtTrending"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtTrending" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvTrending"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTrending"
+            tools:listitem="@layout/item_image" />
+
+        <TextView
+            android:id="@+id/txtRecent"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/recent"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvTrending" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvRecent"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRecent"
+            tools:listitem="@layout/item_image" />
+
+        <TextView
+            android:id="@+id/txtAnime"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/anime"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvRecent" />
+
+        <TextView
+            android:id="@+id/tvSeeAllAnime"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtAnime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtAnime" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvAnime"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtAnime"
+            tools:listitem="@layout/item_image" />
+
+
+        <TextView
+            android:id="@+id/txtCartoon"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/cartoon"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvAnime" />
+
+        <TextView
+            android:id="@+id/tvSeeAllCartoon"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtCartoon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtCartoon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvCartoon"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtCartoon"
+            tools:listitem="@layout/item_image" />
+
+        <TextView
+            android:id="@+id/txtAnimal"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/animal"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvCartoon" />
+
+        <TextView
+            android:id="@+id/tvSeeAllAnimal"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtAnimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtAnimal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvAnimal"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtAnimal"
+            tools:listitem="@layout/item_image" />
+
+        <TextView
+            android:id="@+id/txtChibi"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/chibi"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvAnimal" />
+
+        <TextView
+            android:id="@+id/tvSeeAllChibi"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtChibi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtChibi" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvChibi"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtChibi"
+            tools:listitem="@layout/item_image" />
+
+        <TextView
+            android:id="@+id/txtCute"
+            style="@style/mHeading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:text="@string/flower"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcvChibi" />
+
+        <TextView
+            android:id="@+id/tvSeeAllCute"
+            style="@style/mMeta.m1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/right_arrow"
+            android:text="@string/see_all"
+            android:textColor="@color/see_all_color"
+            app:layout_constraintBottom_toBottomOf="@id/txtCute"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtCute" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvCute"
+            android:layout_width="0dp"
+            android:layout_height="142dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtCute"
+            tools:listitem="@layout/item_image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
