@@ -26,6 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun initView() {
         initViewPager()
         setTabPosition(0)
+        //change cmt
     }
 
     override fun initActionView() {
