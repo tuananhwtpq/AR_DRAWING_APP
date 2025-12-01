@@ -45,8 +45,10 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     private var isPhoto = true
         set(value) {
             field = value
-            binding.tvPhoto.setTextColor(Color.parseColor(if (value) "#29313D" else "#B2B2BD"))
-            binding.tvVideo.setTextColor(Color.parseColor(if (!value) "#29313D" else "#B2B2BD"))
+//            binding.tvPhoto.setTextColor(Color.parseColor(if (value) "#29313D" else "#B2B2BD"))
+//            binding.tvVideo.setTextColor(Color.parseColor(if (!value) "#29313D" else "#B2B2BD"))
+            binding.tvPhoto.alpha = if (value) 1f else 0.5f
+            binding.tvVideo.alpha = if (value) 0.5f else 1f
             binding.vIndicatorPhoto.isVisible = value
             binding.vIndicatorVideo.isVisible = !value
             binding.btnCaptureImage.isVisible = value
@@ -63,9 +65,9 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             field = value
             binding.stickerView.isVisible = !value
             binding.btnStroke.isSelected = !value
-            binding.btnStroke.setTextColor(Color.parseColor(if (value) "#B2B2BD" else "#FFFFFF"))
+            //binding.btnStroke.setTextColor(Color.parseColor(if (value) "#B2B2BD" else "#FFFFFF"))
             binding.btnOriginal.isSelected = value
-            binding.btnOriginal.setTextColor(Color.parseColor(if (value) "#FFFFFF" else "#B2B2BD"))
+            //binding.btnOriginal.setTextColor(Color.parseColor(if (value) "#FFFFFF" else "#B2B2BD"))
         }
 
     private var lesson: LessonModel? = null
