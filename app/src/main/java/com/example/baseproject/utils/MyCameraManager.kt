@@ -43,7 +43,6 @@ class MyCameraManager(val mActivity: AppCompatActivity) {
     var listener: RecordListener? = null
 
     fun startCamera(viewFinder: PreviewView) {
-        Log.d(TAG, "Starting camera")
         mActivity.lifecycleScope.launch {
             try {
                 val cameraProvider = ProcessCameraProvider.getInstance(mActivity).await()
@@ -75,48 +74,10 @@ class MyCameraManager(val mActivity: AppCompatActivity) {
                     imageCapture,
                     videoCapture
                 )
-                Log.d(TAG, "Starting Camera Success")
             } catch (e: Exception){
                 Log.e(TAG, "startCamera Failed: ${e.message} ${e.printStackTrace()} ")
             }
         }
-
-
-//        cameraProviderFuture.addListener({
-//            try {
-//                val cameraProvider = cameraProviderFuture.get()
-//                val preview = Preview.Builder().build().also {
-//                    it.surfaceProvider = viewFinder.surfaceProvider
-//                }
-//
-//                imageCapture = ImageCapture.Builder()
-//                    .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-//                    .build()
-//
-//                val recorder = Recorder.Builder()
-//                    .setQualitySelector(
-//                        QualitySelector.from(
-//                            Quality.HIGHEST,
-//                            FallbackStrategy.higherQualityOrLowerThan(Quality.SD)
-//                        )
-//                    )
-//                    .build()
-//                videoCapture = VideoCapture.withOutput(recorder)
-//
-//                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-//
-//                cameraProvider.unbindAll()
-//                camera = cameraProvider.bindToLifecycle(
-//                    mActivity,
-//                    cameraSelector,
-//                    preview,
-//                    imageCapture,
-//                    videoCapture
-//                )
-//            } catch (e: Exception) {
-//                Log.e(TAG, "Use case binding failed - ${e.message} - ${e.printStackTrace()}")
-//            }
-//        }, ContextCompat.getMainExecutor(mActivity))
     }
 
     fun captureImage2() {
