@@ -1,5 +1,6 @@
 package com.example.baseproject.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -11,13 +12,18 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.baseproject.R
+import com.example.baseproject.adapters.ColorPickerAdapter
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivityTraceBinding
 import com.example.baseproject.models.LessonModel
+import com.example.baseproject.utils.BitmapUtils
+import com.example.baseproject.utils.Common
 import com.example.baseproject.utils.Constants
 import com.example.baseproject.utils.SharedPrefManager
 import com.example.baseproject.utils.ads.AdsManager
+import com.example.baseproject.utils.convertToPx
 import com.example.baseproject.utils.gone
+import com.example.baseproject.utils.onProgressChange
 import com.example.baseproject.utils.setOnUnDoubleClick
 import com.example.baseproject.utils.visible
 import com.snake.drawingview.brushtool.data.Brush
@@ -44,7 +50,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     }
 
     private val maxWidth by lazy {
-       // binding.drawingView.width - convertToPx(16f).toInt()
+       binding.drawingView.width - convertToPx(16f).toInt()
     }
 
     private var startTime = System.currentTimeMillis()
@@ -106,11 +112,11 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.drawingView.setBrushColor(value)
         }
 
-//    private var brushColorAdapter: ColorPickerAdapter? = null
-//    private var backgroundColorAdapter: ColorPickerAdapter? = null
-//
-//    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-//        override fun handleOnBackPressed() {
+    private var brushColorAdapter: ColorPickerAdapter? = null
+    private var backgroundColorAdapter: ColorPickerAdapter? = null
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
 //            ExitDialog().init(
 //                onExit = {
 //                    loadAndShowInterBack(binding.vShowInterAds) {
@@ -127,8 +133,9 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 //                Constants.KEY_SPENT_TIME,
 //                spentTime + System.currentTimeMillis() - startTime
 //            )
-//        }
-//    }
+            finish()
+        }
+    }
 
     override fun initData() {
         val displayMetrics = resources.displayMetrics
@@ -152,14 +159,16 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     override fun initView() {
         toolOption = 0
         binding.lStep.isVisible = isFromLesson
-        //onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding.drawingView.getState().addOnStateChangedListener {
             binding.btnUndo.isEnabled = it.canCallUndo()
             binding.btnRedo.isEnabled = it.canCallRedo()
-            binding.btnUndo.setImageResource(if (it.canCallUndo()) R.drawable.ic_undo_enable else R.drawable.ic_undo_disable)
-            binding.btnRedo.setImageResource(if (it.canCallRedo()) R.drawable.ic_redo_disable else R.drawable.ic_redo_disable)
+            binding.btnUndo.setImageResource(if (it.canCallUndo()) R.drawable.ic_undo_disable else R.drawable.ic_undo_enable)
+            binding.btnRedo.setImageResource(if (it.canCallRedo()) R.drawable.ic_redo_enable else R.drawable.ic_redo_disable)
         }
     }
+
+
 
     override fun initActionView() {
         binding.ivBack.setOnUnDoubleClick {
@@ -171,6 +180,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
             binding.drawingView.setBrushOrEraser(Brush.Pen)
             binding.drawingView.setBrushOrEraserSize((binding.sbBrush.progress + 1) / 100f)
+
         }
 
         binding.btnErase.setOnClickListener {
@@ -178,14 +188,18 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
             binding.drawingView.setBrushOrEraser(Brush.HardEraser)
             binding.drawingView.setBrushOrEraserSize((binding.sbEraser.progress + 1) / 100f)
+
+
         }
 
         binding.btnOpacity.setOnClickListener {
             toolOption = 2
+
         }
 
         binding.btnBackground.setOnClickListener {
             toolOption = 3
+
         }
 
         binding.btnLock.setOnClickListener {
@@ -209,7 +223,8 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         }
 
         binding.btnSave.setOnUnDoubleClick {
-            showInterDone { done() }
+//            showInterDone { done() }
+            done()
         }
 
         binding.btnPrevStep.setOnClickListener {
@@ -220,23 +235,39 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             currentStep += 1
         }
 
-//        binding.sbBrush.onProgressChange { progress ->
-//            binding.drawingView.setBrushOrEraserSize((progress + 1) / 100f)
-//        }
-//
-//        binding.sbEraser.onProgressChange { progress ->
-//            binding.drawingView.setBrushOrEraserSize((progress + 1) / 100f)
-//        }
-//
-//        binding.sbOpacity.onProgressChange { progress ->
-//            templateBitmap?.let {
-//                binding.drawingView.setDrawingFrame(
-//                    BitmapUtils.applyAlphaToBitmap(it, progress),
-//                    bitmap,
-//                    actionStack
-//                )
-//            }
-//        }
+        binding.sbBrush.onProgressChange { progress ->
+            binding.drawingView.setBrushOrEraserSize((progress + 1) / 100f)
+        }
+
+        binding.sbEraser.onProgressChange { progress ->
+            binding.drawingView.setBrushOrEraserSize((progress + 1) / 100f)
+        }
+
+        binding.sbOpacity.onProgressChange { progress ->
+            templateBitmap?.let {
+                binding.drawingView.setDrawingFrame(
+                    BitmapUtils.applyAlphaToBitmap(it, progress),
+                    bitmap,
+                    actionStack
+                )
+            }
+        }
+
+    }
+
+    private fun setupBottomNavVisibility(option: Int) {
+        binding.bottomNavBrush.visibility = if (option == 0) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavEraser.visibility = if (option == 1) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavOpacity.visibility = if (option == 2) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavColor.visibility = if (option == 3) View.VISIBLE else View.INVISIBLE
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setupTextColor(option: Int){
+        binding.navOpacity.setTextColor(if (option == 2) getColor(R.color.mainTextColor) else getColor(R.color.unSelectedText))
+        binding.navBrush.setTextColor(if (option == 0) getColor(R.color.mainTextColor) else getColor(R.color.unSelectedText))
+        binding.navEraser.setTextColor(if (option == 1) getColor(R.color.mainTextColor) else getColor(R.color.unSelectedText))
+        binding.navColor.setTextColor(if (option == 3) getColor(R.color.mainTextColor) else getColor(R.color.unSelectedText))
     }
 
     private fun setOption() {
@@ -251,10 +282,8 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         binding.rcvBackgroundColor.isVisible =
             toolOption == 3 && binding.rcvBackgroundColor.isVisible == false
 
-//        binding.btnBrush.setImageResource(if (toolOption == 0) R.drawable.ic_brush_white else R.drawable.ic_brush)
-//        binding.btnErase.setImageResource(if (toolOption == 1) R.drawable.ic_eraser_white else R.drawable.ic_eraser)
-//        binding.btnOpacity.setImageResource(if (toolOption == 2) R.drawable.ic_opacity_selected else R.drawable.ic_opacity_unselected)
-//        binding.btnBackground.setImageResource(if (toolOption == 3) R.drawable.ic_palette_white else R.drawable.ic_palette)
+        setupBottomNavVisibility(toolOption)
+        setupTextColor(toolOption)
     }
 
     private fun done() {
@@ -265,10 +294,10 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
                 }
             }
         }
-//        val intent = Intent(this, ResultActivity::class.java)
-//        val bmp = BitmapUtils.setBackgroundForBitmap(bitmap, backgroundColor)
-//        ResultActivity.bitmap = bmp
-//        startActivity(intent)
+        val intent = Intent(this, ResultActivity::class.java)
+        val bmp = BitmapUtils.setBackgroundForBitmap(bitmap, backgroundColor)
+        ResultActivity.bitmap = bmp
+        startActivity(intent)
     }
 
     private fun showColorPickerDialog(
@@ -294,28 +323,28 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     }
 
     private fun setColorAdapter() {
-//        brushColorAdapter =
-//            ColorPickerAdapter(
-//                Common.listBrushColor,
-//                onSelectColor = { brushColor = it },
-//                onPickColor = {
-//                    showColorPickerDialog(false) { color ->
-//                        brushColor = color
-//                        brushColorAdapter?.updateColor(color)
-//                    }
-//                })
-//        backgroundColorAdapter =
-//            ColorPickerAdapter(Common.listBackgroundColor,
-//                onSelectColor = { backgroundColor = it },
-//                onPickColor = {
-//                    showColorPickerDialog(true) { color ->
-//                        backgroundColor = color
-//                        backgroundColorAdapter?.updateColor(color)
-//                    }
-//                })
-//
-//        binding.rcvBrushColor.adapter = brushColorAdapter
-//        binding.rcvBackgroundColor.adapter = backgroundColorAdapter
+        brushColorAdapter =
+            ColorPickerAdapter(
+                Common.listBrushColor,
+                onSelectColor = { brushColor = it },
+                onPickColor = {
+                    showColorPickerDialog(false) { color ->
+                        brushColor = color
+                        brushColorAdapter?.updateColor(color)
+                    }
+                })
+        backgroundColorAdapter =
+            ColorPickerAdapter(Common.listBackgroundColor,
+                onSelectColor = { backgroundColor = it },
+                onPickColor = {
+                    showColorPickerDialog(true) { color ->
+                        backgroundColor = color
+                        backgroundColorAdapter?.updateColor(color)
+                    }
+                })
+
+        binding.rcvBrushColor.adapter = brushColorAdapter
+        binding.rcvBackgroundColor.adapter = backgroundColorAdapter
 
         binding.rcvBrushColor.layoutManager =
             GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
@@ -325,63 +354,63 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     private fun setDrawingView() {
         //todo: check bitmap
-//        CoroutineScope(Dispatchers.IO).launch {
-//            delay(1000)
-//            if (isFromLesson) {
-//                lesson = ImageRepositories.INSTANCE.getLessonById(lessonId)
-//                lesson?.let {
-//                    withContext(Dispatchers.Main) {
-//                        listImage = it.listStep
-//                        totalStep = it.listStep.size
-//                        if (currentStep == 0) {
-//                            currentStep = 1
-//                        }
-//                    }
-//                    updateDrawView(listImage[currentStep - 1])
-//                }
-//            } else {
-//                if (imageUri == null) {
-//                    updateDrawView("$image")
-//                } else {
-//                    var bitmapFromUri = BitmapUtils.getBitmapFromUri(
-//                        this@TraceActivity,
-//                        Uri.parse(imageUri)
-//                    )
-//
-//                    if (bitmapFromUri != null) {
-//                        templateBitmap = BitmapUtils.resizeBitmap(
-//                            bitmapFromUri,
-//                            maxWidth,
-//                            maxWidth
-//                        )
-//                        bitmapFromUri = templateBitmap?.let { BitmapUtils.applyAlphaToBitmap(it) }
-//                    }
-//                    binding.drawingView.setDrawingFrame(
-//                        bitmapFromUri, bitmap, actionStack
-//                    )
-//                }
-//            }
-//
-//            withContext(Dispatchers.Main) {
-//                binding.drawingView.changeBackgroundColor(backgroundColor)
-//                binding.lLoading.gone()
-//            }
-//        }
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(1000)
+            if (isFromLesson) {
+                lesson = ImageRepositories.INSTANCE.getLessonById(lessonId)
+                lesson?.let {
+                    withContext(Dispatchers.Main) {
+                        listImage = it.listStep
+                        totalStep = it.listStep.size
+                        if (currentStep == 0) {
+                            currentStep = 1
+                        }
+                    }
+                    updateDrawView(listImage[currentStep - 1])
+                }
+            } else {
+                if (imageUri == null) {
+                    updateDrawView("$image")
+                } else {
+                    var bitmapFromUri = BitmapUtils.getBitmapFromUri(
+                        this@TraceActivity,
+                        Uri.parse(imageUri)
+                    )
+
+                    if (bitmapFromUri != null) {
+                        templateBitmap = BitmapUtils.resizeBitmap(
+                            bitmapFromUri,
+                            maxWidth,
+                            maxWidth
+                        )
+                        bitmapFromUri = templateBitmap?.let { BitmapUtils.applyAlphaToBitmap(it) }
+                    }
+                    binding.drawingView.setDrawingFrame(
+                        bitmapFromUri, bitmap, actionStack
+                    )
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                binding.drawingView.changeBackgroundColor(backgroundColor)
+                binding.lLoading.gone()
+            }
+        }
     }
 
     private fun updateDrawView(path: String) {
-//        val bitmapFromAsset = BitmapUtils.getBitmapFromAsset(
-//            this@TraceActivity,
-//            path,
-//        )
-//        templateBitmap = bitmapFromAsset?.let { BitmapUtils.resizeBitmap(it, maxWidth, maxWidth) }
-//        val currentBitmap =
-//            templateBitmap?.let { BitmapUtils.applyAlphaToBitmap(it, binding.sbOpacity.progress) }
-//        binding.drawingView.setDrawingFrame(
-//            currentBitmap,
-//            bitmap,
-//            actionStack
-//        )
+        val bitmapFromAsset = BitmapUtils.getBitmapFromAsset(
+            this@TraceActivity,
+            path,
+        )
+        templateBitmap = bitmapFromAsset?.let { BitmapUtils.resizeBitmap(it, maxWidth, maxWidth) }
+        val currentBitmap =
+            templateBitmap?.let { BitmapUtils.applyAlphaToBitmap(it, binding.sbOpacity.progress) }
+        binding.drawingView.setDrawingFrame(
+            currentBitmap,
+            bitmap,
+            actionStack
+        )
     }
 
     override fun onResume() {
@@ -406,7 +435,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //todo: save instance
         outState.putInt("brushColor", brushColor)
         outState.putInt("backgroundColor", backgroundColor)
         outState.putInt("toolOption", toolOption)
@@ -415,7 +443,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        //todo: on restore instance
         if (savedInstanceState.containsKey("brushColor")) {
             brushColor = savedInstanceState.getInt("brushColor")
         }
@@ -443,8 +470,8 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             }
         }
 
-//        brushColorAdapter?.updateColor(brushColor)
-//        backgroundColorAdapter?.updateColor(backgroundColor)
+        brushColorAdapter?.updateColor(brushColor)
+        backgroundColorAdapter?.updateColor(backgroundColor)
         if (toolOption == 0) {
             binding.drawingView.setBrushOrEraser(Brush.Pen)
             binding.drawingView.setBrushOrEraserSize((binding.sbBrush.progress + 1) / 100f)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StickerView">
+        <attr name="bringToFrontCurrentSticker" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="StrokedTextView">
+        <attr name="strokeThickness" format="dimension" />
+        <attr name="strokeColor" format="color" />
+    </declare-styleable>
+
+</resources>

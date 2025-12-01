@@ -74,14 +74,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <View-->
-<!--            android:layout_width="8.23dp"-->
-<!--            android:layout_height="9dp"-->
-<!--            android:layout_marginTop="3dp"-->
-<!--            android:layout_marginEnd="6.77dp"-->
-<!--            android:background="@drawable/ic_ellipse_small"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/btnSave"-->
-<!--            app:layout_constraintTop_toTopOf="@id/btnSave" />-->
+        <!--        <View-->
+        <!--            android:layout_width="8.23dp"-->
+        <!--            android:layout_height="9dp"-->
+        <!--            android:layout_marginTop="3dp"-->
+        <!--            android:layout_marginEnd="6.77dp"-->
+        <!--            android:background="@drawable/ic_ellipse_small"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/btnSave"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/btnSave" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -141,188 +141,330 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:background="@color/white"
+        android:background="@drawable/trace_bottom_bg"
         android:elevation="2dp"
         android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
         android:paddingTop="8dp"
-        android:paddingBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/viewLine"
         app:layout_goneMarginBottom="0dp">
 
-        <ImageView
+        <!--        <ImageView-->
+        <!--            android:id="@+id/btnOpacity"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginEnd="12dp"-->
+        <!--            android:background="@drawable/selector_bg_tools"-->
+        <!--            android:paddingHorizontal="16dp"-->
+        <!--            android:paddingVertical="8dp"-->
+        <!--            android:src="@drawable/opacity_selector" />-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/btnBrush"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="12dp"-->
+        <!--            android:background="@drawable/selector_bg_tools"-->
+        <!--            android:paddingHorizontal="16dp"-->
+        <!--            android:paddingVertical="8dp"-->
+        <!--            android:src="@drawable/brush_selector" />-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/btnErase"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="12dp"-->
+        <!--            android:background="@drawable/selector_bg_tools"-->
+        <!--            android:paddingHorizontal="16dp"-->
+        <!--            android:paddingVertical="8dp"-->
+        <!--            android:src="@drawable/eraser_selector" />-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/btnBackground"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="12dp"-->
+        <!--            android:background="@drawable/selector_bg_tools"-->
+        <!--            android:paddingHorizontal="16dp"-->
+        <!--            android:paddingVertical="8dp"-->
+        <!--            android:src="@drawable/pallete_selector" />-->
+
+        <FrameLayout
             android:id="@+id/btnOpacity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/selector_bg_tools"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:src="@drawable/opacity_selector" />
+            android:layout_weight="1">
 
-        <ImageView
+            <ImageView
+                android:id="@+id/bottom_nav_opacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="9dp"
+                android:duplicateParentState="true"
+                android:src="@drawable/bottom_nav_lesson"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/navHome" />
+
+            <TextView
+                android:id="@+id/navOpacity"
+                style="@style/mMeta.m1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Opacity"
+                android:textColor="@color/mainTextColor"
+                app:drawableTopCompat="@drawable/opacity_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </FrameLayout>
+
+
+        <FrameLayout
             android:id="@+id/btnBrush"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:background="@drawable/selector_bg_tools"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:src="@drawable/brush_selector" />
+            android:layout_weight="1">
 
-        <ImageView
+            <ImageView
+                android:id="@+id/bottom_nav_brush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="9dp"
+                android:duplicateParentState="true"
+                android:src="@drawable/bottom_nav_lesson"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/navHome" />
+
+            <TextView
+                android:id="@+id/navBrush"
+                style="@style/mMeta.m1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Brush"
+                android:textColor="@color/unSelectedText"
+                app:drawableTopCompat="@drawable/brush_selector" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/btnErase"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:background="@drawable/selector_bg_tools"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:src="@drawable/eraser_selector" />
+            android:layout_weight="1">
 
-        <ImageView
+            <ImageView
+                android:id="@+id/bottom_nav_eraser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="9dp"
+                android:src="@drawable/bottom_nav_lesson"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/navHome" />
+
+            <TextView
+                android:id="@+id/navEraser"
+                style="@style/mMeta.m1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Eraser"
+                android:textColor="@color/unSelectedText"
+                app:drawableTopCompat="@drawable/eraser_selector" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/btnBackground"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/selector_bg_tools"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:src="@drawable/pallete_selector" />
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/bottom_nav_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="9dp"
+                android:src="@drawable/bottom_nav_lesson"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/navHome" />
+
+            <TextView
+                android:id="@+id/navColor"
+                style="@style/mMeta.m1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Color"
+                android:textColor="@color/unSelectedText"
+                app:drawableTopCompat="@drawable/pallete_selector" />
+        </FrameLayout>
 
     </LinearLayout>
-
+    <!--    Frame container-->
     <FrameLayout
         android:id="@+id/lContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/lBottom">
 
+        <!--        Eraser-->
         <LinearLayout
             android:id="@+id/lEraser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="47dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
-            android:elevation="2dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="9dp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/lBottom">
 
-            <TextView
-                style="@style/mTxt.P2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Eraser"
-                android:textColor="@color/black" />
+            <!--            <TextView-->
+            <!--                style="@style/mTxt.P2"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Eraser"-->
+            <!--                android:textColor="@color/black" />-->
 
             <SeekBar
                 android:id="@+id/sbEraser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:max="99"
+                android:maxHeight="7dp"
+                android:minHeight="5dp"
                 android:progress="20"
-                android:progressDrawable="@drawable/bg_progress"
+                android:progressDrawable="@drawable/custom_seekbar_trace"
                 android:splitTrack="false"
                 android:thumb="@drawable/bg_thumb" />
         </LinearLayout>
 
+        <!--        Brush-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lBrush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="47dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
-            android:elevation="2dp"
-            android:paddingHorizontal="16dp"
             android:paddingVertical="9dp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/lBottom">
 
-            <TextView
-                android:id="@+id/txtBrush"
-                style="@style/mTxt.P2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Brush"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/txtBrush"-->
+            <!--                style="@style/mTxt.P2"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Brush"-->
+            <!--                android:textColor="@color/black"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <SeekBar
                 android:id="@+id/sbBrush"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:max="99"
+                android:maxHeight="7dp"
+                android:minHeight="5dp"
                 android:progress="20"
-                android:progressDrawable="@drawable/bg_progress"
+                android:layout_marginTop="16dp"
+                android:progressDrawable="@drawable/custom_seekbar_trace"
                 android:splitTrack="false"
                 android:thumb="@drawable/bg_thumb"
-                app:layout_constraintBottom_toBottomOf="@id/txtBrush"
+                app:layout_constraintBottom_toTopOf="@id/vDivider"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/txtBrush"
-                app:layout_constraintTop_toTopOf="@id/txtBrush" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:id="@+id/vDivider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:background="#E9E9E9"
-                app:layout_constraintTop_toBottomOf="@id/txtBrush" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sbBrush" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvBrushColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vDivider"
                 tools:itemCount="2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--        Paint Color-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="47dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
-            android:elevation="2dp"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="12dp"
             android:paddingVertical="9dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/lBottom"
             tools:itemCount="2" />
 
+        <!--        Opacity-->
         <LinearLayout
             android:id="@+id/lOpacity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="47dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
-            android:elevation="2dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="9dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/lBottom">
 
-            <TextView
-                style="@style/mTxt.P2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Opacity"
-                android:textColor="@color/black" />
+            <!--            <TextView-->
+            <!--                style="@style/mTxt.P2"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Opacity"-->
+            <!--                android:textColor="@color/black" />-->
 
             <SeekBar
                 android:id="@+id/sbOpacity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:max="255"
+                android:maxHeight="7dp"
+                android:minHeight="5dp"
                 android:progress="128"
-                android:progressDrawable="@drawable/bg_progress"
+                android:progressDrawable="@drawable/custom_seekbar_trace"
                 android:splitTrack="false"
                 android:thumb="@drawable/bg_thumb" />
         </LinearLayout>

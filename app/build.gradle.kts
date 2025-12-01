@@ -92,11 +92,20 @@ dependencies {
     implementation(project(":openCV"))  // OpenCV dependency
     implementation(project(":drawingview"))
 
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.video)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
-
+    implementation(libs.androidx.concurrent.futures)
+    implementation(libs.androidx.concurrent.futures.ktx)
+    implementation(libs.guava)
 }
