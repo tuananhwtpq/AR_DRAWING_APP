@@ -86,16 +86,16 @@ abstract class ImageDB : RoomDatabase() {
                             }
 
 
-                            context.assets.list("trending")?.forEach {
-                                dao?.insertImage(
-                                    ImageModel(
-                                        category = 0,
-                                        categoryName = "trending",
-                                        img = "trending/$it",
-                                        isFavorite = false,
-                                    )
-                                )
-                            }
+//                            context.assets.list("trending")?.forEach {
+//                                dao?.insertImage(
+//                                    ImageModel(
+//                                        category = 0,
+//                                        categoryName = "trending",
+//                                        img = "trending/$it",
+//                                        isFavorite = false,
+//                                    )
+//                                )
+//                            }
 
                             context.assets.list("anime")?.forEach {
                                 dao?.insertImage(
