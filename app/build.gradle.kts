@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.text.SimpleDateFormat
 
 plugins {
@@ -52,6 +50,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     bundle {
@@ -110,5 +109,9 @@ dependencies {
     implementation(libs.guava)
     //blur
     implementation(libs.blurview)
+
+    //ratingBar
+    implementation(libs.simpleratingbar)
+
 
 }

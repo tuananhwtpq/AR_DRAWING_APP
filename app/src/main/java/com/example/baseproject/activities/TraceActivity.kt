@@ -15,12 +15,14 @@ import com.example.baseproject.R
 import com.example.baseproject.adapters.ColorPickerAdapter
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivityTraceBinding
+import com.example.baseproject.dialog.color_picker.ColorPickerDialog
+import com.example.baseproject.fragments.DrawGuideDialog
+import com.example.baseproject.fragments.ExitDialog
 import com.example.baseproject.models.LessonModel
 import com.example.baseproject.utils.BitmapUtils
 import com.example.baseproject.utils.Common
 import com.example.baseproject.utils.Constants
 import com.example.baseproject.utils.SharedPrefManager
-import com.example.baseproject.utils.ads.AdsManager
 import com.example.baseproject.utils.convertToPx
 import com.example.baseproject.utils.gone
 import com.example.baseproject.utils.onProgressChange
@@ -60,7 +62,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     private var totalStep = 0
         set(value) {
             field = value
-            //binding.tvStep.text = getString(R.string.step_num, currentStep, totalStep)
+            binding.tvStep.text = getString(R.string.step_num, currentStep, totalStep)
         }
 
     private var templateBitmap: Bitmap? = null
@@ -86,7 +88,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.btnPrevStep.alpha = if (value > 1) 1f else 0.6f
             binding.btnNextStep.isEnabled = value < totalStep
             binding.btnNextStep.alpha = if (value < totalStep) 1f else 0.6f
-            //binding.tvStep.text = getString(R.string.step_num, currentStep, totalStep)
+            binding.tvStep.text = getString(R.string.step_num, currentStep, totalStep)
             updateDrawView(listImage[value - 1])
         }
 
@@ -117,23 +119,25 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-//            ExitDialog().init(
-//                onExit = {
+            ExitDialog().init(
+                onExit = {
 //                    loadAndShowInterBack(binding.vShowInterAds) {
 //                        startTime = System.currentTimeMillis()
 //                        finish()
 //                    }
-//                },
-//                onDismiss = {
-//                    startTime = System.currentTimeMillis()
-//                }
-//            ).show(supportFragmentManager, "ExitDialog")
-//            val spentTime = SharedPrefManager.getLong(Constants.KEY_SPENT_TIME, 0L)
-//            SharedPrefManager.putLong(
-//                Constants.KEY_SPENT_TIME,
-//                spentTime + System.currentTimeMillis() - startTime
-//            )
-            finish()
+                    startTime = System.currentTimeMillis()
+                    finish()
+                },
+                onDismiss = {
+                    startTime = System.currentTimeMillis()
+                }
+            ).show(supportFragmentManager, "ExitDialog")
+            val spentTime = SharedPrefManager.getLong(Constants.KEY_SPENT_TIME, 0L)
+            SharedPrefManager.putLong(
+                Constants.KEY_SPENT_TIME,
+                spentTime + System.currentTimeMillis() - startTime
+            )
+            //finish()
         }
     }
 
@@ -150,10 +154,10 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
         setDrawingView()
 
-//        if (SharedPrefManager.getBoolean("first_trace", true)) {
-//            SharedPrefManager.putBoolean("first_trace", false)
-//            DrawGuideDialog().init().show(supportFragmentManager, "DrawGuideDialog")
-//        }
+        if (SharedPrefManager.getBoolean("first_trace", true)) {
+            SharedPrefManager.putBoolean("first_trace", false)
+            DrawGuideDialog().init().show(supportFragmentManager, "DrawGuideDialog")
+        }
     }
 
     override fun initView() {
@@ -304,22 +308,21 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         isBackGround: Boolean = false,
         onOk: (Int) -> Unit
     ) {
-//        val dialog = ColorPickerDialog(
-//            this,
-//            if (isBackGround) backgroundColor else brushColor,
-//            false,
-//            object : ColorPickerDialog.OnAmbilWarnaListener {
-//                override fun onCancel(dialog: ColorPickerDialog?) {
-//
-//                }
-//
-//                override fun onOk(dialog: ColorPickerDialog?, color: Int) {
-//                    onOk(color)
-//                }
-//
-//            })
-//
-//        dialog.show()
+        val dialog = ColorPickerDialog(
+            this,
+            if (isBackGround) backgroundColor else brushColor,
+            false,
+            object : ColorPickerDialog.OnAmbilWarnaListener {
+                override fun onCancel(dialog: ColorPickerDialog?) {
+
+                }
+
+                override fun onOk(dialog: ColorPickerDialog?, color: Int) {
+                    onOk(color)
+                }
+
+            })
+        dialog.show()
     }
 
     private fun setColorAdapter() {

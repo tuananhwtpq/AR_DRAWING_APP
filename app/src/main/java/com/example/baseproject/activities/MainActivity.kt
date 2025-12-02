@@ -1,18 +1,14 @@
 package com.example.baseproject.activities
 
-import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baseproject.R
 import com.example.baseproject.adapters.MainViewPagerAdapter
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivityMainBinding
+import com.example.baseproject.fragments.DrawGuideDialog
 import com.example.baseproject.utils.setOnUnDoubleClick
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -34,6 +30,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.navLesson.setOnUnDoubleClick { setTabPosition(1) }
         binding.navGallery.setOnUnDoubleClick { setTabPosition(2) }
         binding.navSetting.setOnUnDoubleClick { setTabPosition(3) }
+
+        binding.ivInfo.setOnClickListener {
+            DrawGuideDialog().init(true).show(supportFragmentManager, "DrawGuideDialog")
+        }
     }
 
     private fun initViewPager() {
@@ -78,10 +78,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.bottomNavLesson.visibility = if (position == 1) View.VISIBLE else View.INVISIBLE
         binding.bottomNavGallery.visibility = if (position == 2) View.VISIBLE else View.INVISIBLE
         binding.bottomNavSetting.visibility = if (position == 3) View.VISIBLE else View.INVISIBLE
-    }
-
-    private fun bottomNavSelected(isSelected: Boolean){
-
     }
 
     private fun setSelectedText(textView: TextView){

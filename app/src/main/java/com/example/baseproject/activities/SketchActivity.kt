@@ -8,24 +8,19 @@ import android.graphics.Color
 import android.graphics.Outline
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivitySketchBinding
+import com.example.baseproject.fragments.DrawGuideDialog
 import com.example.baseproject.models.LessonModel
 import com.example.baseproject.models.SketchImage
 import com.example.baseproject.utils.BitmapUtils
@@ -35,14 +30,12 @@ import com.example.baseproject.utils.SharedPrefManager
 import com.example.baseproject.utils.enumz.SketchEffect
 import com.example.baseproject.utils.formatTime
 import com.example.baseproject.utils.gone
-import com.example.baseproject.utils.onProgressChange
+import com.example.baseproject.utils.invisible
 import com.example.baseproject.utils.setOnUnDoubleClick
 import com.example.baseproject.utils.showToast
 import com.example.baseproject.utils.sticker.DrawableSticker
 import com.example.baseproject.utils.sticker.Sticker
 import com.example.baseproject.utils.visible
-import com.snake.squad.adslib.AdmobLib
-import com.snake.squad.adslib.utils.GoogleENative
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.CoroutineScope
@@ -164,7 +157,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     override fun initView() {
         if (SharedPrefManager.getBoolean("first_sketch", true)) {
             SharedPrefManager.putBoolean("first_sketch", false)
-            //DrawGuideDialog().init(true).show(supportFragmentManager, "DrawGuideDialog")
+            DrawGuideDialog().init(true).show(supportFragmentManager, "DrawGuideDialog")
         }
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding.lStep.isVisible = isFromLesson
@@ -189,6 +182,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.lOpacity.isVisible = it.isSelected
             binding.lCamera.isVisible = false
             binding.btnCamera.isSelected = false
+            setupBottomColor()
         }
 
         binding.btnCamera.setOnClickListener {
@@ -200,15 +194,19 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
                 binding.lRecording.isVisible = it.isSelected
             }
             binding.lOpacity.isVisible = false
+            setupBottomColor()
         }
 
         binding.btnLock.setOnClickListener {
             it.isSelected = !it.isSelected
+            setupBottomColor()
         }
 
         binding.btnFlash.setOnClickListener {
             it.isSelected = !it.isSelected
+            setupBottomColor()
             cameraManager.enableFlash(it.isSelected)
+
         }
 
 
@@ -391,6 +389,51 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 //        }
     }
 
+    private fun setupBottomColor() {
+
+//        if (imageView.isSelected){
+//            frame.visible()
+//            textView.setTextColor(resources.getColor(R.color.mainTextColor))
+//        } else{
+//            frame.invisible()
+//            textView.setTextColor(resources.getColor(R.color.unSelectedText))
+//        }
+        //frame.visibility = if (imageView.isSelected) View.VISIBLE else View.INVISIBLE
+
+        binding.bottomNavOpacity.visibility =
+            if (binding.btnOpacity.isSelected) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavCamera.visibility =
+            if (binding.btnCamera.isSelected) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavLock.visibility =
+            if (binding.btnLock.isSelected) View.VISIBLE else View.INVISIBLE
+        binding.bottomNavFlash.visibility =
+            if (binding.btnFlash.isSelected) View.VISIBLE else View.INVISIBLE
+
+        if (binding.btnOpacity.isSelected) {
+            binding.navOpacity.setTextColor(resources.getColor(R.color.mainTextColor))
+        } else {
+            binding.navOpacity.setTextColor(resources.getColor(R.color.unSelectedText))
+        }
+
+        if (binding.btnCamera.isSelected) {
+            binding.navCamera.setTextColor(resources.getColor(R.color.mainTextColor))
+        } else {
+            binding.navCamera.setTextColor(resources.getColor(R.color.unSelectedText))
+        }
+
+        if (binding.btnLock.isSelected) {
+            binding.navLock.setTextColor(resources.getColor(R.color.mainTextColor))
+        } else {
+            binding.navLock.setTextColor(resources.getColor(R.color.unSelectedText))
+        }
+
+        if (binding.btnFlash.isSelected) {
+            binding.navFlash.setTextColor(resources.getColor(R.color.mainTextColor))
+        } else {
+            binding.navFlash.setTextColor(resources.getColor(R.color.unSelectedText))
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
@@ -430,6 +473,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
                 }
                 withContext(Dispatchers.Main) {
                     binding.lLoading.gone()
+                    binding.blurOpacityAll.invisible()
                     currentStep = 1
                 }
             }
@@ -579,11 +623,12 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
                 sketchImage?.getImageAs(effect, thickness)
             }
 
-            val resultBitmap = if (effect != null && rawBitmap != null && effect == SketchEffect.STROKE_ONLY) {
-                removeWhiteBackground(rawBitmap)
-            } else {
-                rawBitmap
-            }
+            val resultBitmap =
+                if (effect != null && rawBitmap != null && effect == SketchEffect.STROKE_ONLY) {
+                    removeWhiteBackground(rawBitmap)
+                } else {
+                    rawBitmap
+                }
 
 //            val resultBitmap = if (effect == null) {
 //                bitmapOrigin

@@ -58,12 +58,12 @@ object Common {
 
     val listBackgroundColor = listOf(
         ColorModel(colorCode = "#F5F5F5", isColor = true),
-        ColorModel(idSourceBg = R.drawable.ic, colorCode = "#000000", isColor = false),
         ColorModel(
             idSourceBg = R.drawable.bg_transparent,
             colorCode = "#00000000",
             isColor = false
         ),
+        ColorModel(idSourceBg = R.drawable.ic, colorCode = "#000000", isColor = false),
         ColorModel(colorCode = "#000000", isColor = true),
         ColorModel(idSourceBg = R.drawable.bg_color_white, colorCode = "#FFFFFF", isColor = false),
         ColorModel(colorCode = "#F97316", isColor = true),

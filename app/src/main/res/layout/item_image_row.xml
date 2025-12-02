@@ -20,7 +20,7 @@
         android:id="@+id/ivFavorite"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_margin="6dp"
+        android:layout_margin="8dp"
         android:src="@drawable/selector_favorite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
