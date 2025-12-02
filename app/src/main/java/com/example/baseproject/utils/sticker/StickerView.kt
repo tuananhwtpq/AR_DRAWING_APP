@@ -168,11 +168,14 @@ class StickerView @JvmOverloads constructor(
 
                 midPoint = calculateMidPoint(event)
 
-                if (currentSticker != null && isInStickerArea(
-                        currentSticker!!, event.getX(1),
-                        event.getY(1)
-                    )
-                ) {
+//                if (currentSticker != null && isInStickerArea(
+//                        currentSticker!!, event.getX(1),
+//                        event.getY(1)
+//                    )
+//                ) {
+//                    currentMode = ActionMode.ZOOM_WITH_TWO_FINGER
+//                }
+                if (currentSticker != null) {
                     currentMode = ActionMode.ZOOM_WITH_TWO_FINGER
                 }
             }
@@ -250,16 +253,38 @@ class StickerView @JvmOverloads constructor(
             }
 
             ActionMode.ZOOM_WITH_TWO_FINGER -> if (currentSticker != null) {
+//                val newDistance = calculateDistance(event)
+//                val newRotation = calculateRotation(event)
+//
+//                moveMatrix.set(downMatrix)
+//                moveMatrix.postScale(
+//                    newDistance / oldDistance, newDistance / oldDistance, midPoint.x,
+//                    midPoint.y
+//                )
+//                moveMatrix.postRotate(newRotation - oldRotation, midPoint.x, midPoint.y)
+//                currentSticker!!.setMatrix(moveMatrix)
+
                 val newDistance = calculateDistance(event)
                 val newRotation = calculateRotation(event)
 
-                moveMatrix.set(downMatrix)
-                moveMatrix.postScale(
-                    newDistance / oldDistance, newDistance / oldDistance, midPoint.x,
-                    midPoint.y
-                )
-                moveMatrix.postRotate(newRotation - oldRotation, midPoint.x, midPoint.y)
-                currentSticker!!.setMatrix(moveMatrix)
+                val scaleFactor = newDistance / oldDistance
+
+
+                val currentScale = currentSticker!!.currentScale
+
+                if (currentScale < 0.2f && scaleFactor < 1) {
+                    moveMatrix.set(downMatrix)
+                    moveMatrix.postRotate(newRotation - oldRotation, midPoint.x, midPoint.y)
+                    currentSticker!!.setMatrix(moveMatrix)
+                } else {
+                    moveMatrix.set(downMatrix)
+                    moveMatrix.postScale(
+                        scaleFactor, scaleFactor, midPoint.x,
+                        midPoint.y
+                    )
+                    moveMatrix.postRotate(newRotation - oldRotation, midPoint.x, midPoint.y)
+                    currentSticker!!.setMatrix(moveMatrix)
+                }
             }
         }
     }
