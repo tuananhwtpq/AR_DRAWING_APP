@@ -108,4 +108,7 @@ dependencies {
     implementation(libs.androidx.concurrent.futures)
     implementation(libs.androidx.concurrent.futures.ktx)
     implementation(libs.guava)
+    //blur
+    implementation(libs.blurview)
+
 }
