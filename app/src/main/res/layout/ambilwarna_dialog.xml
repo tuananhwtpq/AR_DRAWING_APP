@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ambilwarna_dialogView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="32dp">
+
+    <RelativeLayout
+        android:id="@+id/ambilwarna_viewContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.baseproject.dialog.color_picker.ColorPickerSquare
+            android:id="@+id/ambilwarna_viewSatBri"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_marginVertical="8dp"
+            android:layerType="software" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/ambilwarna_viewHue"
+            android:layout_width="8dp"
+            android:layout_height="260dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/ambilwarna_viewSatBri"
+            android:scaleType="fitXY"
+            android:src="@drawable/ambilwarna_hue"
+            app:round="8dp" />
+
+        <ImageView
+            android:id="@+id/ambilwarna_alphaCheckered"
+            android:layout_width="30dp"
+            android:layout_height="240dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/ambilwarna_viewHue"
+            android:scaleType="fitXY"
+            android:src="@drawable/ambilwarna_alphacheckered_tiled"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/ambilwarna_overlay"
+            android:layout_width="30dp"
+            android:layout_height="240dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/ambilwarna_viewHue"
+            android:visibility="gone" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ambilwarna_cursor"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:padding="2dp"
+            android:scaleType="matrix"
+            app:shapeAppearanceOverlay="@style/circleColor"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
+
+        <ImageView
+            android:id="@+id/ambilwarna_alphaCursor"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:scaleType="matrix"
+            android:src="@drawable/ambilwarna_cursor" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ambilwarna_target"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:padding="2dp"
+            android:scaleType="matrix"
+            app:shapeAppearanceOverlay="@style/circleColor"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
+
+        <LinearLayout
+            android:id="@+id/ambilwarna_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ambilwarna_viewSatBri"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/ambilwarna_alphacheckered_tiled" />
+
+                <View
+                    android:id="@+id/ambilwarna_oldColor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#faa" />
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:src="@drawable/ambilwarna_arrow_right" />
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="30dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/ambilwarna_alphacheckered_tiled" />
+
+                <View
+                    android:id="@+id/ambilwarna_newColor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#aaf" />
+            </FrameLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@id/ambilwarna_viewContainer"
+        app:layout_constraintStart_toStartOf="@id/ambilwarna_viewContainer"
+        app:layout_constraintTop_toBottomOf="@id/ambilwarna_viewContainer">
+
+        <TextView
+            android:id="@+id/btnCancel"
+            style="@style/mBtn.a1"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/done_bg"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btnDone"
+            style="@style/mBtn.a1"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/done_bg"
+            android:gravity="center"
+            android:minHeight="42dp"
+            android:paddingBottom="3dp"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnCancel"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

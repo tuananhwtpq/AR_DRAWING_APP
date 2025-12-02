@@ -1,24 +1,18 @@
 package com.example.baseproject.activities
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.baseproject.R
 import com.example.baseproject.adapters.ImageAdapter
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivityCategoryDetailBinding
+import com.example.baseproject.fragments.DrawGuideDialog
 import com.example.baseproject.models.ImageModel
 import com.example.baseproject.utils.Constants
 import com.example.baseproject.utils.gone
 import com.example.baseproject.utils.setOnUnDoubleClick
 import com.example.baseproject.utils.visible
-import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -129,9 +123,9 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
             onBackPressedDispatcher.onBackPressed()
         }
 
-//        binding.ivInfo.setOnClickListener {
-//            DrawGuideDialog().init().show(supportFragmentManager, "DrawGuideDialog")
-//        }
+        binding.ivInfo.setOnClickListener {
+            DrawGuideDialog().init().show(supportFragmentManager, "DrawGuideDialog")
+        }
 
     }
 

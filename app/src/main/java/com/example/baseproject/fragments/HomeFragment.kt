@@ -2,23 +2,16 @@ package com.example.baseproject.fragments
 
 import android.Manifest
 import android.content.Intent
-import android.media.Image
 import android.net.Uri
-import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.baseproject.BuildConfig
 import com.example.baseproject.R
 import com.example.baseproject.activities.CategoryDetailActivity
 import com.example.baseproject.activities.PreviewImageActivity
@@ -120,7 +113,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (files != null) {
                 imageUri = FileProvider.getUriForFile(
                     requireContext(),
-                    "${requireActivity().applicationContext.packageName}.fileprovider",
+                    "${BuildConfig.APPLICATION_ID}.fileprovider",
                     files
                 )
                 imageUri?.let {
@@ -143,9 +136,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setupRCV() {
         trendingAdapter = ImageAdapter(
             requireContext(),
-            isTrending = true,
+            isTrending = false,
             onItemClick = { handleImageClick(it) },
-            onFavoriteClick = {})
+            onFavoriteClick = { handleFavoriteClick(it) })
 
         recentAdapter = ImageAdapter(
             requireContext(),
@@ -196,6 +189,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun handleFavoriteClick(image: ImageModel) {
         ImageRepositories.INSTANCE.updateImageFavorite(image.isFavorite, image.id)
+    }
+
+    private fun handleTrendingFavorClick(image: ImageModel) {
+        ImageRepositories.INSTANCE.updateTrendingFavorite(image.isFavorite, image.id)
     }
 
     private fun setRecyclerView(

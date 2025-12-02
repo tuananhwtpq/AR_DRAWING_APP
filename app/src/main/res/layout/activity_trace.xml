@@ -113,7 +113,7 @@
             android:id="@+id/btnPrevStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_prev_step" />
+            android:src="@drawable/ic_selected_left" />
 
         <TextView
             android:id="@+id/tvStep"
@@ -121,19 +121,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:background="@drawable/bg_button_unselected"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/all_bg"
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             tools:text="Step 1/5" />
 
         <ImageView
             android:id="@+id/btnNextStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_next_step" />
+            android:src="@drawable/ic_selected_right" />
     </LinearLayout>
 
     <LinearLayout
@@ -203,8 +202,8 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="9dp"
                 android:duplicateParentState="true"
-                android:src="@drawable/bottom_nav_lesson"
-                android:visibility="invisible"
+                android:src="@drawable/bottom_nav_opacity"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/navHome" />
 
             <TextView
@@ -330,11 +329,11 @@
             android:id="@+id/lEraser"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="47dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
             android:paddingVertical="9dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/lBottom">
 
             <!--            <TextView-->
@@ -367,7 +366,7 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_rounded_24"
             android:paddingVertical="9dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/lBottom">
 
             <!--            <TextView-->

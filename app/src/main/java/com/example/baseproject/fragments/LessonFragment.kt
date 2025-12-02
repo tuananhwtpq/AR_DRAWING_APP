@@ -1,60 +1,84 @@
 package com.example.baseproject.fragments
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.annotation.SuppressLint
+import android.content.Intent
 import com.example.baseproject.R
+import com.example.baseproject.activities.LessonDetailActivity
+import com.example.baseproject.bases.BaseFragment
+import com.example.baseproject.databinding.FragmentLessonBinding
+import com.example.baseproject.utils.setOnUnDoubleClick
+import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class LessonFragment : BaseFragment<FragmentLessonBinding>(FragmentLessonBinding::inflate) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LessonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class LessonFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override fun initData() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun initView() {
+        ImageRepositories.INSTANCE.getDone(0).observe(this) {
+            binding.tvProgressBeginner.text =
+                getString(R.string.lesson_num, it.toString(), (10).toString())
+
+            binding.sbBeginner.progress = it
+        }
+        ImageRepositories.INSTANCE.getDone(1).observe(this) {
+            binding.tvProgressIntermediate.text =
+                getString(R.string.lesson_num, it.toString(), (10).toString())
+            binding.sbIntermediate.progress = it
+
+        }
+        ImageRepositories.INSTANCE.getDone(2).observe(this) {
+            binding.tvProgressProfessional.text =
+                getString(R.string.lesson_num, it.toString(), (10).toString())
+            binding.sbProfessional.progress = it
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lesson, container, false)
+    override fun initActionView() {
+        binding.lBeginner.setOnUnDoubleClick {
+            gotoDetail(0)
+        }
+
+        binding.lIntermediate.setOnUnDoubleClick {
+            gotoDetail(1)
+        }
+
+        binding.lProfessional.setOnUnDoubleClick {
+            gotoDetail(2)
+        }
+        binding.sbBeginner.setOnTouchListener { _, _ -> true }
+        binding.sbIntermediate.setOnTouchListener { _, _ -> true }
+        binding.sbProfessional.setOnTouchListener { _, _ -> true }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LessonFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LessonFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onResume() {
+        super.onResume()
+        showNativeAds()
+    }
+
+    private fun gotoDetail(level: Int) {
+//        (activity as? MainActivity)?.showInterAds {
+//            val intent = Intent(requireContext(), LessonDetailActivity::class.java)
+//            intent.putExtra("level", level)
+//            startActivity(intent)
+//        }
+
+        val intent = Intent(requireContext(), LessonDetailActivity::class.java)
+        intent.putExtra("level", level)
+        startActivity(intent)
+    }
+
+    private fun showNativeAds() {
+//        if (RemoteConfig.remoteNativeLesson == 0L) return
+//        binding.frNative.visible()
+//        AdmobLib.loadAndShowNative(
+//            requireActivity(),
+//            AdsManager.nativeOtherModel,
+//            binding.frNative,
+//            size = GoogleENative.UNIFIED_MEDIUM_LIKE_BUTTON,
+//            layout = R.layout.native_ads_lesson
+//        )
     }
 }

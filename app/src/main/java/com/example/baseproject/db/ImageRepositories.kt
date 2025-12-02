@@ -47,6 +47,7 @@ class ImageRepositories(val dao: ImageDao) {
             } else {
                 dao.updateImageFavorite(id, 1)
             }
+            updateTrendingFavorite(isFavorite, id)
         }
     }
 
@@ -100,7 +101,7 @@ class ImageRepositories(val dao: ImageDao) {
         }
     }
 
-    fun updateTrendingFavorite(id: Int, isFav: Boolean) {
+    fun updateTrendingFavorite(isFav: Boolean, id: Int) {
         val currentList = _trendingImages.value ?: return
         val updatedList = currentList.map {
             if (it.id == id) it.copy(isFavorite = !isFav) else it

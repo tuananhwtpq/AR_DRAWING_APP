@@ -43,7 +43,7 @@ class ColorPickerAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            if (position == 1) {
+            if (position == 2) {
                 onPickColor()
             } else {
                 currentColor = Color.parseColor(color.colorCode)
