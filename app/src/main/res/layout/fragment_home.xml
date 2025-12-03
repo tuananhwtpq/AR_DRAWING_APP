@@ -80,7 +80,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="14dp"
-                android:text="@string/gallery"
+                android:text="@string/library"
                 android:textColor="@color/mainTextColor" />/
 
         </LinearLayout>
