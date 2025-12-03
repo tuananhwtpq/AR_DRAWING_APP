@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
-                    android:text="Your Draw"
+                    android:text="@string/your_draw"
                     android:textColor="@color/mainTextColor"
                     app:layout_constraintStart_toEndOf="@id/iv_drawing"
                     app:layout_constraintTop_toTopOf="@id/iv_drawing" />
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
-                    android:text="Total Time"
+                    android:text="@string/total_time"
                     android:textColor="@color/mainTextColor"
                     app:layout_constraintStart_toEndOf="@id/iv_alarm"
                     app:layout_constraintTop_toTopOf="@id/iv_alarm" />
@@ -119,13 +119,12 @@
     <TextView
         android:id="@+id/tv_my_favorites"
         style="@style/mHeading.H2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
-        android:text="My favorite"
+        android:text="@string/my_favorite"
         android:textColor="@color/mainTextColor"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_top" />
 
@@ -164,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="Your gallery is empty"
+            android:text="@string/your_gallery_is_empty"
             android:textColor="@color/empty_box_color" />
 
     </LinearLayout>

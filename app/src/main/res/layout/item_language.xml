@@ -10,8 +10,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLanguage"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/ic_english"/>
 
     <TextView
@@ -19,13 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="12dp"
-        android:fontFamily="@font/nunito_sans_regular"
+        style="@style/mTxt.P1"
         android:gravity="start|center_vertical"
         android:singleLine="true"
         android:ellipsize="end"
         android:text="@string/english"
-        android:textColor="@color/colorTextTitle"
-        android:textSize="14sp"
+        android:textColor="@color/mainTextColor"
         android:includeFontPadding="false"/>
 
     <View

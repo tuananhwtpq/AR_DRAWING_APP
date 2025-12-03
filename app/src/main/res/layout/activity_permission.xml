@@ -5,6 +5,142 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    android:layoutDirection="ltr"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="32dp"
     tools:context=".activities.PermissionActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/frNative"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/mHeading.H1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/permission"
+                android:textColor="@color/mainTextColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_permission"
+                android:layout_width="132dp"
+                android:layout_height="164dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/img_permission"
+                app:layout_constraintEnd_toEndOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="@id/tvTitle"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            <TextView
+                android:id="@+id/tvMessage"
+                style="@style/mTxt.P2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:text="@string/for_the_best_experience_ar_drawing_needs_access_to_the_following_permissions"
+                android:textColor="#85655B"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_permission" />
+
+
+            <LinearLayout
+                android:id="@+id/layout_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_language_unselected"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvMessage">
+
+                <TextView
+                    android:id="@+id/tvCamera"
+                    style="@style/mTxt.P1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/camera"
+                    android:textColor="@color/mainTextColor"
+                    app:drawableEndCompat="@drawable/selector_switch" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvMicro"
+                style="@style/mTxt.P1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_language_unselected"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="@string/microphone"
+                android:textColor="@color/mainTextColor"
+                app:drawableEndCompat="@drawable/selector_switch"
+                app:layout_constraintTop_toBottomOf="@id/layout_camera" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/frNative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnContinue" />
+
+    <TextView
+        android:id="@+id/btnContinue"
+        style="@style/mTxt.P1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/done_bg"
+        android:gravity="center"
+        android:minWidth="130dp"
+        android:minHeight="44dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="11dp"
+        android:text="@string/continue_2"
+        android:textColor="@color/mainTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnGrantLater" />
+
+    <TextView
+        android:id="@+id/btnGrantLater"
+        style="@style/mBtn.a1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13sp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/granted_later_bg"
+        android:gravity="center"
+        android:minHeight="44dp"
+        android:padding="8dp"
+        android:text="@string/granted_later"
+        android:textColor="@color/mainTextColor"
+        app:layout_constraintBottom_toBottomOf="@id/btnContinue"
+        app:layout_constraintEnd_toStartOf="@id/btnContinue"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

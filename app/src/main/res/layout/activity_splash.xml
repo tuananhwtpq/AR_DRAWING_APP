@@ -5,55 +5,67 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SplashActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/splash_bg"
+    tools:context=".activities.SplashActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@color/colorDisable"
+        android:src="@drawable/logo_rect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22"/>
+        app:layout_constraintVertical_bias="0.22" />
 
     <TextView
         android:id="@+id/tvName"
+        style="@style/mHeading.H2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans_bold"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/flowart_ar_drawing"
+        android:textColor="@color/mainTextColor"
+        app:layout_constraintEnd_toEndOf="@id/ivLogo"
+        app:layout_constraintStart_toStartOf="@id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+    <TextView
+        android:id="@+id/tvName2"
+        style="@style/mHeading.H2"
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sketch_art"
+        android:textColor="@color/mainTextColor"
+        app:layout_constraintEnd_toEndOf="@id/ivLogo"
+        app:layout_constraintStart_toStartOf="@id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavLoading"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         app:layout_constraintBottom_toTopOf="@+id/tvLoadingAds"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading_flower"
         app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/tvLoadingAds"
+        style="@style/mTxt.P2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:text="This action can contain ads…"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/this_action_can_contain_ad"
+        android:textColor="@color/mainTextColor"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="32dp"
-        android:visibility="invisible"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
