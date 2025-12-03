@@ -24,28 +24,26 @@
             <TextView
                 android:id="@+id/txtBeginner"
                 style="@style/mHeading.H2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="7dp"
                 android:text="@string/beginner"
                 android:textColor="@color/lesson_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/beginnerDes"
                 style="@style/mTxt.P2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:includeFontPadding="false"
                 android:text="@string/learn_the_basics_step_by_step"
                 android:textColor="@color/lesson_unser_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/txtBeginner"
                 app:layout_constraintTop_toBottomOf="@id/txtBeginner" />
 
@@ -106,28 +104,26 @@
             <TextView
                 android:id="@+id/txtIntermediate"
                 style="@style/mHeading.H2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="7dp"
                 android:text="@string/intermediate"
                 android:textColor="@color/lesson_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/intermediateDes"
                 style="@style/mTxt.P2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:includeFontPadding="false"
                 android:text="@string/enhance_your_style_and_techniques"
                 android:textColor="@color/lesson_unser_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/txtIntermediate"
                 app:layout_constraintTop_toBottomOf="@id/txtIntermediate" />
 
@@ -180,28 +176,26 @@
             <TextView
                 android:id="@+id/txtProfessional"
                 style="@style/mHeading.H2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="7dp"
                 android:text="@string/professional"
                 android:textColor="@color/lesson_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/professionalDes"
                 style="@style/mTxt.P2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:includeFontPadding="false"
                 android:text="@string/master_advanced_and_creative_skills"
                 android:textColor="@color/lesson_unser_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/txtProfessional"
                 app:layout_constraintTop_toBottomOf="@id/txtProfessional" />
 

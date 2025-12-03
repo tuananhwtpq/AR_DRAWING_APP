@@ -68,7 +68,7 @@
             android:paddingHorizontal="16dp"
             android:paddingTop="6dp"
             android:paddingBottom="9dp"
-            android:text="Done"
+            android:text="@string/done"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -215,7 +215,7 @@
                 android:duplicateParentState="true"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Opacity"
+                android:text="@string/opacity"
                 android:textColor="@color/mainTextColor"
                 app:drawableTopCompat="@drawable/opacity_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -252,7 +252,7 @@
                 android:duplicateParentState="true"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Brush"
+                android:text="@string/brush"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/brush_selector" />
         </FrameLayout>
@@ -281,7 +281,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Eraser"
+                android:text="@string/eraser"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/eraser_selector" />
 
@@ -311,7 +311,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Color"
+                android:text="@string/color"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/pallete_selector" />
         </FrameLayout>

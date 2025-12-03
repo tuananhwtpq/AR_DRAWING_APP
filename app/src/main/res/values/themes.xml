@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.BaseProject" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -70,7 +70,7 @@
     <style name="mBtn" parent="singleLineTxt" />
 
     <style name="mBtn.a1" parent="mBtn">
-        <item name="fontFamily">@font/fredoka_semi_bold</item>
+        <item name="fontFamily">@font/fredoka_medium</item>
         <item name="android:textSize">16sp</item>
     </style>
 

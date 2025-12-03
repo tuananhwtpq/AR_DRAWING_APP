@@ -1,4 +1,4 @@
-//package com.example.baseproject.activities
+//package com.flowart.ar.drawing.sketch.activities
 //
 //package com.converter.image2sketch
 //

@@ -4,47 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     android:layoutDirection="ltr">
 
-    <ImageView
-        android:id="@+id/ivIntro"
-        android:layout_width="match_parent"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@color/colorError"
-        app:layout_constraintBottom_toTopOf="@+id/tvTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp"/>
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:fontFamily="@font/nunito_sans_bold"
-        android:gravity="center"
-        android:textColor="@color/colorTextTitle"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/title_intro_1"
-        android:layout_marginBottom="8dp"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:gravity="center"
-        android:textColor="@color/colorTextTitle"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/message_intro_1"
-        app:layout_constraintVertical_bias="0.9"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--    imvIntro-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--    llText-->
+    <LinearLayout
+        android:id="@+id/llText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/frNative"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="50dp"
+        app:layout_goneMarginBottom="100dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/vpIntro"
+            app:layout_constraintEnd_toEndOf="@+id/vpIntro"
+            app:layout_constraintStart_toStartOf="@+id/vpIntro">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBig"
+                    style="@style/mHeading.H1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:singleLine="false"
+                    tools:text="Welcome to My app"
+                    android:textColor="@color/mainTextColor" />
+
+                <TextView
+                    android:id="@+id/tvSmall"
+                    style="@style/mTxt.P2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="44dp"
+                    android:gravity="center"
+                    tools:text="Learn and play piano right from your phone anytime and anywhere"
+                    android:textColor="#85655B" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--    dot 1-->
+    <ImageView
+        android:id="@+id/dotIndicator1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/dot_1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/btnNext1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    btnNext1-->
+    <TextView
+        android:id="@+id/btnNext1"
+        style="@style/mBtn.a1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/done_bg"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/next"
+        android:textColor="@color/mainTextColor"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_goneMarginBottom="24dp" />
+
+    <!--    dot 2-->
+    <ImageView
+        android:id="@+id/dotIndicator2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:src="@drawable/dot_2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNext2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnNext2" />
+
+    <!--    btnNext2-->
+    <TextView
+        android:id="@+id/btnNext2"
+        style="@style/mBtn.a1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="11dp"
+        android:text="@string/start"
+        android:textColor="@color/mainTextColor"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/frNative"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@android:color/transparent" />
+
+    <!--    frNative-->
+    <FrameLayout
+        android:id="@+id/frNative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
