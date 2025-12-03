@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
-    android:background="#FEF7EE">
+    android:background="#FEF7EE"
+    android:layoutDirection="ltr">
 
     <RelativeLayout
         android:id="@+id/layoutToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingVertical="12dp">
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--        <androidx.appcompat.widget.AppCompatImageView-->
-        <!--            android:id="@+id/ivBack"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_alignParentStart="true"-->
-        <!--            android:src="@drawable/ic_back"-->
-        <!--            app:tint="@color/black"-->
-        <!--            android:padding="4dp"-->
-        <!--            android:layout_marginStart="12dp"/>-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_detail_back" />
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/mHeading.H1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="@string/select_language"
-            style="@style/mHeading.H1"
-            android:textColor="@color/mainTextColor"
-            android:layout_marginStart="20dp" />
+            android:layout_toEndOf="@id/ivBack"
+            android:textColor="@color/mainTextColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivDone"
@@ -45,9 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_done"
             android:layout_marginEnd="12dp"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:src="@drawable/ic_done" />
 
     </RelativeLayout>
 
@@ -55,8 +54,8 @@
         android:id="@+id/rcvLanguage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:layout_marginTop="-10dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutToolbar" />
 

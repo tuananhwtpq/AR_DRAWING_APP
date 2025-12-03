@@ -61,8 +61,8 @@
         <TextView
             android:id="@+id/btnSave"
             style="@style/mBtn.a2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="34dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/done_bg"
             android:gravity="center"
@@ -311,7 +311,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <eightbitlab.com.blurview.BlurView
                 android:id="@+id/blur_opacity_all"
@@ -467,7 +467,7 @@
                 android:id="@+id/lCamera"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/lBottom">
 
                 <TextView
