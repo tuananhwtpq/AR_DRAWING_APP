@@ -13,6 +13,8 @@ import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityLanguageBinding
 import com.flowart.ar.drawing.sketch.utils.Common
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
+import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.invisible
 import com.flowart.ar.drawing.sketch.utils.visible
@@ -28,11 +30,13 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         if (!isFromHome) {
             lifecycleScope.launch {
                 requestNotiPer()
+                loadNativeIntro()
             }
         }
     }
 
     override fun initView() {
+        SharedPrefManager.putBoolean("isShowedLanguage", true)
         initLanguage()
     }
 
@@ -108,6 +112,18 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         binding.rcvLanguage.adapter = adapter
         if (isFromHome) {
             adapter?.setSelectedPositionLanguage(Common.getSelectedLanguage())
+        }
+    }
+
+    private fun loadNativeIntro() {
+        when (RemoteConfig.remoteNativeLanguage) {
+            1L -> {
+
+            }
+
+            else -> {
+
+            }
         }
     }
 

@@ -109,4 +109,9 @@
     <string name="step">Melangkah</string>
     <string name="photo">Foto</string>
     <string name="video">Video</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Harap berikan izin ini untuk menggunakan fitur ini</string>
+    <string name="please_enable_permission_in_settings">Harap aktifkan izin di Pengaturan</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Batas pembatalan tercapai (Maksimal 50 langkah)</string>
+    <string name="there_are_no_more_strokes_to_undo">Tidak ada lagi goresan yang harus dibatalkan</string>
+    <string name="there_are_no_more_strokes_to_redo">Tidak ada lagi goresan yang harus diulang</string>
 </resources>

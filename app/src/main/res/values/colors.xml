@@ -30,4 +30,31 @@
     <color name="mainTextColor_50">#80762D16</color>
     <color name="splash_bg">#C6CE73</color>
 
+    <color name="primaryColor">#8D73FF</color>
+
+    <color name="neutralBlack">#0A0A0A</color>
+    <color name="neutralDarkGrey">#1F1F24</color>
+    <color name="neutralGrey">#313138</color>
+    <color name="neutralCard">#17171A</color>
+    <color name="neutralDivider">#262626</color>
+    <color name="colorNeutralOnSurface">#2C2C2C</color>
+    <color name="neutralOnSurfaceLight">#4A4A4A</color>
+    <color name="neutralSubText">#A2A2A2</color>
+    <color name="neutralWhite">#FFFFFF</color>
+
+    <color name="systemDanger">#FF644D</color>
+    <color name="systemSuccess">#62D53F</color>
+    <color name="systemWarning">#FFDF26</color>
+    <color name="systemError">#FF4C31</color>
+
+    <color name="colorOverlay">#99000000</color>
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="colorGradient1">#FC6C55</color>
+    <color name="colorGradient2">#F8C73F</color>
+    <color name="colorGradient3">#2FDED2</color>
+    <color name="colorGradient4">#724CE8</color>
+
+    <color name="linearGradient">#8D73FF</color>
+
 </resources>

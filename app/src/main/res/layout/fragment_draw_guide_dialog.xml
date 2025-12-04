@@ -33,7 +33,8 @@
 
     <TextView
         android:id="@+id/txtMessage"
-        style="@style/mTxt.P2"
+        android:textSize="14sp"
+        android:fontFamily="@font/fredoka_medium"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="16dp"

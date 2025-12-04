@@ -91,6 +91,16 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.btnNextStep.alpha = if (value < totalStep) 1f else 0.6f
             binding.tvStep.text = getString(R.string.step_num, currentStep, totalStep)
             updateView()
+
+            if (isFromLesson) {
+                if (currentStep != totalStep) {
+                    binding.btnSave.alpha = 0.5f
+                    binding.btnSave.isEnabled = false
+                } else {
+                    binding.btnSave.alpha = 1f
+                    binding.btnSave.isEnabled = true
+                }
+            }
         }
 
     private var isRecording: Boolean = false
@@ -99,6 +109,8 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             if (value) {
                 binding.lCamera.isVisible = false
                 binding.btnSave.invisible()
+            } else {
+                binding.btnSave.visible()
             }
             if (value) startElapsedTimeUpdate() else stopElapsedTimeUpdate()
         }
@@ -513,10 +525,14 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.navUnLock.setTextColor(selectedColor)
             binding.navLock.invisible()
             binding.bottomNavUnlock.visibility = View.VISIBLE
+            binding.btnSave.alpha = 0.5f
+            binding.ivBack.alpha = 0.5f
         } else {
             binding.navLock.visible()
             binding.navUnLock.setTextColor(unSelectedColor)
             binding.bottomNavUnlock.visibility = View.INVISIBLE
+            binding.btnSave.alpha = 1f
+            binding.ivBack.alpha = 1f
         }
     }
 

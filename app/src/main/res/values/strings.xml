@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">FlowARt: AR Drawing Sketch Art</string>
 
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="fb_app_id" translatable="false"></string>
-    <string name="facebook_client_token" translatable="false"></string>
-    <string name="rating_email" translatable="false"></string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-8475252859305547~8930447305</string>
+    <string name="fb_app_id" translatable="false">1375404854195357</string>
+    <string name="facebook_client_token" translatable="false">d4a3817ae9e3a66720ba1fc369328a58</string>
+    <string name="rating_email" translatable="false">jamestsoft@gmail.com</string>
 
     <string name="language">Language</string>
     <string name="english">English</string>
@@ -125,6 +125,9 @@
     <string name="ar_drawing" translatable="false">AR Drawing</string>
     <string name="please_grant_these_permissions_to_use_this_feature">Please grant these permissions to use this feature</string>
     <string name="please_enable_permission_in_settings">Please enable permission in Settings</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Undo limit reached (Max 50 steps)</string>
+    <string name="there_are_no_more_strokes_to_undo">There are no more strokes to undo</string>
+    <string name="there_are_no_more_strokes_to_redo">There are no more strokes to redo</string>
 
 
 </resources>
