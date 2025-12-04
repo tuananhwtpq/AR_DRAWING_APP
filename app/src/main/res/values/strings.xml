@@ -123,6 +123,8 @@
     <string name="photo">Photo</string>
     <string name="video">Video</string>
     <string name="ar_drawing" translatable="false">AR Drawing</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Please grant these permissions to use this feature</string>
+    <string name="please_enable_permission_in_settings">Please enable permission in Settings</string>
 
 
 </resources>

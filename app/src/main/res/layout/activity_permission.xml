@@ -86,6 +86,7 @@
                     android:layout_weight="1" />
 
                 <ImageView
+                    android:id="@+id/switch_camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/selector_switch" />
@@ -130,6 +131,7 @@
                     android:layout_weight="1" />
 
                 <ImageView
+                    android:id="@+id/switch_microphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/selector_switch" />
