@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="language">ভাষা</string>
-    <string name="english">ইংরেজি</string>
+    <string name="english">ইংরেজী</string>
     <string name="hindi">হিন্দি</string>
-    <string name="spanish">স্প্যানিশ</string>
+    <string name="spanish">স্পেনীয়</string>
     <string name="french">ফরাসি</string>
     <string name="arabic">আরবি</string>
     <string name="bengali">বাংলা</string>
-    <string name="russian">রাশিয়ান</string>
-    <string name="portuguese">পর্তুগিজ</string>
-    <string name="indonesian">ইন্দোনেশিয়ান</string>
+    <string name="russian">রুশ</string>
+    <string name="portuguese">পর্তুগীজ</string>
+    <string name="indonesian">ইন্দোনেশীয়</string>
     <string name="german">জার্মান</string>
     <string name="italian">ইতালীয়</string>
     <string name="korean">কোরিয়ান</string>
-    <string name="please_select_language">অনুগ্রহ করে প্রথমে ভাষা নির্বাচন করুন।</string>
+    <string name="please_select_language">প্রথমে ভাষা নির্বাচন করুন।</string>
     <string name="next">পরবর্তী</string>
     <string name="no_email_client_installed">কোনও ইমেল ক্লায়েন্ট ইনস্টল করা নেই</string>
     <string name="start">শুরু করুন</string>
@@ -27,7 +27,6 @@
     <string name="home">হোম</string>
     <string name="lesson">পাঠ</string>
     <string name="hello_blank_fragment">হ্যালো ফাঁকা টুকরো</string>
-    <string name="flowart_ar_drawing_sketch_art">ফ্লোআর্ট: এআর অঙ্কন স্কেচ আর্ট</string>
     <string name="what_will_you_explore_today">আজ তুমি কী অন্বেষণ করবে?</string>
     <string name="your_drawing_journey">তোমার অঙ্কন যাত্রা</string>
     <string name="let_s_tune_tour_app">লেটস টিউন ট্যুর অ্যাপ</string>
@@ -70,7 +69,7 @@
     <string name="select_language">ভাষা নির্বাচন কর</string>
     <string name="gallery">গ্যালারি</string>
     <string name="setting">বিন্যাস</string>
-    <string name="permission">অনুমতি</string>
+    <string name="permission">ডাউনলোড করুন</string>
     <string name="camera">ক্যামেরা</string>
     <string name="microphone">মাইক্রোফোন</string>
     <string name="granted_later">পরে মঞ্জুর করা হয়েছে</string>
@@ -78,7 +77,7 @@
     <string name="preview">প্রিভিউ</string>
     <string name="result">ফলাফল</string>
     <string name="share">শেয়ার করুন</string>
-    <string name="download">ডাউনলোড করুন</string>
+    <string name="download">#REF!</string>
     <string name="done">সম্পন্ন</string>
     <string name="opacity">অস্বচ্ছতা</string>
     <string name="lock">তালা</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">স্কেচ থেকে মূল</string>
     <string name="gray_to_sketch">ধূসর থেকে স্কেচ পর্যন্ত</string>
     <string name="gray_to_soft_sketch">ধূসর থেকে নরম স্কেচ</string>
-    <string name="flowart_ar_drawing">ফ্লোআর্ট: এআর অঙ্কন</string>
-    <string name="sketch_art">ছবি আঁকার সময় আপনার ফোনটি যথাস্থানে ধরে রাখার জন্য ট্রাইপড, একটি গ্লাস, অথবা বইয়ের স্তূপ ব্যবহার করুন।</string>
     <string name="this_action_can_contain_ad">এই অ্যাকশনে বিজ্ঞাপন থাকতে পারে</string>
     <string name="brush">ব্রাশ</string>
     <string name="eraser">ইরেজার</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">গোপনীয়তা নীতি</string>
     <string name="drawing_difficult">আঁকা কঠিন:</string>
     <string name="step">ধাপ</string>
+    <string name="photo">ছবি</string>
+    <string name="video">ভিডিও</string>
 </resources>

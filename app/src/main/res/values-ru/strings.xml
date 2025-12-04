@@ -27,7 +27,6 @@
     <string name="home">Дом</string>
     <string name="lesson">Урок</string>
     <string name="hello_blank_fragment">Привет пустой фрагмент</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: AR-рисунок и эскизное искусство</string>
     <string name="what_will_you_explore_today">Что вы будете исследовать сегодня?</string>
     <string name="your_drawing_journey">Ваше путешествие в мир рисования</string>
     <string name="let_s_tune_tour_app">Приложение Let’s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Оригинал в эскиз</string>
     <string name="gray_to_sketch">Серый в эскиз</string>
     <string name="gray_to_soft_sketch">Эскиз от серого к мягкому</string>
-    <string name="flowart_ar_drawing">FlowARt: Рисование в дополненной реальности</string>
-    <string name="sketch_art">Используйте штатив, стакан или стопку книг, чтобы зафиксировать телефон на месте во время рисования.</string>
     <string name="this_action_can_contain_ad">Это действие может содержать рекламу</string>
     <string name="brush">Щетка</string>
     <string name="eraser">Ластик</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">политика конфиденциальности</string>
     <string name="drawing_difficult">Рисунок сложный:</string>
     <string name="step">Шаг</string>
+    <string name="photo">Фото</string>
+    <string name="video">Видео</string>
 </resources>

@@ -27,7 +27,6 @@
     <string name="home">집</string>
     <string name="lesson">수업</string>
     <string name="hello_blank_fragment">안녕하세요 빈 조각</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: AR 드로잉 스케치 아트</string>
     <string name="what_will_you_explore_today">오늘은 무엇을 탐험해 볼까요?</string>
     <string name="your_drawing_journey">당신의 그림 여정</string>
     <string name="let_s_tune_tour_app">Let\'s Tune Tour 앱</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">스케치 원본</string>
     <string name="gray_to_sketch">회색에서 스케치로</string>
     <string name="gray_to_soft_sketch">회색에서 부드러운 스케치로</string>
-    <string name="flowart_ar_drawing">FlowARt: AR 드로잉</string>
-    <string name="sketch_art">그림을 그리는 동안 삼각대, 유리잔 또는 책 더미를 이용해 휴대폰을 고정하세요.</string>
     <string name="this_action_can_contain_ad">이 작업에는 광고가 포함될 수 있습니다.</string>
     <string name="brush">브러시</string>
     <string name="eraser">지우개</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">개인정보 보호정책</string>
     <string name="drawing_difficult">그림 그리기 어려움:</string>
     <string name="step">단계</string>
+    <string name="photo">사진</string>
+    <string name="video">동영상</string>
 </resources>

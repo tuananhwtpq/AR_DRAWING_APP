@@ -27,7 +27,6 @@
     <string name="home">بيت</string>
     <string name="lesson">درس</string>
     <string name="hello_blank_fragment">مرحباً بالشظية الفارغة</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: رسم تخطيطي بالواقع المعزز</string>
     <string name="what_will_you_explore_today">ماذا سوف تستكشف اليوم؟</string>
     <string name="your_drawing_journey">رحلة الرسم الخاصة بك</string>
     <string name="let_s_tune_tour_app">تطبيق Let’s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">الأصل إلى رسم</string>
     <string name="gray_to_sketch">الرمادي إلى رسم تخطيطي</string>
     <string name="gray_to_soft_sketch">الرمادي إلى رسم ناعم</string>
-    <string name="flowart_ar_drawing">FlowARt: رسم الواقع المعزز</string>
-    <string name="sketch_art">استخدم حاملًا ثلاثي القوائم أو كأسًا أو كومة من الكتب لتثبيت هاتفك في مكانه أثناء الرسم.</string>
     <string name="this_action_can_contain_ad">يمكن أن يحتوي هذا الإجراء على إعلان</string>
     <string name="brush">فرشاة</string>
     <string name="eraser">ممحاة</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="drawing_difficult">الرسم صعب:</string>
     <string name="step">خطوة</string>
+    <string name="photo">صورة</string>
+    <string name="video">فيديو</string>
 </resources>

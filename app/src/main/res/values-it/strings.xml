@@ -27,7 +27,6 @@
     <string name="home">Casa</string>
     <string name="lesson">Lezione</string>
     <string name="hello_blank_fragment">Ciao frammento vuoto</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: Disegno e schizzo in realtà aumentata</string>
     <string name="what_will_you_explore_today">Cosa esplorerai oggi?</string>
     <string name="your_drawing_journey">Il tuo viaggio nel disegno</string>
     <string name="let_s_tune_tour_app">App Let\'s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Originale a schizzo</string>
     <string name="gray_to_sketch">Grigio per abbozzare</string>
     <string name="gray_to_soft_sketch">Da grigio a schizzo morbido</string>
-    <string name="flowart_ar_drawing">FlowARt: disegno in realtà aumentata</string>
-    <string name="sketch_art">Utilizza un treppiede, un bicchiere o una pila di libri per tenere fermo il telefono mentre disegni.</string>
     <string name="this_action_can_contain_ad">Questa azione può contenere annunci</string>
     <string name="brush">Spazzola</string>
     <string name="eraser">Gomma per cancellare</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">politica sulla riservatezza</string>
     <string name="drawing_difficult">Disegno difficile:</string>
     <string name="step">Fare un passo</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 </resources>
