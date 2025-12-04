@@ -109,4 +109,9 @@
     <string name="step">Étape</string>
     <string name="photo">Photo</string>
     <string name="video">Vidéo</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Veuillez accorder ces autorisations pour utiliser cette fonctionnalité</string>
+    <string name="please_enable_permission_in_settings">Veuillez activer l\'autorisation dans les paramètres</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Limite d\'annulations atteinte (50 étapes maximum)</string>
+    <string name="there_are_no_more_strokes_to_undo">Il n\'y a plus de coups à annuler</string>
+    <string name="there_are_no_more_strokes_to_redo">Il n\'y a plus de coups à refaire</string>
 </resources>

@@ -109,4 +109,9 @@
     <string name="step">단계</string>
     <string name="photo">사진</string>
     <string name="video">동영상</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">이 기능을 사용하려면 다음 권한을 부여하세요.</string>
+    <string name="please_enable_permission_in_settings">설정에서 권한을 활성화해 주세요.</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">실행 취소 한도에 도달했습니다(최대 50단계)</string>
+    <string name="there_are_no_more_strokes_to_undo">더 이상 취소할 스트로크가 없습니다.</string>
+    <string name="there_are_no_more_strokes_to_redo">더 이상 다시 할 스트로크가 없습니다.</string>
 </resources>

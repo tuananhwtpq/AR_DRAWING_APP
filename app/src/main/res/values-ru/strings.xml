@@ -109,4 +109,9 @@
     <string name="step">Шаг</string>
     <string name="photo">Фото</string>
     <string name="video">Видео</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Пожалуйста, предоставьте эти разрешения для использования этой функции.</string>
+    <string name="please_enable_permission_in_settings">Пожалуйста, включите разрешение в настройках.</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Достигнут лимит отмен (макс. 50 шагов)</string>
+    <string name="there_are_no_more_strokes_to_undo">Больше нет штрихов, которые нужно отменить.</string>
+    <string name="there_are_no_more_strokes_to_redo">Больше не нужно переделывать штрихи.</string>
 </resources>

@@ -109,4 +109,9 @@
     <string name="step">Paso</string>
     <string name="photo">Foto</string>
     <string name="video">Video</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Conceda estos permisos para utilizar esta función</string>
+    <string name="please_enable_permission_in_settings">Habilite el permiso en Configuración</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Límite de deshacer alcanzado (máximo 50 pasos)</string>
+    <string name="there_are_no_more_strokes_to_undo">Ya no hay más trazos que deshacer</string>
+    <string name="there_are_no_more_strokes_to_redo">Ya no hay más trazos que rehacer</string>
 </resources>

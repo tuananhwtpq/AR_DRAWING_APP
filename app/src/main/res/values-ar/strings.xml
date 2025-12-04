@@ -109,4 +109,9 @@
     <string name="step">خطوة</string>
     <string name="photo">صورة</string>
     <string name="video">فيديو</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">يرجى منح هذه الأذونات لاستخدام هذه الميزة</string>
+    <string name="please_enable_permission_in_settings">يرجى تمكين الأذونات في الإعدادات</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">تم الوصول إلى حد التراجع (الحد الأقصى 50 خطوة)</string>
+    <string name="there_are_no_more_strokes_to_undo">لم تعد هناك ضربات للتراجع عنها</string>
+    <string name="there_are_no_more_strokes_to_redo">لم تعد هناك ضربات لإعادة تنفيذها</string>
 </resources>
