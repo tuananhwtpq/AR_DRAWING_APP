@@ -105,7 +105,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     private var backgroundColor = Color.WHITE
         set(value) {
             field = value
-            binding.drawingView.changeBackgroundColor(value)
+            //binding.drawingView.changeBackgroundColor(value)
         }
 
     private var brushColor = Color.BLACK
@@ -411,7 +411,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             }
 
             withContext(Dispatchers.Main) {
-                binding.drawingView.changeBackgroundColor(backgroundColor)
+                //binding.drawingView.changeBackgroundColor(backgroundColor)
                 binding.lLoading.gone()
             }
         }
@@ -430,6 +430,15 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             bitmap,
             actionStack
         )
+
+        if (currentStep != totalStep) {
+            binding.btnSave.alpha = 0.5f
+            binding.btnSave.isClickable = false
+        } else {
+            binding.btnSave.alpha = 1f
+            binding.btnSave.isClickable = true
+        }
+
     }
 
     override fun onResume() {

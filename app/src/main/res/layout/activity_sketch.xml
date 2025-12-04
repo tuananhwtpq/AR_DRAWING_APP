@@ -53,8 +53,8 @@
             android:textColor="@color/white"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnSave"
-            app:layout_constraintStart_toEndOf="@id/ivBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="03:12" />
 
@@ -478,7 +478,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="Photo"
+                    android:text="@string/photo"
                     android:textColor="@color/mainTextColor"
                     app:layout_constraintEnd_toStartOf="@id/tvVideo"
                     app:layout_constraintStart_toStartOf="parent"
@@ -493,7 +493,7 @@
                     android:layout_marginEnd="32dp"
                     android:alpha="0.5"
                     android:gravity="center"
-                    android:text="Video"
+                    android:text="@string/video"
                     android:textColor="@color/mainTextColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvPhoto"

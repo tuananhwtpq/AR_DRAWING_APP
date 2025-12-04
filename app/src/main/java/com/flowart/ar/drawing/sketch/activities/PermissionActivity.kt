@@ -12,14 +12,14 @@ class PermissionActivity :
     BaseActivity<ActivityPermissionBinding>(ActivityPermissionBinding::inflate) {
     private val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            binding.tvCamera.isSelected = PermissionUtils.checkCameraPermission(this)
-            binding.tvMicro.isSelected = PermissionUtils.checkRecordAudioPermission(this)
+            binding.layoutCamera.isSelected = PermissionUtils.checkCameraPermission(this)
+            binding.layoutMicrophone.isSelected = PermissionUtils.checkRecordAudioPermission(this)
         }
 
     private val goToSetting =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            binding.tvCamera.isSelected = PermissionUtils.checkCameraPermission(this)
-            binding.tvMicro.isSelected = PermissionUtils.checkRecordAudioPermission(this)
+            binding.layoutCamera.isSelected = PermissionUtils.checkCameraPermission(this)
+            binding.layoutMicrophone.isSelected = PermissionUtils.checkRecordAudioPermission(this)
         }
 
     override fun initData() {
@@ -29,14 +29,14 @@ class PermissionActivity :
     override fun initView() {
         binding.tvMessage.text = getString(
             R.string.for_the_best_experience_ar_drawing_needs_access_to_the_following_permissions,
-            getString(R.string.app_name)
+            getString(R.string.ar_drawing)
         )
-        binding.tvCamera.isSelected = PermissionUtils.checkCameraPermission(this)
-        binding.tvMicro.isSelected = PermissionUtils.checkRecordAudioPermission(this)
+        binding.layoutCamera.isSelected = PermissionUtils.checkCameraPermission(this)
+        binding.layoutMicrophone.isSelected = PermissionUtils.checkRecordAudioPermission(this)
     }
 
     override fun initActionView() {
-        binding.tvCamera.setOnClickListener {
+        binding.layoutCamera.setOnClickListener {
             if (!PermissionUtils.checkCameraPermission(this)) {
                 PermissionUtils.requestPermission(
                     this,
@@ -47,7 +47,7 @@ class PermissionActivity :
             }
         }
 
-        binding.tvMicro.setOnClickListener {
+        binding.layoutMicrophone.setOnClickListener {
             if (!PermissionUtils.checkRecordAudioPermission(this)) {
                 PermissionUtils.requestPermission(
                     this,
@@ -77,6 +77,12 @@ class PermissionActivity :
                 ).show()
             }
         }
+
+        binding.btnContinue.isSelected = true
+        binding.btnGrantLater.isSelected = true
+        binding.tvCamera.isSelected = true
+        binding.tvMicrophone.isSelected = true
+
     }
 
     override fun onResume() {

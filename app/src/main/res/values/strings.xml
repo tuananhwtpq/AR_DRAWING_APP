@@ -37,7 +37,7 @@
     <string name="lesson">Lesson</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: AR Drawing Sketch Art</string>
+    <string name="flowart_ar_drawing_sketch_art" translatable="false">FlowARt: AR Drawing Sketch Art</string>
     <string name="what_will_you_explore_today">What will you explore today?</string>
     <string name="your_drawing_journey">Your Drawing Journey</string>
     <string name="let_s_tune_tour_app">Let’s Tune Tour App</string>
@@ -98,8 +98,8 @@
     <string name="original_to_sketch">Original to Sketch</string>
     <string name="gray_to_sketch">Gray to Sketch</string>
     <string name="gray_to_soft_sketch">Gray to Soft Sketch</string>
-    <string name="flowart_ar_drawing">FlowARt: AR Drawing</string>
-    <string name="sketch_art">Sketch Art</string>
+    <string name="flowart_ar_drawing" translatable="false">FlowARt: AR Drawing</string>
+    <string name="sketch_art" translatable="false">Sketch Art</string>
     <string name="this_action_can_contain_ad">This action can contain ad</string>
     <string name="brush">Brush</string>
     <string name="eraser">Eraser</string>
@@ -120,6 +120,9 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="drawing_difficult">Drawing Difficult:</string>
     <string name="step">Step</string>
+    <string name="photo">Photo</string>
+    <string name="video">Video</string>
+    <string name="ar_drawing" translatable="false">AR Drawing</string>
 
 
 </resources>
