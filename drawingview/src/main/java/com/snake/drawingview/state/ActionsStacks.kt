@@ -9,7 +9,7 @@ import com.snake.drawingview.actions.Action
  */
 
 private val MemoryLimit = Runtime.getRuntime().maxMemory() / 5 //TODO: allow client to choose this value
-
+private const val MAX_HISTORY_SIZE = 50
 class ActionsStacks {
 
     private val undoStack = mutableListOf<Action>()
@@ -52,10 +52,17 @@ class ActionsStacks {
         return removeAt(size - 1)
     }
 
+//    private fun MutableList<Action>.push(action: Action) {
+//        while (findCurrentSize() + action.size > MemoryLimit) {
+//            if (!dropAction()) //the size of this record is so large, it is larger than the MaxSize.
+//                return
+//        }
+//        add(action)
+//    }
+
     private fun MutableList<Action>.push(action: Action) {
-        while (findCurrentSize() + action.size > MemoryLimit) {
-            if (!dropAction()) //the size of this record is so large, it is larger than the MaxSize.
-                return
+        while (this.size >= MAX_HISTORY_SIZE) {
+            this.removeAt(0)
         }
         add(action)
     }
