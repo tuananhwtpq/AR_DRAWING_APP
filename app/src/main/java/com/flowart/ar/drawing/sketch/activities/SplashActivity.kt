@@ -3,6 +3,7 @@ package com.flowart.ar.drawing.sketch.activities
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
@@ -25,6 +26,9 @@ import kotlin.system.exitProcess
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
+    companion object {
+        const val TAG = "SplashActivity"
+    }
     private var isMobileAdsInitializeCalled = AtomicBoolean(false)
     private var isInitAds = AtomicBoolean(false)
 
@@ -37,6 +41,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             finish()
             return
         }
+
+        resetCountInter()
     }
 
     override fun initView() {
@@ -96,15 +102,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun initAds() {
-        AdmobLib.setEnabledCheckTestDevice(true)
+        AdmobLib.setEnabledCheckTestDevice(false)
         AdmobLib.initialize(
             this,
             isDebug = AdsManager.isDebug,
             isShowAds = AdsManager.isShowAd,
             onInitializedAds = {
                 if (it) {
+                    Log.d(TAG, "Init ads")
                     checkTestDevice {
                         if (RemoteConfig.remoteNativeLanguage != 0L) {
+                            Log.d(TAG, "Init remote native language")
                             AdmobLib.loadNative(
                                 activity = this@SplashActivity,
                                 admobNativeModel = AdsManager.NATIVE_LANGUAGE
@@ -116,6 +124,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                         }
                         loadAndShowOnResum()
                         loadAndShowNativeCollapsibleSplash {
+                            Log.d(TAG, "Load and show native collapsible ")
                             loadAnsShowSplashAds()
                         }
 
@@ -161,10 +170,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                     layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
                     layoutExpanded = R.layout.native_ads_custom_medium_bottom,
                     onAdsLoaded = {
+                        Log.d("TAGloadAndShowNativeCollapsibleSplash", "loaded: ")
                         binding.whiteLine.visible()
                         navAction()
                     },
                     onAdsLoadFail = {
+                        Log.d("TAGloadAndShowNativeCollapsibleSplash", "failed: ")
                         binding.whiteLine.gone()
                         navAction()
                     }
@@ -190,6 +201,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                     },
                     timeOut = 15000
                 ).loadAndShowAoA()
+                Log.d(TAG, "Load AOA ads")
             }
 
             2L -> {
@@ -204,6 +216,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                         replaceActivity()
                     }
                 )
+                Log.d(TAG, " Load inter splash")
             }
 
             else -> {
@@ -214,6 +227,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun loadAndShowOnResum() {
         if (RemoteConfig.remoteOnResume == 1L) {
+            Log.d(TAG, "Load ad onResume")
             AppOnResumeAdsManager.initialize(application, AdsManager.ON_RESUME)
             AppOnResumeAdsManager.getInstance().disableForActivity(SplashActivity::class.java)
         }
@@ -221,6 +235,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun checkTestDevice(navAction: () -> Unit) {
         if (RemoteConfig.remoteNativeSetting != 0L) {
+            Log.d(TAG, "Init check test device")
             AdmobLib.loadNative(
                 activity = this,
                 admobNativeModel = AdsManager.NATIVE_SETTING,
@@ -264,6 +279,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         override fun handleOnBackPressed() {
             exitProcess(0)
         }
+    }
+
+    private fun resetCountInter() {
+        AdsManager.countInterHome = 0
+        AdsManager.countInterBackHome = 0
+        AdsManager.countInterDone = 0
+        AdsManager.countInterPreview = 0
     }
 
 }

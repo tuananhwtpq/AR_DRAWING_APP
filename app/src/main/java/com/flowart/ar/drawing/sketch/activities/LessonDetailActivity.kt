@@ -34,10 +34,9 @@ class LessonDetailActivity :
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-//            loadAndShowInterBack(binding.vShowInterAds) {
-//                finish()
-//            }
-            finish()
+            loadAndShowInterBackHome(binding.vShowInterAds) {
+                finish()
+            }
         }
     }
     private var adsItemId = System.currentTimeMillis().toInt()
@@ -102,6 +101,8 @@ class LessonDetailActivity :
         showBannerAds()
         adsItemId = System.currentTimeMillis().toInt()
         adapter?.submitList(listWithAdsItem(listLesson))
+
+        loadAndShowNativeOther(binding.frBanner)
     }
 
     override fun onStop() {
