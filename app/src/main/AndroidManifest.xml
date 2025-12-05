@@ -63,6 +63,7 @@
             android:exported="false"
             android:screenOrientation="portrait">
 
+
         </activity>
         <activity
             android:name=".activities.IntroActivity"
@@ -77,7 +78,8 @@
             android:name=".activities.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
+
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flowart.ar.drawing.sketch.BuildConfig
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.activities.CategoryDetailActivity
+import com.flowart.ar.drawing.sketch.activities.MainActivity
 import com.flowart.ar.drawing.sketch.activities.PermissionActivity
 import com.flowart.ar.drawing.sketch.activities.PreviewImageActivity
 import com.flowart.ar.drawing.sketch.adapters.ImageAdapter
@@ -23,6 +26,7 @@ import com.flowart.ar.drawing.sketch.bases.BaseFragment
 import com.flowart.ar.drawing.sketch.databinding.FragmentHomeBinding
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.showToast
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
@@ -38,6 +42,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var trendingAdapter: ImageAdapter? = null
     private var recentAdapter: ImageAdapter? = null
     private var imageUri: Uri? = null
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isLoadingAds = false
+    private var runnable = object : Runnable {
+        override fun run() {
+            if (!isLoadingAds && AdsManager.isReloadingNativeHome()) {
+                isLoadingAds = true
+                (requireActivity() as MainActivity).loadAndShowNativeHome(binding.frNative) {
+                    AdsManager.updateNativeHome()
+                    isLoadingAds = false
+                }
+            }
+            handler.postDelayed(this, 5000L)
+        }
+    }
 
     val requestLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -67,6 +86,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         } else {
             showToast(getString(R.string.no_image_selected))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AdsManager.lastNativeHomeShow = 0L
+        handler.removeCallbacksAndMessages(null)
+        handler.post(runnable)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacksAndMessages(null)
     }
 
 
@@ -146,12 +177,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         trendingAdapter = ImageAdapter(
             requireContext(),
             isTrending = false,
-            onItemClick = { handleImageClick(it) },
+            onItemClick = {
+                (requireActivity() as MainActivity).loadAndShowInterHome {
+                    handleImageClick(it)
+                }
+            },
             onFavoriteClick = { handleFavoriteClick(it) })
 
         recentAdapter = ImageAdapter(
             requireContext(),
-            onItemClick = { handleImageClick(it) },
+            onItemClick = {
+                (requireActivity() as MainActivity).loadAndShowInterHome {
+                    handleImageClick(it)
+                }
+            },
             onFavoriteClick = { handleFavoriteClick(it) })
 
         ImageRepositories.INSTANCE.loadTrendingImagesIfNeed()

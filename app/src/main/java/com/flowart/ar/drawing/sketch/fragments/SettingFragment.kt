@@ -4,12 +4,18 @@ import android.content.Intent
 import android.net.Uri
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.activities.LanguageActivity
+import com.flowart.ar.drawing.sketch.activities.MainActivity
 import com.flowart.ar.drawing.sketch.bases.BaseFragment
 import com.flowart.ar.drawing.sketch.databinding.FragmentSettingBinding
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
+import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.showToast
+import com.flowart.ar.drawing.sketch.utils.visible
+import com.snake.squad.adslib.AdmobLib
 import com.snake.squad.adslib.rates.RatingDialog
+import com.snake.squad.adslib.utils.GoogleENative
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
     override fun initData() {
@@ -30,11 +36,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         }
 
         binding.layoutLanguage.setOnUnDoubleClick {
-//            (activity as? MainActivity)?.showInterAds {
-//                val intent = Intent(requireContext(), LanguageActivity::class.java)
-//                startActivity(intent)
-//            }
-            startActivity(Intent(requireContext(), LanguageActivity::class.java))
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                startActivity(Intent(requireContext(), LanguageActivity::class.java))
+            }
         }
 
         binding.layoutPrivacy.setOnClickListener {
@@ -69,27 +73,29 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     override fun onResume() {
         super.onResume()
         showNativeAds()
+//        (requireActivity() as MainActivity).loadAndShowNativeSetting(binding.vShowInterAds)
+        //(requireActivity() as MainActivity).loadAndShowNativeHome(binding.frNative)
     }
 
     private fun showNativeAds() {
-//        if (RemoteConfig.remoteNativeSetting == 0L) return
-//        binding.frNative.visible()
-//        if (AdsManager.nativeSettingModel.nativeAd.value == null) {
-//            AdmobLib.loadAndShowNative(
-//                requireActivity(),
-//                AdsManager.nativeSettingModel,
-//                binding.frNative,
-//                size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-//                layout = R.layout.native_ads_custom_small_like_banner
-//            )
-//        } else {
-//            AdmobLib.showNative(
-//                requireActivity(),
-//                AdsManager.nativeSettingModel,
-//                binding.frNative,
-//                size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-//                layout = R.layout.native_ads_custom_small_like_banner
-//            )
-//        }
+        if (RemoteConfig.remoteNativeSetting == 0L) return
+        binding.vShowInterAds.visible()
+        if (AdsManager.NATIVE_SETTING.nativeAd.value == null) {
+            AdmobLib.loadAndShowNative(
+                requireActivity(),
+                AdsManager.NATIVE_SETTING,
+                binding.vShowInterAds,
+                size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
+                layout = R.layout.native_ads_custom_small_like_banner
+            )
+        } else {
+            AdmobLib.showNative(
+                requireActivity(),
+                AdsManager.NATIVE_SETTING,
+                binding.vShowInterAds,
+                size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
+                layout = R.layout.native_ads_custom_small_like_banner
+            )
+        }
     }
 }

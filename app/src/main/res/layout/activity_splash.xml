@@ -64,7 +64,7 @@
         android:text="@string/this_action_can_contain_ad"
         android:textColor="@color/mainTextColor"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/whiteLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -31,6 +31,8 @@ import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.MyCameraManager
 import com.flowart.ar.drawing.sketch.utils.PermissionUtils
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
+import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.enumz.SketchEffect
 import com.flowart.ar.drawing.sketch.utils.formatTime
 import com.flowart.ar.drawing.sketch.utils.gone
@@ -40,6 +42,8 @@ import com.flowart.ar.drawing.sketch.utils.showToast
 import com.flowart.ar.drawing.sketch.utils.sticker.DrawableSticker
 import com.flowart.ar.drawing.sketch.utils.sticker.Sticker
 import com.flowart.ar.drawing.sketch.utils.visible
+import com.snake.squad.adslib.AdmobLib
+import com.snake.squad.adslib.utils.GoogleENative
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.CoroutineScope
@@ -117,10 +121,9 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-//            loadAndShowInterBack(binding.vShowInterAds) {
-//                finish()
-//            }
-            finish()
+            loadAndShowInterBackHome(binding.vShowInterAds) {
+                finish()
+            }
         }
     }
 
@@ -169,6 +172,23 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
                 finish()
             }
         }
+
+    private var isLoading = false
+    private val handler = Handler(Looper.getMainLooper())
+
+
+    private var isCountingCollapsibleHome = false
+
+    private val runnableCollapsibleHome: kotlinx.coroutines.Runnable = object :
+        kotlinx.coroutines.Runnable {
+        override fun run() {
+            if (AdsManager.isReloadingCollapsibleHome() && !isLoading) {
+                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleHome() }
+            }
+            handler.postDelayed(this, 1000L)
+
+        }
+    }
 
     override fun initData() {
 
@@ -281,24 +301,16 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.navFlash.setTextColor(ContextCompat.getColor(this, R.color.unSelectedText))
             binding.bottomNavFlash.invisible()
             cameraManager.captureImage(onError = { binding.btnCaptureImage.isEnabled = true }) {
-//                showInterDone {
-//                    recordTime = 0
-//                    binding.tvRecordTime.gone()
-//                    val intent = Intent(this, SketchResultActivity::class.java).apply {
-//                        putExtra("media_uri", it.toString())
-//                        putExtra("isImage", true)
-//                    }
-//                    startActivity(intent)
-//                }
 
-                recordTime = 0
-                binding.tvRecordTime.gone()
-                val intent = Intent(this, SketchResultActivity::class.java).apply {
-                    putExtra("media_uri", it.toString())
-                    putExtra("isImage", true)
+                loadAndShowInterDone(binding.vShowInterAds) {
+                    recordTime = 0
+                    binding.tvRecordTime.gone()
+                    val intent = Intent(this, SketchResultActivity::class.java).apply {
+                        putExtra("media_uri", it.toString())
+                        putExtra("isImage", true)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
-
             }
         }
 
@@ -347,11 +359,14 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         }
 
         binding.ivStopAndSave.setOnClickListener {
-            recordTime = 0
-            isRecording = false
-            cameraManager.stopRecord()
-            binding.tvRecordTime.gone()
-            binding.lCamera.isVisible = binding.btnCamera.isSelected
+
+            loadAndShowInterDone(binding.vShowInterAds) {
+                recordTime = 0
+                isRecording = false
+                cameraManager.stopRecord()
+                binding.tvRecordTime.gone()
+                binding.lCamera.isVisible = binding.btnCamera.isSelected
+            }
         }
 
         binding.btnSave.setOnUnDoubleClick {
@@ -363,15 +378,12 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
                     it.isDone = true
                 }
             }
-//            loadAndShowInterBack(binding.vShowInterAds) {
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-//                startActivity(intent)
-//            }
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
 
+            loadAndShowInterDone(viewBlock = binding.vShowInterAds) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
         }
 
         binding.seekBarOpacity.setOnSeekBarChangeListener(object :
@@ -539,7 +551,6 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
-        showNativeColl()
     }
     private fun handlePermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
@@ -563,9 +574,15 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     override fun onStop() {
         super.onStop()
         binding.vShowInterAds.gone()
+
         binding.btnCaptureImage.isEnabled = true
         recordTime = 0
         isRecording = false
+
+        if (isCountingCollapsibleHome) {
+            handler.removeCallbacks(runnableCollapsibleHome)
+            isCountingCollapsibleHome = false
+        }
     }
 
     private fun setTemplateView() {
@@ -913,51 +930,64 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         return newBitmap
     }
 
-
-    private fun showInterDone(navAction: () -> Unit) {
-//        if (AdsManager.isShowInterDone()) {
-//            loadAndShowInterWithNativeAfter(AdsManager.interOtherModel, binding.vShowInterAds) {
-//                navAction()
-//            }
-//        } else {
-//            navAction()
-//        }
+    override fun onStart() {
+        super.onStart()
+        handler.post(runnableCollapsibleHome)
+        isCountingCollapsibleHome = true
     }
 
-    private fun showNativeColl() {
-//        when (RemoteConfig.remoteNativeCollapsibleSketch) {
-//            0L -> return
-//            1L -> {
-//                binding.viewLine.invisible()
-//                binding.frNative.visible()
-//                AdmobLib.loadAndShowNative(
-//                    this,
-//                    AdsManager.nativeOtherModel,
-//                    binding.frBanner,
-//                    size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-//                    layout = R.layout.native_ads_custom_small_like_banner,
-//                    onAdsLoadFail = {
-//                        binding.viewLine.gone()
-//                    }
-//                )
-//            }
-//
-//            2L -> {
-//                binding.frNative.visible()
-//                binding.frBanner.visible()
-//                binding.viewLine.invisible()
-//                AdmobLib.loadAndShowNativeCollapsibleSingle(
-//                    this,
-//                    AdsManager.nativeOtherModel,
-//                    viewGroupExpanded = binding.frNative,
-//                    viewGroupCollapsed = binding.frBanner,
-//                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
-//                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
-//                    onAdsLoadFail = {
-//                        binding.viewLine.gone()
-//                    }
-//                )
-//            }
-//        }
+
+    fun loadAndShowNativeCollapsibleDrawing(onShowOrFailed: () -> Unit) {
+        if (isLoading) return
+        when (RemoteConfig.remoteNativeCollapsibleDrawing) {
+            1L -> {
+                isLoading = true
+                binding.frNativeSmall.visible()
+                AdmobLib.loadAndShowNative(
+                    activity = this,
+                    admobNativeModel = AdsManager.NATIVE_COLLAPSIBLE_DRAWING,
+                    viewGroup = binding.frNativeSmall,
+                    size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
+                    layout = R.layout.native_ads_custom_small_like_banner,
+                    onAdsLoaded = {
+                        binding.viewLine.visible()
+                        onShowOrFailed()
+                        isLoading = false
+                    },
+                    onAdsLoadFail = {
+                        binding.viewLine.gone()
+                        onShowOrFailed()
+                        isLoading = false
+                    }
+                )
+            }
+
+            2L -> {
+                isLoading = true
+                binding.frNativeSmall.visible()
+                binding.frNativeExpand.visible()
+                AdmobLib.loadAndShowNativeCollapsibleSingle(
+                    activity = this@SketchActivity,
+                    admobNativeModel = AdsManager.NATIVE_COLLAPSIBLE_DRAWING,
+                    viewGroupExpanded = binding.frNativeExpand,
+                    viewGroupCollapsed = binding.frNativeSmall,
+                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
+                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
+                    onAdsLoaded = {
+                        binding.viewLine.visible()
+                        onShowOrFailed()
+                        isLoading = false
+                    },
+                    onAdsLoadFail = {
+                        binding.viewLine.gone()
+                        onShowOrFailed()
+                        isLoading = false
+                    }
+                )
+            }
+        }
+
+
     }
+
 }

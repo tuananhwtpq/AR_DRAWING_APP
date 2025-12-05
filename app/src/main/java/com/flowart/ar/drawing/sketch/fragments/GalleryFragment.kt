@@ -1,8 +1,11 @@
 package com.flowart.ar.drawing.sketch.fragments
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.flowart.ar.drawing.sketch.activities.MainActivity
 import com.flowart.ar.drawing.sketch.activities.PreviewImageActivity
 import com.flowart.ar.drawing.sketch.adapters.ImageAdapter
 import com.flowart.ar.drawing.sketch.bases.BaseFragment
@@ -10,12 +13,28 @@ import com.flowart.ar.drawing.sketch.databinding.FragmentGalleryBinding
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.formatTime
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBinding::inflate) {
 
     private var adapter: ImageAdapter? = null
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isLoadingAds = false
+    private var runnable = object : Runnable {
+        override fun run() {
+            if (!isLoadingAds && AdsManager.isReloadingNativeHome()) {
+                isLoadingAds = true
+                (requireActivity() as MainActivity).loadAndShowNativeHome(binding.frNative) {
+                    AdsManager.updateNativeHome()
+                    isLoadingAds = false
+                }
+            }
+            handler.postDelayed(this, 5000L)
+        }
+    }
 
     override fun initData() {
 
@@ -45,11 +64,20 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
 
     override fun onResume() {
         super.onResume()
-        //showNativeAds()
+
+        AdsManager.lastNativeHomeShow = 0L
+        handler.removeCallbacksAndMessages(null)
+        handler.post(runnable)
+
         binding.tvTotalTimespent.text =
             SharedPrefManager.getLong(Constants.KEY_SPENT_TIME, 0L).formatTime(true)
         binding.tvTotalDraws.text =
             SharedPrefManager.getInt(Constants.KEY_DRAW_NUMBER, 0).toString()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacksAndMessages(null)
     }
 
     private fun handleFavoriteClick(image: ImageModel) {
@@ -57,15 +85,11 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
     }
 
     private fun handleItemClick(image: ImageModel) {
-//        (activity as? MainActivity)?.showInterAds {
-//            val intent = Intent(requireContext(), PreviewImageActivity::class.java)
-//            intent.putExtra("imageId", image.id)
-//            intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
-//            startActivity(intent)
-//        }
-        val intent = Intent(requireContext(), PreviewImageActivity::class.java)
-        intent.putExtra("imageId", image.id)
-        intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
-        startActivity(intent)
+        (requireActivity() as MainActivity).loadAndShowInterHome {
+            val intent = Intent(requireContext(), PreviewImageActivity::class.java)
+            intent.putExtra("imageId", image.id)
+            intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
+            startActivity(intent)
+        }
     }
 }

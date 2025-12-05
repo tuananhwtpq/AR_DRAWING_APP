@@ -120,17 +120,27 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:id="@id/frNative"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_top" />
+
     <TextView
         android:id="@+id/tv_my_favorites"
         style="@style/mHeading.H2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:text="@string/my_favorite"
         android:textColor="@color/mainTextColor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_top" />
+        app:layout_constraintTop_toBottomOf="@id/frNative" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_my_favorite"
