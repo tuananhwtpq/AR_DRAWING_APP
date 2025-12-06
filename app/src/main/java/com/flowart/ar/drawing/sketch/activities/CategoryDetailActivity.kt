@@ -27,9 +27,6 @@ import kotlinx.coroutines.withContext
 class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
     ActivityCategoryDetailBinding::inflate
 ) {
-//    private val isShowAds by lazy {
-//        RemoteConfig.remoteNativeListItem != 0L
-//    }
 
     private var originalList = listOf<ImageModel>()
 

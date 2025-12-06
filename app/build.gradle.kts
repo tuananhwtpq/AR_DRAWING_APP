@@ -24,7 +24,7 @@ android {
         versionName = "test"
 
         val dateTime = SimpleDateFormat("dd-MM-yyyy").format(System.currentTimeMillis())
-        setProperty("archivesBaseName", "Base - Project ($versionCode)_$dateTime")
+        setProperty("archivesBaseName", "drawing.sketch ($versionCode)_$dateTime")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
