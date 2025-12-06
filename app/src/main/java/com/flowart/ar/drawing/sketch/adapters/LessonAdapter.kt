@@ -16,7 +16,6 @@ import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 class LessonAdapter(
     val context: Context,
     val onClickItem: (LessonModel) -> Unit,
-    val onClickFavorite: (LessonModel) -> Unit,
     private val isShowAds: Boolean
 ) :
     ListAdapter<LessonModel, LessonAdapter.LessonVH>(
@@ -58,13 +57,13 @@ class LessonAdapter(
         private fun bindLesson(lesson: LessonModel) {
             val binding = binding as ItemLessonBinding
             binding.lessonProgress.rating = lesson.difficulty.toFloat()
-            binding.ivFavorite.isSelected = lesson.isFavorite
+            // binding.ivFavorite.isSelected = lesson.isFavorite
             binding.tvStep.text = lesson.listStep.size.toString()
             Glide.with(context).load("file:///android_asset/" + lesson.listStep.last())
                 .into(binding.ivImage)
-            binding.ivFavorite.setOnClickListener {
-                onClickFavorite(lesson)
-            }
+//            binding.ivFavorite.setOnClickListener {
+//                onClickFavorite(lesson)
+//            }
             itemView.setOnUnDoubleClick {
                 onClickItem(lesson)
             }

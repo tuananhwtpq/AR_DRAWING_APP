@@ -45,7 +45,6 @@ class LessonDetailActivity :
         adapter = LessonAdapter(
             this,
             onClickItem = { handleClickLesson(it) },
-            onClickFavorite = { handleClickFavorite(it) },
             isShowAds = false
         )
 
