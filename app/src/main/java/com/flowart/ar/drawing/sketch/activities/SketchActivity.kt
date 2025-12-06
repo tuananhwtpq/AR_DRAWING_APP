@@ -122,6 +122,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             loadAndShowInterBackHome(binding.vShowInterAds) {
+                SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
             }
         }
@@ -179,14 +180,13 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
     private var isCountingCollapsibleHome = false
 
-    private val runnableCollapsibleHome: kotlinx.coroutines.Runnable = object :
+    private val runnableCollapsibleDrawing: kotlinx.coroutines.Runnable = object :
         kotlinx.coroutines.Runnable {
         override fun run() {
-            if (AdsManager.isReloadingCollapsibleHome() && !isLoading) {
-                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleHome() }
+            if (AdsManager.isReloadingCollapsibleDrawing() && !isLoading) {
+                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleDrawing() }
             }
             handler.postDelayed(this, 1000L)
-
         }
     }
 
@@ -326,17 +326,6 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.navFlash.setTextColor(ContextCompat.getColor(this, R.color.unSelectedText))
             binding.bottomNavFlash.invisible()
             cameraManager.recordVideo {
-//                showInterDone {
-//                    binding.lRecording.gone()
-//                    binding.ivPause.visible()
-//                    binding.ivResumeRecord.gone()
-//                    isRecording = false
-//                    val intent = Intent(this, SketchResultActivity::class.java).apply {
-//                        putExtra("media_uri", it.toString())
-//                        putExtra("isImage", false)
-//                    }
-//                    startActivity(intent)
-//                }
 
                 binding.lRecording.gone()
                 binding.ivPause.visible()
@@ -381,7 +370,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
             loadAndShowInterDone(viewBlock = binding.vShowInterAds) {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
         }
@@ -551,6 +540,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
+        loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleDrawing() }
     }
     private fun handlePermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
@@ -580,7 +570,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         isRecording = false
 
         if (isCountingCollapsibleHome) {
-            handler.removeCallbacks(runnableCollapsibleHome)
+            handler.removeCallbacks(runnableCollapsibleDrawing)
             isCountingCollapsibleHome = false
         }
     }
@@ -932,7 +922,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
     override fun onStart() {
         super.onStart()
-        handler.post(runnableCollapsibleHome)
+        handler.post(runnableCollapsibleDrawing)
         isCountingCollapsibleHome = true
     }
 

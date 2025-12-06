@@ -230,6 +230,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             Log.d(TAG, "Load ad onResume")
             AppOnResumeAdsManager.initialize(application, AdsManager.ON_RESUME)
             AppOnResumeAdsManager.getInstance().disableForActivity(SplashActivity::class.java)
+            AppOnResumeAdsManager.getInstance().disableForActivity(MainActivity::class.java)
         }
     }
 
@@ -286,6 +287,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         AdsManager.countInterBackHome = 0
         AdsManager.countInterDone = 0
         AdsManager.countInterPreview = 0
+        AdsManager.isShowedRate = false
     }
 
 }

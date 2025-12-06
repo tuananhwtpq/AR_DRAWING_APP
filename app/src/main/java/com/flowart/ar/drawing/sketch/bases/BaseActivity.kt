@@ -91,19 +91,6 @@ abstract class BaseActivity<viewBinding : ViewBinding>(val inflater: (LayoutInfl
         }
     }
 
-    fun loadAndShowNativeSetting(frNative: ViewGroup) {
-        if (RemoteConfig.remoteNativeSetting != 0L) {
-            frNative.visible()
-            AdmobLib.loadAndShowNative(
-                activity = this,
-                admobNativeModel = AdsManager.NATIVE_SETTING,
-                viewGroup = frNative,
-                size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-                layout = R.layout.native_ads_custom_small_like_banner
-            )
-        }
-    }
-
     fun loadAndShowNativeOther(frNative: ViewGroup) {
         if (RemoteConfig.remoteNativeOther != 0L) {
             frNative.visible()
@@ -117,15 +104,15 @@ abstract class BaseActivity<viewBinding : ViewBinding>(val inflater: (LayoutInfl
         }
     }
 
-    fun loadAndShowNativeOther_2(frNative: ViewGroup) {
+    fun loadAndShowNativeOtherMedium(frNative: ViewGroup) {
         if (RemoteConfig.remoteNativeOther != 0L) {
             frNative.visible()
             AdmobLib.loadAndShowNative(
                 activity = this,
                 admobNativeModel = AdsManager.NATIVE_OTHER,
                 viewGroup = frNative,
-                size = GoogleENative.UNIFIED_MEDIUM_LIKE_BUTTON,
-                layout = R.layout.native_ads_custom_medium_like_button
+                size = GoogleENative.UNIFIED_MEDIUM,
+                layout = R.layout.native_ads_custom_medium_bottom
             )
         }
     }
@@ -153,7 +140,6 @@ abstract class BaseActivity<viewBinding : ViewBinding>(val inflater: (LayoutInfl
     }
 
     fun loadAndShowInterDone(viewBlock: View? = null, navAction: () -> Unit) {
-
         if (AdsManager.isShowInterDone()) {
             AdmobLib.loadAndShowInterWithNativeAfter(
                 mActivity = this,
@@ -163,12 +149,7 @@ abstract class BaseActivity<viewBinding : ViewBinding>(val inflater: (LayoutInfl
                 isShowNativeAfter = AdsManager.isShowNativeFullScreen(),
                 nativeLayout = R.layout.native_ads_full_screen,
                 isShowOnTestDevice = true,
-                navAction = { navAction() },
-                onInterCloseOrFailed = { isDone ->
-                    if (isDone) {
-                        AdsManager.updateTime()
-                    }
-                }
+                navAction = { navAction() }
             )
         } else {
             navAction()

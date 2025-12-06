@@ -1,5 +1,6 @@
 package com.flowart.ar.drawing.sketch.utils.ads
 
+import android.util.Log
 import com.snake.squad.adslib.AdmobLib
 import com.snake.squad.adslib.models.AdmobInterModel
 import com.snake.squad.adslib.models.AdmobNativeModel
@@ -42,9 +43,10 @@ object AdsManager {
     var countInterPreview = 0
     var countInterDone = 0
     var isShowedRate = false
-
     var lastCollapsibleHomeShow = 0L
+    var lastCollapsibleSketchTraceShow = 0L
     var lastNativeHomeShow = 0L
+    var lastCollapsibleDrawingShown = 0L
 
 
     fun isShowNativeFullScreen(): Boolean {
@@ -58,6 +60,11 @@ object AdsManager {
     fun isShowInterHome(): Boolean {
         if (RemoteConfig.remoteInterHome == 0L) return false
         countInterHome++
+        Log.d(
+            "TAGisShowInterHome",
+            "Count Interhome: ${countInterHome} - Remote interback: ${RemoteConfig.remoteInterHome} - ${isShowInter()}"
+        )
+
         return isShowInter() && (countInterHome % RemoteConfig.remoteInterHome == 0L)
     }
 
@@ -70,17 +77,34 @@ object AdsManager {
     fun isShowInterDone(): Boolean {
         if (RemoteConfig.remoteInterDone == 0L) return false
         countInterDone++
-        return isShowInter() && (countInterDone % RemoteConfig.remoteInterDone == 0L)
+        Log.d(
+            "TAGisShowInterDone",
+            "remote interdone: ${RemoteConfig.remoteInterDone} - count interdone: $countInterDone"
+        )
+        return (countInterDone % RemoteConfig.remoteInterDone == 0L)
     }
 
     fun isShowInterBackHome(): Boolean {
+        Log.d("TAGisShowInterBackHome", "Remote interback: ${RemoteConfig.remoteInterBack}")
         if (RemoteConfig.remoteInterBack == 0L) return false
         countInterBackHome++
+        Log.d(
+            "TAGisShowInterBackHome",
+            "Count Interback: ${countInterBackHome} - Remote interback: ${RemoteConfig.remoteInterBack} - ${isShowInter()}"
+        )
+
         return isShowInter() && (countInterBackHome % RemoteConfig.remoteInterBack == 0L)
     }
 
+    fun isReloadingCollapsibleDrawing(): Boolean {
+        return (System.currentTimeMillis() - lastCollapsibleDrawingShown) >= RemoteConfig.remoteTimeLoadNative
+    }
     fun isReloadingCollapsibleHome(): Boolean {
-        return (System.currentTimeMillis() - lastCollapsibleHomeShow) > RemoteConfig.remoteTimeLoadNative
+        return (System.currentTimeMillis() - lastCollapsibleHomeShow) >= RemoteConfig.remoteTimeLoadNative
+    }
+
+    fun isReloadingCollapsibleSketchTrace(): Boolean {
+        return (System.currentTimeMillis() - lastCollapsibleSketchTraceShow) >= RemoteConfig.remoteTimeLoadNative
     }
 
     fun isReloadingNativeHome(): Boolean {
@@ -91,8 +115,16 @@ object AdsManager {
         lastCollapsibleHomeShow = System.currentTimeMillis()
     }
 
+    fun updateCollapsibleSketchTrace() {
+        lastCollapsibleSketchTraceShow = System.currentTimeMillis()
+    }
+
     fun updateNativeHome() {
         lastNativeHomeShow = System.currentTimeMillis()
+    }
+
+    fun updateCollapsibleDrawing() {
+        lastCollapsibleDrawingShown = System.currentTimeMillis()
     }
 
 

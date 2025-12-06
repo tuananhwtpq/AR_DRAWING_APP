@@ -27,13 +27,6 @@ class PermissionActivity :
                 )
 
                 if (!shouldShowRationale) {
-                    //showToast(getString(R.string.please_grant_permission_to_use_this_feature))
-
-                    openAppSetting()
-//                    Handler(Looper.getMainLooper()).postDelayed({
-//                        openAppSetting()
-//                    }, 1500)
-                    //showPermissionDialog()
                 }
             }
             currentRequestingPermission = null
@@ -54,8 +47,7 @@ class PermissionActivity :
             R.string.for_the_best_experience_ar_drawing_needs_access_to_the_following_permissions,
             getString(R.string.ar_drawing)
         )
-//        binding.layoutCamera.isSelected = PermissionUtils.checkCameraPermission(this)
-//        binding.layoutMicrophone.isSelected = PermissionUtils.checkRecordAudioPermission(this)
+
         updateUiPermission()
     }
 
@@ -131,30 +123,6 @@ class PermissionActivity :
     override fun onResume() {
         super.onResume()
         updateUiPermission()
-        showNativeAds()
-        loadAndShowNativeOther_2(binding.frNative)
-    }
-
-//        private fun showPermissionDialog() {
-//            androidx.appcompat.app.AlertDialog.Builder(this)
-//                .setTitle("Permission required")
-//                .setMessage(getString(R.string.please_grant_permission_to_use_this_feature))
-//                .setPositiveButton("Go to Setting") { _, _ ->
-//                    openAppSetting()
-//                }
-//                .setNegativeButton("Cancel", null)
-//                .show()
-//        }
-
-    private fun showNativeAds() {
-//        if (RemoteConfig.remoteNativePermission == 0L) return
-//        binding.frNative.visible()
-//        AdmobLib.loadAndShowNative(
-//            this,
-//            AdsManager.nativeOtherModel,
-//            binding.frNative,
-//            size = GoogleENative.UNIFIED_MEDIUM_LIKE_BUTTON,
-//            layout = R.layout.native_ads_lesson
-//        )
+        loadAndShowNativeOtherMedium(binding.frNative)
     }
 }

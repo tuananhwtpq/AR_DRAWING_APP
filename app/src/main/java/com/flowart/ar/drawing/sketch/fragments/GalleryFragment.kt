@@ -89,6 +89,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
             val intent = Intent(requireContext(), PreviewImageActivity::class.java)
             intent.putExtra("imageId", image.id)
             intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
+            intent.putExtra("isFromGallery", true)
             startActivity(intent)
         }
     }

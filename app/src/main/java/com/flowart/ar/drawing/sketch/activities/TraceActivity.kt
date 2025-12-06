@@ -129,6 +129,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             ExitDialog().init(
                 onExit = {
                     loadAndShowInterBackHome(binding.vShowInterAds) {
+                        SharedPrefManager.putBoolean("wantShowRate", true)
                         startTime = System.currentTimeMillis()
                         finish()
                     }
@@ -152,11 +153,11 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     private var isCountingCollapsibleHome = false
 
-    private val runnableCollapsibleHome: kotlinx.coroutines.Runnable = object :
+    private val runnableCollapsibleSketchTrace: kotlinx.coroutines.Runnable = object :
         kotlinx.coroutines.Runnable {
         override fun run() {
-            if (AdsManager.isReloadingCollapsibleHome() && !isLoading) {
-                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleHome() }
+            if (AdsManager.isReloadingCollapsibleSketchTrace() && !isLoading) {
+                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleSketchTrace() }
             }
             handler.postDelayed(this, 1000L)
 
@@ -256,7 +257,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         }
 
         binding.btnSave.setOnUnDoubleClick {
-            loadAndShowInterDone { done() }
+            loadAndShowInterDone(binding.vShowInterAds) { done() }
         }
 
         binding.btnPrevStep.setOnClickListener {
@@ -284,17 +285,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
                 )
             }
         }
-
-//        actionStack.onHistoryLimitReached = {
-//            runOnUiThread {
-//                Toast.makeText(
-//                    this,
-//                    getString(R.string.undo_limit_reached_max_50_steps_older_steps_will_be_removed),
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//        }
-
     }
 
     private fun setupBottomNavVisibility(option: Int) {
@@ -487,12 +477,12 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
-        showNativeColl()
+        loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleSketchTrace() }
     }
 
     override fun onStart() {
         super.onStart()
-        handler.post(runnableCollapsibleHome)
+        handler.post(runnableCollapsibleSketchTrace)
         isCountingCollapsibleHome = true
     }
 
@@ -509,7 +499,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         super.onStop()
         binding.vShowInterAds.gone()
         if (isCountingCollapsibleHome) {
-            handler.removeCallbacks(runnableCollapsibleHome)
+            handler.removeCallbacks(runnableCollapsibleSketchTrace)
             isCountingCollapsibleHome = false
         }
     }
@@ -562,53 +552,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.drawingView.setBrushOrEraser(Brush.HardEraser)
             binding.drawingView.setBrushOrEraserSize((binding.sbEraser.progress + 1) / 100f)
         }
-    }
-
-    private fun showInterDone(navAction: () -> Unit) {
-//        if (AdsManager.isShowInterDone()) {
-//            loadAndShowInterWithNativeAfter(AdsManager.interOtherModel, binding.vShowInterAds) {
-//                navAction()
-//            }
-//        } else {
-//            navAction()
-//        }
-    }
-
-    private fun showNativeColl() {
-//        when (RemoteConfig.remoteNativeCollapsibleTrace) {
-//            0L -> return
-//            1L -> {
-//                binding.viewLine.invisible()
-//                binding.frNative.visible()
-//                AdmobLib.loadAndShowNative(
-//                    this,
-//                    AdsManager.nativeOtherModel,
-//                    binding.frBanner,
-//                    size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-//                    layout = R.layout.native_ads_custom_small_like_banner,
-//                    onAdsLoadFail = {
-//                        binding.viewLine.gone()
-//                    }
-//                )
-//            }
-//
-//            2L -> {
-//                binding.frNative.visible()
-//                binding.frBanner.visible()
-//                binding.viewLine.invisible()
-//                AdmobLib.loadAndShowNativeCollapsibleSingle(
-//                    this,
-//                    AdsManager.nativeOtherModel,
-//                    viewGroupExpanded = binding.frNative,
-//                    viewGroupCollapsed = binding.frBanner,
-//                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
-//                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
-//                    onAdsLoadFail = {
-//                        binding.viewLine.gone()
-//                    }
-//                )
-//            }
-//        }
     }
 
     fun loadAndShowNativeCollapsibleDrawing(onShowOrFailed: () -> Unit) {
