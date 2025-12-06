@@ -13,11 +13,14 @@ import com.bumptech.glide.Glide
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivitySketchResultBinding
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
+import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.formatDateTime
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.onProgressChange
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.visible
+import com.snake.squad.adslib.AdmobLib
 import java.io.File
 
 class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
@@ -81,16 +84,6 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
             saveMediaToGallery(mediaUri, isImage)
         }
 
-//        binding.vPlay.setOnClickListener {
-//            if (binding.videoView.isPlaying) {
-//                binding.videoView.pause()
-//            } else {
-//                binding.videoView.resume()
-//            }
-//            binding.vPlay.setImageResource(if (binding.videoView.isPlaying) R.drawable.ic_play_2 else R.drawable.ic_pause_2)
-//        }
-//
-//        binding.sbTime.onProgressChange { binding.videoView.seekTo(it) }
         binding.videoContainer.setOnClickListener {
             toggleVideoState()
         }
@@ -124,7 +117,7 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
 
     override fun onResume() {
         super.onResume()
-        showBannerAds()
+        loadAndShowNativeOther()
     }
 
     private fun setVideoView() {
@@ -204,28 +197,26 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
         }
     }
 
-    private fun showBannerAds() {
-//        if (RemoteConfig.remoteBannerPreviewVideo == 0L) return
-//        binding.frBanner.visible()
-//        binding.viewLine.visible()
-//        if (RemoteConfig.remoteBannerPreviewVideo == 1L) {
-//            AdmobLib.loadAndShowBanner(
-//                this,
-//                AdsManager.BANNER_OTHER,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
-//
-//        if (RemoteConfig.remoteBannerPreviewVideo == 2L) {
-//            AdmobLib.loadAndShowBannerCollapsible(
-//                this,
-//                AdsManager.bannerCollapsePreviewVideoModel,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
+    fun loadAndShowNativeOther() {
+        when (RemoteConfig.remoteNativeOther) {
+            1L -> {
+                binding.frNativeSmall.visible()
+                binding.frNativeExpand.visible()
+                AdmobLib.loadAndShowNativeCollapsibleSingle(
+                    activity = this,
+                    admobNativeModel = AdsManager.NATIVE_OTHER,
+                    viewGroupExpanded = binding.frNativeExpand,
+                    viewGroupCollapsed = binding.frNativeSmall,
+                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
+                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
+                    onAdsLoaded = {
+                        binding.whiteLine.visible()
+                    },
+                    onAdsLoadFail = {
+                        binding.whiteLine.gone()
+                    }
+                )
+            }
+        }
     }
 }

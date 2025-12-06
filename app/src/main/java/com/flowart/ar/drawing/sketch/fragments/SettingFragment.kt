@@ -73,8 +73,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     override fun onResume() {
         super.onResume()
         showNativeAds()
-//        (requireActivity() as MainActivity).loadAndShowNativeSetting(binding.vShowInterAds)
-        //(requireActivity() as MainActivity).loadAndShowNativeHome(binding.frNative)
     }
 
     private fun showNativeAds() {
@@ -86,7 +84,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 AdsManager.NATIVE_SETTING,
                 binding.vShowInterAds,
                 size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-                layout = R.layout.native_ads_custom_small_like_banner
+                layout = R.layout.native_ads_custom_small_like_banner_setting,
+                isShowOnTestDevice = true
             )
         } else {
             AdmobLib.showNative(
@@ -94,7 +93,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 AdsManager.NATIVE_SETTING,
                 binding.vShowInterAds,
                 size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-                layout = R.layout.native_ads_custom_small_like_banner
+                layout = R.layout.native_ads_custom_small_like_banner_setting
             )
         }
     }

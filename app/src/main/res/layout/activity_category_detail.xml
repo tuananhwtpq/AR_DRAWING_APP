@@ -59,7 +59,7 @@
         android:layout_marginBottom="4dp"
         android:paddingVertical="6dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/viewLine"
+        app:layout_constraintBottom_toTopOf="@id/whiteLine"
         app:layout_constraintTop_toBottomOf="@id/lTitle"
         app:layout_goneMarginBottom="0dp"
         app:spanCount="2"
@@ -86,15 +86,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/viewLine"
+        android:id="@+id/whiteLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"
+        android:background="@color/white"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/frBanner" />
+        app:layout_constraintBottom_toTopOf="@id/frNativeSmall" />
 
     <FrameLayout
-        android:id="@+id/frBanner"
+        android:id="@+id/frNativeSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frNativeExpand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

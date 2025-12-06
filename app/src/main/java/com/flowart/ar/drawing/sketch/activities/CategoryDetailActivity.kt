@@ -4,15 +4,20 @@ import android.content.Intent
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.adapters.ImageAdapter
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityCategoryDetailBinding
 import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
+import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.visible
+import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +46,7 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             loadAndShowInterBackHome(binding.vShowInterAds) {
+                SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
             }
 
@@ -75,9 +81,6 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
                     originalList = it
                     val newList = listItemWithAds(originalList)
                     withContext(Dispatchers.Main) {
-//                    adapter?.submitList(newList) {
-//                        binding.lLoading.gone()
-//                    }
                         adapter?.submitList(it) {
                             binding.lLoading.gone()
                         }
@@ -89,11 +92,6 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
 
     override fun initView() {
         val gridLayoutManager = GridLayoutManager(this, 2)
-//        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//            override fun getSpanSize(position: Int): Int {
-//                return if (position == 2 && isShowAds) 2 else 1
-//            }
-//        }
         binding.rcvPicture.layoutManager = gridLayoutManager
         binding.rcvPicture.adapter = adapter
         binding.rcvPicture.itemAnimator = null
@@ -103,7 +101,6 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
 
     override fun onResume() {
         super.onResume()
-        showBannerAds()
         adsItemId = System.currentTimeMillis().toInt()
         lifecycleScope.launch {
             val newList = listItemWithAds(originalList)
@@ -112,7 +109,7 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
             }
         }
 
-        loadAndShowNativeOther(binding.frBanner)
+        loadAndShowNativeOther()
     }
 
     override fun onStop() {
@@ -132,14 +129,10 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
     }
 
     private fun listItemWithAds(list: List<ImageModel>): List<ImageModel> {
-        return if (list.size < 2 /*|| !isShowAds*/) {
+        return if (list.size < 2) {
             list
         } else {
             val newList = list.toMutableList().apply {
-//                add(
-//                    2,
-//                    ImageModel.EMPTY_ITEM.copy(id = adsItemId)
-//                )
             }
             newList
         }
@@ -149,6 +142,7 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
         val intent = Intent(this, PreviewImageActivity::class.java)
         intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
         intent.putExtra("imageId", image.id)
+        intent.putExtra("isFromCategoryDetail", false)
         startActivity(intent)
     }
 
@@ -156,28 +150,26 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
         ImageRepositories.INSTANCE.updateImageFavorite(image.isFavorite, image.id)
     }
 
-    private fun showBannerAds() {
-//        if (RemoteConfig.remoteBannerListItem == 0L) return
-//        binding.frBanner.visible()
-//        binding.viewLine.visible()
-//        if (RemoteConfig.remoteBannerListItem == 1L) {
-//            AdmobLib.loadAndShowBanner(
-//                this,
-//                AdsManager.BANNER_OTHER,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
-//
-//        if (RemoteConfig.remoteBannerListItem == 2L) {
-//            AdmobLib.loadAndShowBannerCollapsible(
-//                this,
-//                AdsManager.bannerCollapseListItemModel,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
+    fun loadAndShowNativeOther() {
+        when (RemoteConfig.remoteNativeOther) {
+            1L -> {
+                binding.frNativeSmall.visible()
+                binding.frNativeExpand.visible()
+                AdmobLib.loadAndShowNativeCollapsibleSingle(
+                    activity = this,
+                    admobNativeModel = AdsManager.NATIVE_OTHER,
+                    viewGroupExpanded = binding.frNativeExpand,
+                    viewGroupCollapsed = binding.frNativeSmall,
+                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
+                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
+                    onAdsLoaded = {
+                        binding.whiteLine.visible()
+                    },
+                    onAdsLoadFail = {
+                        binding.whiteLine.gone()
+                    }
+                )
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.flowart.ar.drawing.sketch.activities
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -28,29 +29,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var mAdapter: MainViewPagerAdapter
 
     override fun initData() {
-//        AdmobLib.setDebugAds(true)
+        //AdmobLib.setDebugAds(true)
     }
-
     private var isLoading = false
     private val handler = Handler(Looper.getMainLooper())
-
-
     private var isCountingCollapsibleHome = false
-
     private val runnableCollapsibleHome: Runnable = object : Runnable {
         override fun run() {
             if (AdsManager.isReloadingCollapsibleHome() && !isLoading) {
                 loadAndShowNativeCollapsibleHome { AdsManager.updateCollapsibleHome() }
             }
             handler.postDelayed(this, 1000L)
-
         }
     }
 
     override fun initView() {
         initViewPager()
         setTabPosition(0)
-        //change cmt
     }
 
     override fun initActionView() {
@@ -60,12 +55,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.navLesson.setOnUnDoubleClick {
             loadAndShowNativeCollapsibleHome { AdsManager.updateCollapsibleHome() }
-
             setTabPosition(1)
         }
         binding.navGallery.setOnUnDoubleClick {
             loadAndShowNativeCollapsibleHome { AdsManager.updateCollapsibleHome() }
-
             setTabPosition(2)
         }
         binding.navSetting.setOnUnDoubleClick {
@@ -137,13 +130,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun loadAndShowInterHome(blockView: Boolean = false, navAction: () -> Unit) {
+    fun loadAndShowInterHome(navAction: () -> Unit) {
         if (AdsManager.isShowInterHome()) {
             AdmobLib.loadAndShowInterWithNativeAfter(
                 mActivity = this@MainActivity,
                 interModel = AdsManager.INTER_HOME,
                 nativeModel = AdsManager.NATIVE_FULL_SCREEN_AFTER_INTER,
-                vShowInterAds = if (blockView) binding.vShowInterAds else null,
+                vShowInterAds = binding.vShowInterAds,
                 isShowNativeAfter = AdsManager.isShowNativeFullScreen(),
                 nativeLayout = R.layout.native_ads_full_screen,
                 navAction = { navAction() },
@@ -157,6 +150,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onResume() {
         super.onResume()
         val wantShowRate = SharedPrefManager.getBoolean("wantShowRate", true)
+        Log.d(
+            "TAGTestRate",
+            "onResume: wantShowSate = $wantShowRate isRateShown : ${AdsManager.isShowedRate}"
+        )
         if (!AdsManager.isShowedRate && wantShowRate) {
             RatingDialog.showRateAppDialogAuto(
                 this@MainActivity,
@@ -166,6 +163,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             )
             AdsManager.isShowedRate = true
         }
+        loadAndShowNativeCollapsibleHome { AdsManager.updateCollapsibleHome() }
     }
 
     override fun onStart() {
