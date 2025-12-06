@@ -102,7 +102,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun initAds() {
-        AdmobLib.setEnabledCheckTestDevice(false)
+        AdmobLib.setEnabledCheckTestDevice(false) //check test device -> true
         AdmobLib.initialize(
             this,
             isDebug = AdsManager.isDebug,
