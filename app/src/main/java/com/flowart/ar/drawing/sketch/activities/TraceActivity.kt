@@ -91,6 +91,9 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     private var currentStep = 0
         set(value) {
             field = value
+            if (listImage.isEmpty() || value - 1 < 0 || value - 1 >= listImage.size) {
+                return
+            }
             binding.btnPrevStep.isEnabled = value > 1
             binding.btnPrevStep.alpha = if (value > 1) 1f else 0.6f
             binding.btnNextStep.isEnabled = value < totalStep
@@ -402,19 +405,44 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
     private fun setDrawingView() {
         //todo: check bitmap
+
+        runOnUiThread {
+            binding.btnNextStep.isEnabled = false
+            binding.btnPrevStep.isEnabled = false
+            binding.lStep.isVisible = false
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             delay(1000)
             if (isFromLesson) {
                 lesson = ImageRepositories.INSTANCE.getLessonById(lessonId)
-                lesson?.let {
+                lesson?.let { lessonModel ->
                     withContext(Dispatchers.Main) {
-                        listImage = it.listStep
-                        totalStep = it.listStep.size
-                        if (currentStep == 0) {
-                            currentStep = 1
+                        listImage = lessonModel.listStep
+                        totalStep = lessonModel.listStep.size
+
+                        if (listImage.isNotEmpty()) {
+                            if (currentStep == 0) {
+                                currentStep = 1
+                            } else {
+                                val temp = currentStep
+                                currentStep = temp
+                            }
+
+                            binding.lStep.isVisible = true
+
+                            binding.btnPrevStep.isEnabled = currentStep > 1
+                            binding.btnNextStep.isEnabled = currentStep < totalStep
+
+                            updateDrawView(listImage[currentStep - 1])
+                        } else {
+                            binding.lStep.isVisible = false
+                            Toast.makeText(
+                                this@TraceActivity,
+                                getString(R.string.no_data_for_this_lesson), Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
-                    updateDrawView(listImage[currentStep - 1])
                 }
             } else {
                 if (imageUri == null) {
@@ -471,7 +499,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.btnSave.alpha = 1f
             binding.btnSave.isEnabled = true
         }
-
     }
 
     override fun onResume() {
