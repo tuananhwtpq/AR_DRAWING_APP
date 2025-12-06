@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivitySketchResultBinding
+import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.formatDateTime
@@ -180,6 +182,12 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
             inputStream?.copyTo(outputStream!!)
             inputStream?.close()
             outputStream?.close()
+
+            //handle drawNumber
+            SharedPrefManager.putInt(
+                Constants.KEY_DRAW_NUMBER,
+                SharedPrefManager.getInt(Constants.KEY_DRAW_NUMBER, 0) + 1
+            )
 
             Toast.makeText(this, getString(R.string.saved_to_gallery), Toast.LENGTH_LONG).show()
             File(uri.path!!).delete()
