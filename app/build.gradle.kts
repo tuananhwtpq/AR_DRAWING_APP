@@ -17,11 +17,11 @@ android {
         applicationId = "com.flowart.ar.drawing.sketch"
         minSdk = 29
         targetSdk = 36
-//        versionCode = 100
-//        versionName = "1.0.0"
+        versionCode = 100
+        versionName = "1.0.0"
 
-        versionCode = 1
-        versionName = "test"
+//        versionCode = 1
+//        versionName = "test"
 
         val dateTime = SimpleDateFormat("dd-MM-yyyy").format(System.currentTimeMillis())
         setProperty("archivesBaseName", "drawing.sketch ($versionCode)_$dateTime")
