@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#415AD6</color>
+    <color name="colorSecondary">#E290FF</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorTextTitle">#33322F</color>
+    <color name="colorTextSub">#A633322F</color>
+    <color name="colorDisable">#A5A5A5</color>
+    <color name="colorError">#F24B4C</color>
+    <color name="colorBackground">#FAF8F4</color>
+    <color name="startColor">#F8B736</color>
+    <color name="centerColor">#C86BF8</color>
+    <color name="endColor">#F0997F</color>
+    <color name="red">#F2420A</color>
+    <color name="mainBackground">#FEF7EE</color>
+    <color name="mainTextColor">#762D16</color>
+    <color name="mainNavBg">#F4F1EB</color>
+    <color name="unSelectedText">#B79E9B</color>
+    <color name="primary">#FFC247</color>
+    <color name="brown">#C69B53</color>
+    <color name="light_green">#FFFCEB</color>
+    <color name="lesson_text_color">#DB8633</color>
+    <color name="lesson_unser_text_color">#85655B</color>
+    <color name="custom_snackbar_border">#D1A569</color>
+    <color name="snackbar_fill_color">#C6CE73</color>
+    <color name="see_all_color">#DC893A</color>
+    <color name="empty_box_color">#9E8478</color>
+
+</resources>

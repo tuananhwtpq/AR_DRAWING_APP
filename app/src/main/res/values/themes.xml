@@ -1,0 +1,103 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.BaseProject" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.BaseProject" parent="Base.Theme.BaseProject" />
+
+    <style name="singleLineTxt">
+        <item name="android:singleLine">true</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="mHeading" parent="singleLineTxt"/>
+
+    <style name="mHeading.H1" parent="mHeading">
+        <item name="android:fontFamily">@font/fredoka_semi_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="mHeading.H2" parent="mHeading">
+        <item name="android:fontFamily">@font/fredoka_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="mHeading.H3" parent="mHeading">
+        <item name="android:fontFamily">@font/fredoka_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="mHeading.H4" parent="mHeading">
+        <item name="android:fontFamily">@font/fredoka_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="mTxt">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="mTxt.P1" parent="mTxt">
+        <item name="fontFamily">@font/fredoka_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="mTxt.P2" parent="mTxt">
+        <item name="fontFamily">@font/fredoka_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="mTxt.P3" parent="mTxt">
+        <item name="fontFamily">@font/fredoka_regular</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="mMeta" parent="singleLineTxt" />
+
+    <style name="mMeta.m1" parent="mMeta">
+        <item name="fontFamily">@font/fredoka_medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="mMeta.m2" parent="mMeta">
+        <item name="fontFamily">@font/fredoka_medium</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="mBtn" parent="singleLineTxt" />
+
+    <style name="mBtn.a1" parent="mBtn">
+        <item name="fontFamily">@font/fredoka_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="mBtn.a2" parent="mBtn">
+        <item name="fontFamily">@font/fredoka_medium</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ImageRoundedCorner">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ItemImage" parent="ImageRoundedCorner">
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="PreviewImage" parent="ImageRoundedCorner">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="circleColor" parent="Base.Theme.BaseProject">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="CustomRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">10dp</item>
+    </style>
+</resources>

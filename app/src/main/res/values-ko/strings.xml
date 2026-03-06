@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">언어</string>
+    <string name="english">영어</string>
+    <string name="hindi">힌디 어</string>
+    <string name="spanish">스페인 사람</string>
+    <string name="french">프랑스 국민</string>
+    <string name="arabic">아라비아 말</string>
+    <string name="bengali">벵골 사람</string>
+    <string name="russian">러시아인</string>
+    <string name="portuguese">포르투갈 인</string>
+    <string name="indonesian">인도네시아 인</string>
+    <string name="german">독일 사람</string>
+    <string name="italian">이탈리아 사람</string>
+    <string name="korean">한국인</string>
+    <string name="please_select_language">먼저 언어를 선택해 주세요.</string>
+    <string name="next">다음</string>
+</resources>
