@@ -73,32 +73,34 @@ class PreviewImageActivity :
             onBackPressedDispatcher.onBackPressed()
         }
 
+//        binding.btnTrace.setOnClickListener {
+//            showInterStart {
+//                val intent = Intent(this, TraceActivity::class.java)
+//                intent.putExtra(Constants.KEY_IMAGE_PATH, image)
+//                intent.putExtra(Constants.KEY_IMAGE_URI, imageUri)
+//                intent.putExtra(Constants.IS_FROM_LESSON, isFromLesson)
+//                intent.putExtra(Constants.KEY_LESSON_ID, lessonId)
+//                startActivity(intent)
+//                finish()
+//                if (imageId != -1) {
+//                    ImageRepositories.INSTANCE.addToRecent(imageId)
+//                }
+//            }
+//        }
+
         binding.btnTrace.setOnClickListener {
-            showInterStart {
-                val intent = Intent(this, TraceActivity::class.java)
-                intent.putExtra(Constants.KEY_IMAGE_PATH, image)
-                intent.putExtra(Constants.KEY_IMAGE_URI, imageUri)
-                intent.putExtra(Constants.IS_FROM_LESSON, isFromLesson)
-                intent.putExtra(Constants.KEY_LESSON_ID, lessonId)
-                startActivity(intent)
-                finish()
-                if (imageId != -1) {
-                    ImageRepositories.INSTANCE.addToRecent(imageId)
-                }
-            }
+            goToTraceActivity()
         }
 
         binding.btnSketch.setOnClickListener {
-            showInterStart {
-                if (PermissionUtils.checkCameraPermission(this) && PermissionUtils.checkRecordAudioPermission(
-                        this
-                    )
-                ) {
-                    gotoSketchActivity()
-                } else {
-                    val intent = Intent(this, PermissionActivity::class.java)
-                    launcher.launch(intent)
-                }
+
+            if (PermissionUtils.checkCameraPermission(this) &&
+                PermissionUtils.checkRecordAudioPermission(this)
+            ) {
+                gotoSketchActivity()
+            } else {
+                val intent = Intent(this, PermissionActivity::class.java)
+                launcher.launch(intent)
             }
         }
     }
@@ -111,6 +113,19 @@ class PreviewImageActivity :
     override fun onStop() {
         super.onStop()
         binding.vShowInterAds.gone()
+    }
+
+    private fun goToTraceActivity() {
+        val intent = Intent(this, TraceActivity::class.java)
+        intent.putExtra(Constants.KEY_IMAGE_PATH, image)
+        intent.putExtra(Constants.KEY_IMAGE_URI, imageUri)
+        intent.putExtra(Constants.IS_FROM_LESSON, isFromLesson)
+        intent.putExtra(Constants.KEY_LESSON_ID, lessonId)
+        startActivity(intent)
+        finish()
+        if (imageId != -1) {
+            ImageRepositories.INSTANCE.addToRecent(imageId)
+        }
     }
 
     private fun gotoSketchActivity() {

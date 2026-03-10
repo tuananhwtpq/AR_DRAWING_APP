@@ -49,4 +49,11 @@ interface ImageDao {
 
     @Query("SELECT COUNT (*) FROM lesson_model WHERE isDone = 1 AND level = :level")
     fun getDone(level: Int): LiveData<Int>
+
+    @Query("SELECT * FROM image_model ORDER BY RANDOM() LIMIT :limit")
+    fun getRandomImages(limit: Int): LiveData<List<ImageModel>>
+
+    // Trong ImageDao.kt
+    @Query("SELECT * FROM image_model ORDER BY RANDOM() LIMIT :limit")
+    suspend fun getRandomImagesList(limit: Int): List<ImageModel>
 }

@@ -2,6 +2,7 @@ package com.example.baseproject.fragments
 
 import android.Manifest
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.R
+import com.example.baseproject.activities.CategoryDetailActivity
 import com.example.baseproject.activities.PreviewImageActivity
 import com.example.baseproject.adapters.ImageAdapter
 import com.example.baseproject.bases.BaseFragment
@@ -91,6 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             checkCameraPermission()
         }
 
+        binding.tvSeeAllTrending.setOnUnDoubleClick { goToCategory(0, R.string.trending) }
         binding.tvSeeAllAnime.setOnUnDoubleClick { goToCategory(1, R.string.anime) }
         binding.tvSeeAllCartoon.setOnUnDoubleClick { goToCategory(2, R.string.cartoon) }
         binding.tvSeeAllAnimal.setOnUnDoubleClick { goToCategory(3, R.string.animal) }
@@ -104,38 +107,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun launchCamera() {
-//        lifecycleScope.launch {
-//            val files = withContext(Dispatchers.IO) {
-//                try {
-//                    //createImageFile()
-//                } catch (e: Exception) {
-//                    Log.e(TAG, "Error creating image file: ${e.message} - ${e.printStackTrace()}")
-//                    null
-//                }
-//            }
-//
-//            if (files != null) {
-//                imageUri = FileProvider.getUriForFile(
-//                    requireContext(),
-//                    "${requireActivity().applicationContext.packageName}.fileprovider",
-//                    files
-//                )
-//                imageUri?.let {
-//                    takeImageLauncher.launch(it)
-//                }
-//            } else {
-//                showToast("Unable to create image file")
-//            }
-//        }
+        lifecycleScope.launch {
+            val files = withContext(Dispatchers.IO) {
+                try {
+                    createImageFile()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error creating image file: ${e.message} - ${e.printStackTrace()}")
+                    null
+                }
+            }
+
+            if (files != null) {
+                imageUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "${requireActivity().applicationContext.packageName}.fileprovider",
+                    files
+                )
+                imageUri?.let {
+                    takeImageLauncher.launch(it)
+                }
+            } else {
+                showToast("Unable to create image file")
+            }
+        }
     }
 
-//        private fun createImageFile(): File {
-//        val currentTime = System.currentTimeMillis()
-//        val simpleFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-//        val formatedTime = simpleFormat.format(currentTime)
-//        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        return File.createTempFile("JPEG_${formatedTime}_", ".jpg", storageDir)
-//    }
+    private fun createImageFile(): File {
+        val currentTime = System.currentTimeMillis()
+        val simpleFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val formatedTime = simpleFormat.format(currentTime)
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${formatedTime}_", ".jpg", storageDir)
+    }
 
     private fun setupRCV() {
         trendingAdapter = ImageAdapter(
@@ -149,8 +152,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             onItemClick = { handleImageClick(it) },
             onFavoriteClick = { handleFavoriteClick(it) })
 
-        ImageRepositories.INSTANCE.getImageByCategory(0).observe(this) {
-            trendingAdapter?.submitList(it) {
+        ImageRepositories.INSTANCE.loadTrendingImagesIfNeed()
+
+        ImageRepositories.INSTANCE.trendingImages.observe(this) { listImages ->
+
+            trendingAdapter?.submitList(listImages.take(6)) {
                 //(activity as? MainActivity)?.showLoading(false)
             }
         }
@@ -212,12 +218,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun goToCategory(type: Int, categoryName: Int) {
-//        (activity as? MainActivity)?.showInterAds {
-//            val intent = Intent(requireContext(), CategoryDetailActivity::class.java)
-//            intent.putExtra("type", type)
-//            intent.putExtra("categoryName", categoryName)
-//            startActivity(intent)
-//        }
+        //(activity as? MainActivity)?.showInterAds {
+        val intent = Intent(requireContext(), CategoryDetailActivity::class.java)
+        intent.putExtra("type", type)
+        intent.putExtra("categoryName", categoryName)
+        startActivity(intent)
+        //}
 
     }
 

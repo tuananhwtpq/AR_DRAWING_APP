@@ -6,6 +6,7 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.example.baseproject.R
+import com.example.baseproject.models.ColorModel
 import com.example.baseproject.models.LanguageModel
 import com.example.baseproject.utils.Constants.HAWK_LANGUAGE_POSITION
 
@@ -37,6 +38,45 @@ object Common {
         languageList.add(LanguageModel(R.drawable.ic_korean, R.string.korean, "ko"))
         return languageList
     }
+
+    val listBrushColor = listOf(
+        ColorModel(colorCode = "#000000", isColor = true),
+        ColorModel(colorCode = "#000000", isColor = true),
+        ColorModel(idSourceBg = R.drawable.ic, colorCode = "#000000", isColor = false),
+        ColorModel(idSourceBg = R.drawable.bg_color_white, colorCode = "#FFFFFF", isColor = false),
+        ColorModel(colorCode = "#F97316", isColor = true),
+        ColorModel(colorCode = "#FACC15", isColor = true),
+        ColorModel(colorCode = "#4ADE80", isColor = true),
+        ColorModel(colorCode = "#EC4899", isColor = true),
+        ColorModel(colorCode = "#F43F5E", isColor = true),
+        ColorModel(colorCode = "#D946EF", isColor = true),
+        ColorModel(colorCode = "#8B5CF6", isColor = true),
+        ColorModel(colorCode = "#0EA5E9", isColor = true),
+        ColorModel(colorCode = "#10B981", isColor = true),
+        ColorModel(colorCode = "#84CC16", isColor = true),
+    )
+
+    val listBackgroundColor = listOf(
+        ColorModel(colorCode = "#F5F5F5", isColor = true),
+        ColorModel(idSourceBg = R.drawable.ic, colorCode = "#000000", isColor = false),
+        ColorModel(
+            idSourceBg = R.drawable.bg_transparent,
+            colorCode = "#00000000",
+            isColor = false
+        ),
+        ColorModel(colorCode = "#000000", isColor = true),
+        ColorModel(idSourceBg = R.drawable.bg_color_white, colorCode = "#FFFFFF", isColor = false),
+        ColorModel(colorCode = "#F97316", isColor = true),
+        ColorModel(colorCode = "#3B82F6", isColor = true),
+        ColorModel(colorCode = "#EC4899", isColor = true),
+        ColorModel(colorCode = "#F43F5E", isColor = true),
+        ColorModel(colorCode = "#D946EF", isColor = true),
+        ColorModel(colorCode = "#8B5CF6", isColor = true),
+        ColorModel(colorCode = "#0EA5E9", isColor = true),
+        ColorModel(colorCode = "#10B981", isColor = true),
+        ColorModel(colorCode = "#84CC16", isColor = true),
+    )
+
 
     fun gotoPrivacyPolicy(context: Context) {
         try {

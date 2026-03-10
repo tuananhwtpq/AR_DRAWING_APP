@@ -1,6 +1,7 @@
 package com.ssquad.ar.drawing.sketch.db
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.baseproject.models.ImageModel
 import com.example.baseproject.models.LessonModel
 import com.example.baseproject.models.RecentModel
@@ -81,5 +82,29 @@ class ImageRepositories(val dao: ImageDao) {
 
     fun getDone(level: Int): LiveData<Int> {
         return dao.getDone(level)
+    }
+
+//    fun getTrendingImages(): LiveData<List<ImageModel>> {
+//        return dao.getRandomImages(22)
+//    }
+
+    private val _trendingImages = MutableLiveData<List<ImageModel>>()
+    val trendingImages: LiveData<List<ImageModel>> = _trendingImages
+
+    fun loadTrendingImagesIfNeed() {
+        if (_trendingImages.value.isNullOrEmpty()) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val list = dao.getRandomImagesList(22)
+                _trendingImages.postValue(list)
+            }
+        }
+    }
+
+    fun updateTrendingFavorite(id: Int, isFav: Boolean) {
+        val currentList = _trendingImages.value ?: return
+        val updatedList = currentList.map {
+            if (it.id == id) it.copy(isFavorite = !isFav) else it
+        }
+        _trendingImages.postValue(updatedList)
     }
 }

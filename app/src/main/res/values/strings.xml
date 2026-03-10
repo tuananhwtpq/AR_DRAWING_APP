@@ -58,6 +58,12 @@
     <string name="flower">Flower</string>
     <string name="sketch">Sketch</string>
     <string name="trace">Trace</string>
+    <string name="failed_to_share_image">Failed to share image</string>
+    <string name="has_error_now">Has error now!</string>
+    <string name="image_save_success">Image saved successfully</string>
+    <string name="step_num">Step %1$d/%2$d</string>
+    <string name="video_capture_failed">Video capture failed</string>
+    <string name="photo_capture_failed">Photo capture failed</string>
 
 
 </resources>
