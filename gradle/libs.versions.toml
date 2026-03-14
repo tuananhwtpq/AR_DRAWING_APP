@@ -21,6 +21,7 @@ constraintlayout = "2.2.1"
 ssquadadslibrary = "1.5.4"
 userMessagingPlatform = "4.0.0"
 guava = "31.1-android"
+blurview = "1.6.6"
 
 
 [libraries]
@@ -53,6 +54,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 ssquadadslibrary = { module = "com.github.thaidtnssquad:SSquadAdsLibrary", version.ref = "ssquadadslibrary" }
 user-messaging-platform = { module = "com.google.android.ump:user-messaging-platform", version.ref = "userMessagingPlatform" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+blurview = { module = "com.eightbitlab:blurview", version.ref = "blurview" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

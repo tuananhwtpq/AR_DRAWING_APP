@@ -155,7 +155,7 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
             inputStream?.close()
             outputStream?.close()
 
-            //Toast.makeText(this, getString(R.string.saved_to_gallery), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.saved_to_gallery), Toast.LENGTH_SHORT).show()
             File(uri.path!!).delete()
             finish()
         } catch (e: Exception) {

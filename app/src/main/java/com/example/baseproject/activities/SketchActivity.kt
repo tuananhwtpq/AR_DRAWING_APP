@@ -1,14 +1,20 @@
 package com.example.baseproject.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.view.ViewOutlineProvider
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -21,32 +27,35 @@ import com.example.baseproject.R
 import com.example.baseproject.bases.BaseActivity
 import com.example.baseproject.databinding.ActivitySketchBinding
 import com.example.baseproject.models.LessonModel
+import com.example.baseproject.models.SketchImage
 import com.example.baseproject.utils.BitmapUtils
 import com.example.baseproject.utils.Constants
 import com.example.baseproject.utils.MyCameraManager
 import com.example.baseproject.utils.SharedPrefManager
+import com.example.baseproject.utils.enumz.SketchEffect
 import com.example.baseproject.utils.formatTime
 import com.example.baseproject.utils.gone
 import com.example.baseproject.utils.onProgressChange
 import com.example.baseproject.utils.setOnUnDoubleClick
+import com.example.baseproject.utils.showToast
 import com.example.baseproject.utils.sticker.DrawableSticker
 import com.example.baseproject.utils.sticker.Sticker
 import com.example.baseproject.utils.visible
 import com.snake.squad.adslib.AdmobLib
 import com.snake.squad.adslib.utils.GoogleENative
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
+import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.opencv.android.OpenCVLoader
 
 class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding::inflate) {
 
     private var isPhoto = true
         set(value) {
             field = value
-//            binding.tvPhoto.setTextColor(Color.parseColor(if (value) "#29313D" else "#B2B2BD"))
-//            binding.tvVideo.setTextColor(Color.parseColor(if (!value) "#29313D" else "#B2B2BD"))
             binding.tvPhoto.alpha = if (value) 1f else 0.5f
             binding.tvVideo.alpha = if (value) 0.5f else 1f
             binding.vIndicatorPhoto.isVisible = value
@@ -63,11 +72,9 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     private var isOriginal = false
         set(value) {
             field = value
-            binding.stickerView.isVisible = !value
+            //binding.stickerView.isVisible = !value
             binding.btnStroke.isSelected = !value
-            //binding.btnStroke.setTextColor(Color.parseColor(if (value) "#B2B2BD" else "#FFFFFF"))
             binding.btnOriginal.isSelected = value
-            //binding.btnOriginal.setTextColor(Color.parseColor(if (value) "#FFFFFF" else "#B2B2BD"))
         }
 
     private var lesson: LessonModel? = null
@@ -135,9 +142,22 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     private var elapsedTimeHandler: Handler? = null
     private var elapsedTimeRunnable: Runnable? = null
 
+    private var bitmapOrigin: Bitmap? = null
+    private var sketchImage: SketchImage? = null
+    private var currentEffect: SketchEffect? = null
+    private var currentThickness: Int = 50
+
     override fun initData() {
+
+        if (OpenCVLoader.initDebug()) {
+            Log.d("SketchActivity", "OpenCV loaded successfully")
+        } else {
+            Log.e("SketchActivity", "OpenCV initialization failed!")
+        }
+
         cameraManager.startCamera(binding.viewFinder)
         setListener()
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -151,13 +171,14 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         isOriginal = false
         setTemplateView()
         binding.lShowOriginal.isVisible = !isFromLesson
+        initBlurOpacity(this)
+        initBlurCamera(this)
+        initBlurRecording(this)
+        initBlurAllOpacity(this)
+        updateFilterSelection(binding.btnOriginal)
     }
 
     override fun initActionView() {
-
-        Log.d("SketchActivity", "image path: $image")
-        Log.d("SketchActivity", "image uri: $imageUri")
-
 
         binding.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -285,12 +306,64 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
         }
 
+        binding.seekBarOpacity.setOnSeekBarChangeListener(object :
+            android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seekBar: android.widget.SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+            }
+
+            override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {
+                currentThickness = seekBar?.progress ?: 50
+                if (currentEffect == null) {
+                    binding.stickerView.alpha = currentThickness / 100f
+                    binding.stickerView.invalidate()
+                } else {
+                    applyEffect(currentEffect, currentThickness)
+                }
+            }
+        })
+
+
         binding.btnStroke.setOnClickListener {
             isOriginal = false
+            currentEffect = SketchEffect.STROKE_ONLY
+            updateFilterSelection(binding.btnStroke)
+            applyEffect(currentEffect, currentThickness)
+
+
         }
 
         binding.btnOriginal.setOnClickListener {
             isOriginal = true
+            currentEffect = null
+            updateFilterSelection(binding.btnOriginal)
+            applyEffect(null, 100)
+        }
+
+        binding.btnOriginToSket.setOnClickListener {
+            isOriginal = false
+            currentEffect = SketchEffect.ORIGINAL_TO_SKETCH
+            updateFilterSelection(binding.btnOriginToSket)
+            applyEffect(currentEffect, currentThickness)
+        }
+
+        binding.btnGrayToSket.setOnClickListener {
+            isOriginal = false
+            currentEffect = SketchEffect.GRAY_TO_SKETCH
+            updateFilterSelection(binding.btnGrayToSket)
+            applyEffect(currentEffect, currentThickness)
+        }
+
+        binding.btnGrayToSoftSket.setOnClickListener {
+            isOriginal = false
+            currentEffect = SketchEffect.GRAY_TO_SOFT_SKETCH
+            updateFilterSelection(binding.btnGrayToSoftSket)
+            applyEffect(currentEffect, currentThickness)
         }
 
         binding.btnNextStep.setOnClickListener {
@@ -313,9 +386,9 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.lLockBottom.gone()
         }
 
-        binding.seekBarOpacity.onProgressChange { progress ->
-            binding.stickerView.alpha = progress / 100f
-        }
+//        binding.seekBarOpacity.onProgressChange { progress ->
+//            binding.stickerView.alpha = progress / 100f
+//        }
     }
 
     override fun onResume() {
@@ -427,24 +500,28 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     }
 
     private fun addImage(uri: Uri) {
-//        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val bitmap = BitmapUtils.getBitmapFromUri(this@SketchActivity, uri)
+                bitmapOrigin = bitmap
+
+                if (bitmap != null) {
+                    sketchImage = SketchImage(bitmap)
+                }
+
                 val drawable = BitmapDrawable(resources, bitmap)
                 withContext(Dispatchers.Main) {
+                    binding.stickerView.removeAllStickers()
                     binding.stickerView.addSticker(
                         DrawableSticker(drawable),
                         Sticker.Position.CENTER
                     )
+                    isOriginal = true
+                    updateFilterSelection(binding.btnOriginal)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@SketchActivity,
-                        getString(R.string.has_error_now),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(getString(R.string.has_error_now))
                 }
             }
         }
@@ -454,20 +531,25 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val bitmap = BitmapUtils.getBitmapFromAsset(this@SketchActivity, path)
+                bitmapOrigin = bitmap
+
+                if (bitmap != null) {
+                    sketchImage = SketchImage(bitmap)
+                }
+
                 val drawable = BitmapDrawable(resources, bitmap)
                 withContext(Dispatchers.Main) {
+                    binding.stickerView.removeAllStickers()
                     binding.stickerView.addSticker(
                         DrawableSticker(drawable),
                         Sticker.Position.CENTER
                     )
+                    isOriginal = true
+                    updateFilterSelection(binding.btnOriginal)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@SketchActivity,
-                        getString(R.string.has_error_now),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(getString(R.string.has_error_now))
                 }
             }
         }
@@ -483,6 +565,206 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             binding.stickerView.invalidate()
         }
     }
+
+    private fun applyEffect(effect: SketchEffect?, thickness: Int) {
+        if (sketchImage == null || bitmapOrigin == null) return
+
+        binding.lLoading.visible()
+
+        lifecycleScope.launch(Dispatchers.Default) {
+
+            val rawBitmap = if (effect == null) {
+                bitmapOrigin
+            } else {
+                sketchImage?.getImageAs(effect, thickness)
+            }
+
+            val resultBitmap = if (effect != null && rawBitmap != null && effect == SketchEffect.STROKE_ONLY) {
+                removeWhiteBackground(rawBitmap)
+            } else {
+                rawBitmap
+            }
+
+//            val resultBitmap = if (effect == null) {
+//                bitmapOrigin
+//            } else {
+//                sketchImage?.getImageAs(effect, thickness)
+//            }
+
+            withContext(Dispatchers.Main) {
+
+                if (effect != null) {
+                    binding.stickerView.alpha = 0.5f
+                } else {
+                    binding.stickerView.alpha = binding.seekBarOpacity.progress / 100f
+                }
+
+                resultBitmap?.let { bmp ->
+                    val drawable = BitmapDrawable(resources, bmp)
+
+                    val currentSticker = binding.stickerView.currentSticker
+                    if (currentSticker != null && currentSticker is DrawableSticker) {
+                        currentSticker.setDrawable(drawable)
+                        //currentSticker.realDrawable = drawable
+                        binding.stickerView.invalidate()
+                    } else {
+                        binding.stickerView.addSticker(
+                            DrawableSticker(drawable),
+                            Sticker.Position.CENTER
+                        )
+                    }
+                }
+                binding.lLoading.gone()
+            }
+        }
+    }
+
+    private fun initBlurOpacity(context: Context) {
+        val blurView = binding.blurOpacity
+        val radius = 25f
+
+        blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(context))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setOverlayColor(Color.parseColor("#CCFFFFFF"))
+
+        blurView.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                val cornerRadius = 8 * view.resources.displayMetrics.density
+                outline.setRoundRect(
+                    0,
+                    0,
+                    view.width,
+                    (view.height + cornerRadius).toInt(),
+                    cornerRadius
+                )
+            }
+        }
+        blurView.clipToOutline = true
+    }
+
+    private fun initBlurCamera(context: Context) {
+        val blurView = binding.blurCamera
+        val radius = 25f
+
+        blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(context))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setOverlayColor(Color.parseColor("#CCFFFFFF"))
+
+        blurView.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                val cornerRadius = 8 * view.resources.displayMetrics.density
+                outline.setRoundRect(
+                    0,
+                    0,
+                    view.width,
+                    (view.height + cornerRadius).toInt(),
+                    cornerRadius
+                )
+            }
+        }
+        blurView.clipToOutline = true
+    }
+
+    private fun initBlurAllOpacity(context: Context) {
+        val blurView = binding.blurOpacityAll
+        val radius = 25f
+
+        blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(context))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setOverlayColor(Color.parseColor("#CCFFFFFF"))
+
+        blurView.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                val cornerRadius = 8 * view.resources.displayMetrics.density
+                outline.setRoundRect(
+                    0,
+                    0,
+                    view.width,
+                    view.height,
+                    cornerRadius
+                )
+            }
+        }
+        blurView.clipToOutline = true
+    }
+
+    private fun updateFilterSelection(selectedView: TextView) {
+        val filters = listOf(
+            binding.btnOriginal,
+            binding.btnStroke,
+            binding.btnOriginToSket,
+            binding.btnGrayToSket,
+            binding.btnGrayToSoftSket
+        )
+
+        filters.forEach { view ->
+            if (view == selectedView) {
+                view.setBackgroundResource(R.drawable.stroke_bg)
+                view.alpha = 1.0f
+            } else {
+                view.background = null
+                view.alpha = 0.5f
+            }
+        }
+    }
+
+
+    private fun initBlurRecording(context: Context) {
+//        val blurView = binding.blurRecording
+//        val radius = 25f
+//
+//        blurView.setupWith(binding.root)
+//            .setBlurAlgorithm(RenderScriptBlur(context))
+//            .setBlurRadius(radius)
+//            .setBlurAutoUpdate(true)
+//            .setOverlayColor(Color.parseColor("#CCFFFFFF"))
+//
+//        blurView.outlineProvider = object : ViewOutlineProvider() {
+//            override fun getOutline(view: View, outline: Outline) {
+//                val cornerRadius = 8 * view.resources.displayMetrics.density
+//                outline.setRoundRect(
+//                    0,
+//                    0,
+//                    view.width,
+//                    (view.height + cornerRadius).toInt(),
+//                    cornerRadius)
+//            }
+//        }
+//        blurView.clipToOutline = true
+    }
+
+    private fun removeWhiteBackground(bitmap: Bitmap): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        val pixels = IntArray(width * height)
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val pixel = pixels[i]
+
+            val r = (pixel shr 16) and 0xFF
+            val g = (pixel shr 8) and 0xFF
+            val b = pixel and 0xFF
+
+            val brightness = (r + g + b) / 3
+            if (brightness > 230) {
+                pixels[i] = Color.TRANSPARENT
+            } else {
+                pixels[i] = pixel
+            }
+        }
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        return newBitmap
+    }
+
 
     private fun showInterDone(navAction: () -> Unit) {
 //        if (AdsManager.isShowInterDone()) {
