@@ -62,6 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@id/beginnerDes">
 
                 <SeekBar
+                    android:id="@+id/sbBeginner"
                     android:layout_width="220dp"
                     android:layout_height="10dp"
                     android:layout_marginStart="4dp"
@@ -75,11 +76,12 @@
                     android:id="@+id/tvProgressBeginner"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="-10dp"
                     android:fontFamily="@font/fredoka_medium"
                     android:includeFontPadding="false"
                     android:textColor="@color/lesson_unser_text_color"
                     android:textSize="14sp"
-                    android:text="0/10" />
+                    tools:text="0/10" />
 
             </LinearLayout>
 
@@ -142,6 +144,7 @@
                 app:layout_constraintTop_toBottomOf="@id/intermediateDes">
 
                 <SeekBar
+                    android:id="@+id/sbIntermediate"
                     android:layout_width="220dp"
                     android:layout_height="10dp"
                     android:layout_marginStart="4dp"
@@ -157,9 +160,10 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/fredoka_medium"
                     android:includeFontPadding="false"
+                    android:layout_marginStart="-10dp"
                     android:textColor="@color/lesson_unser_text_color"
                     android:textSize="14sp"
-                    android:text="0/10" />
+                    tools:text="0/10" />
 
             </LinearLayout>
 
@@ -214,6 +218,7 @@
                 app:layout_constraintTop_toBottomOf="@id/professionalDes">
 
                 <SeekBar
+                    android:id="@+id/sbProfessional"
                     android:layout_width="220dp"
                     android:layout_height="10dp"
                     android:layout_marginStart="4dp"
@@ -229,9 +234,10 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/fredoka_medium"
                     android:includeFontPadding="false"
+                    android:layout_marginStart="-10dp"
                     android:textColor="@color/lesson_unser_text_color"
                     android:textSize="14sp"
-                    android:text="0/10" />
+                    tools:text="0/10" />
 
             </LinearLayout>
 

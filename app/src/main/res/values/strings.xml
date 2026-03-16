@@ -65,6 +65,7 @@
     <string name="video_capture_failed">Video capture failed</string>
     <string name="photo_capture_failed">Photo capture failed</string>
     <string name="saved_to_gallery">Saved to Gallery</string>
+    <string name="lesson_num">%1$s/%2$s</string>
 
 
 </resources>
