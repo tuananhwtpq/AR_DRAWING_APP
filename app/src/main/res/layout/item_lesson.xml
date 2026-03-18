@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Drawing Difficult:"
+                android:text="@string/drawing_difficult"
                 android:textColor="@color/mainTextColor"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Step"
+                android:text="@string/step"
                 android:textColor="@color/mainTextColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lessonProgress" />

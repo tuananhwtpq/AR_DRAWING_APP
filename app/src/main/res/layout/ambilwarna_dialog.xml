@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.baseproject.dialog.color_picker.ColorPickerSquare
+        <com.flowart.ar.drawing.sketch.dialog.color_picker.ColorPickerSquare
             android:id="@+id/ambilwarna_viewSatBri"
             android:layout_width="260dp"
             android:layout_height="260dp"
@@ -149,7 +149,7 @@
             android:background="@drawable/done_bg"
             android:gravity="center"
             android:paddingBottom="3dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -167,7 +167,7 @@
             android:gravity="center"
             android:minHeight="42dp"
             android:paddingBottom="3dp"
-            android:text="Confirm"
+            android:text="@string/confirm"
             android:textAllCaps="false"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"

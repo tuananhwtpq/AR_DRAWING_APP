@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.baseproject"
+    namespace = "com.flowart.ar.drawing.sketch"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.baseproject"
+        applicationId = "com.flowart.ar.drawing.sketch"
         minSdk = 29
         targetSdk = 36
 //        versionCode = 100

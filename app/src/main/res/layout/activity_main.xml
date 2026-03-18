@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/mHeading.H1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -27,7 +27,6 @@
             android:text="@string/flowart_ar_drawing_sketch_art"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,7 +141,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Gallery"
+                android:text="@string/gallery"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/selector_gallery" />
 
@@ -170,7 +169,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Setting"
+                android:text="@string/setting"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/selector_setting" />
         </FrameLayout>

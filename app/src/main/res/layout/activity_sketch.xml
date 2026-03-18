@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/lBottom"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.baseproject.utils.sticker.StickerView
+    <com.flowart.ar.drawing.sketch.utils.sticker.StickerView
         android:id="@+id/stickerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +69,7 @@
             android:paddingHorizontal="16dp"
             android:paddingTop="6dp"
             android:paddingBottom="9dp"
-            android:text="Done"
+            android:text="@string/done"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +157,7 @@
                 android:duplicateParentState="true"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Opacity"
+                android:text="@string/opacity"
                 android:textColor="@color/mainTextColor"
                 app:drawableTopCompat="@drawable/opacity_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -194,7 +194,7 @@
                 android:duplicateParentState="true"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Camera"
+                android:text="@string/camera"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/camera_selector" />
         </FrameLayout>
@@ -253,7 +253,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Flash"
+                android:text="@string/flash"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/flash_selector" />
         </FrameLayout>
@@ -325,6 +325,7 @@
                     android:id="@+id/scroll_view_"
                     android:layout_width="match_parent"
                     android:fillViewport="true"
+                    android:padding="4dp"
                     android:layout_height="wrap_content"
                     android:scrollbars="none">
 
@@ -332,8 +333,8 @@
                         android:id="@+id/lShowOriginal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="12dp"
                         android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:visibility="visible">
 
                         <TextView
@@ -346,7 +347,7 @@
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
                             android:singleLine="true"
-                            android:text="Original"
+                            android:text="@string/original"
                             android:textColor="@color/mainTextColor" />
 
                         <Space
@@ -362,7 +363,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
-                            android:text="Stroke"
+                            android:text="@string/stroke"
                             android:textColor="@color/mainTextColor" />
 
                         <Space
@@ -379,7 +380,7 @@
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
                             android:singleLine="true"
-                            android:text="Original to Sketch"
+                            android:text="@string/original_to_sketch"
                             android:textColor="@color/mainTextColor" />
 
                         <Space
@@ -396,7 +397,7 @@
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
                             android:singleLine="true"
-                            android:text="Gray to Sketch"
+                            android:text="@string/gray_to_sketch"
                             android:textColor="@color/mainTextColor" />
 
                         <Space
@@ -413,7 +414,7 @@
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
                             android:singleLine="true"
-                            android:text="Gray to Soft Sketch"
+                            android:text="@string/gray_to_soft_sketch"
                             android:textColor="@color/mainTextColor" />
 
 
@@ -549,44 +550,49 @@
 
         </eightbitlab.com.blurview.BlurView>
 
-
-        <LinearLayout
-            android:id="@+id/lRecording"
-            android:layout_width="100dp"
-            android:layout_height="44dp"
+        <eightbitlab.com.blurview.BlurView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_recording_2"
-            android:orientation="horizontal"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:visibility="gone">
+            android:id="@+id/blur_recording">
 
-            <ImageView
-                android:id="@+id/ivResumeRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:padding="6dp"
-                android:src="@drawable/ic_start_record"
-                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/lRecording"
+                android:layout_width="100dp"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/ivPause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:padding="6dp"
-                android:src="@drawable/ic_play"
-                android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/ivResumeRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_start_record"
+                    android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/ivStopAndSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:src="@drawable/ic_stop" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/ivPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_play"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/ivStopAndSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_stop" />
+            </LinearLayout>
+
+        </eightbitlab.com.blurview.BlurView>
 
     </FrameLayout>
 
@@ -600,7 +606,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="32dp"
         android:paddingVertical="8dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/lBottom"
         app:layout_constraintEnd_toEndOf="@id/lBottom"
         app:layout_constraintStart_toStartOf="@id/lBottom"
@@ -724,7 +730,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="Lock"
+                android:text="@string/lock"
                 android:textColor="@color/unSelectedText"
                 app:drawableTopCompat="@drawable/ic_lock_selected" />
 

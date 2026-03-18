@@ -28,5 +28,6 @@
     <color name="empty_box_color">#9E8478</color>
     <color name="category_detail_bg">#EBEBE0</color>
     <color name="mainTextColor_50">#80762D16</color>
+    <color name="splash_bg">#C6CE73</color>
 
 </resources>
