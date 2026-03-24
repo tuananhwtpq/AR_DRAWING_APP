@@ -95,6 +95,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             field = value
             if (value) {
                 binding.lCamera.isVisible = false
+                binding.btnSave.invisible()
             }
             if (value) startElapsedTimeUpdate() else stopElapsedTimeUpdate()
         }
@@ -241,6 +242,8 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
 
         binding.btnCaptureImage.setOnUnDoubleClick {
             binding.btnCaptureImage.isEnabled = false
+            binding.navFlash.setTextColor(ContextCompat.getColor(this, R.color.unSelectedText))
+            binding.bottomNavFlash.invisible()
             cameraManager.captureImage(onError = { binding.btnCaptureImage.isEnabled = true }) {
 //                showInterDone {
 //                    recordTime = 0
@@ -272,6 +275,8 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         }
 
         binding.btnRecord.setOnUnDoubleClick {
+            binding.navFlash.setTextColor(ContextCompat.getColor(this, R.color.unSelectedText))
+            binding.bottomNavFlash.invisible()
             cameraManager.recordVideo {
 //                showInterDone {
 //                    binding.lRecording.gone()
@@ -471,7 +476,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             }
         } else {
             binding.bottomNavFlash.invisible()
-            binding.navFlash.setTextColor(selectedColor)
+            binding.navFlash.setTextColor(unSelectedColor)
             binding.bottomNavFlash.alpha = 1.0f
             binding.navFlash.alpha = 1.0f
         }

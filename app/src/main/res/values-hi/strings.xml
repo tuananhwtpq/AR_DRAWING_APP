@@ -27,7 +27,6 @@
     <string name="home">घर</string>
     <string name="lesson">पाठ</string>
     <string name="hello_blank_fragment">नमस्ते रिक्त अंश</string>
-    <string name="flowart_ar_drawing_sketch_art">फ्लोआर्ट: एआर ड्राइंग स्केच आर्ट</string>
     <string name="what_will_you_explore_today">आज आप क्या खोजेंगे?</string>
     <string name="your_drawing_journey">आपकी चित्रकारी यात्रा</string>
     <string name="let_s_tune_tour_app">लेट्स ट्यून टूर ऐप</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">स्केच के लिए मूल</string>
     <string name="gray_to_sketch">स्केच के लिए ग्रे</string>
     <string name="gray_to_soft_sketch">ग्रे से सॉफ्ट स्केच</string>
-    <string name="flowart_ar_drawing">फ्लोआर्ट: एआर ड्राइंग</string>
-    <string name="sketch_art">चित्र बनाते समय अपने फोन को स्थिर रखने के लिए ट्राइपॉड, ग्लास या पुस्तक के ढेर का उपयोग करें।</string>
     <string name="this_action_can_contain_ad">इस कार्रवाई में विज्ञापन शामिल हो सकते हैं</string>
     <string name="brush">ब्रश</string>
     <string name="eraser">रबड़</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="drawing_difficult">चित्र बनाना कठिन:</string>
     <string name="step">कदम</string>
+    <string name="photo">तस्वीर</string>
+    <string name="video">वीडियो</string>
 </resources>

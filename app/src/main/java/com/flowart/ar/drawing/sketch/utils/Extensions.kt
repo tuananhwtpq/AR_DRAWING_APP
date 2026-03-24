@@ -62,7 +62,7 @@ fun Long.formatTime(check: Boolean = true): String {
     val seconds = this / 1000
     val minutes = seconds / 60
     val hours = minutes / 60
-    return if (hours == 0L && !check) String.format("%02d:%02d", minutes % 60, seconds % 60)
+    return if (hours == 0L && check) String.format("%02d:%02d", minutes % 60, seconds % 60)
     else
         String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60)
 }

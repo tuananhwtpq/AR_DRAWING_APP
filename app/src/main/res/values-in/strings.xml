@@ -27,7 +27,6 @@
     <string name="home">Rumah</string>
     <string name="lesson">Pelajaran</string>
     <string name="hello_blank_fragment">Halo fragmen kosong</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: Seni Sketsa Gambar AR</string>
     <string name="what_will_you_explore_today">Apa yang akan Anda jelajahi hari ini?</string>
     <string name="your_drawing_journey">Perjalanan Menggambar Anda</string>
     <string name="let_s_tune_tour_app">Aplikasi Let’s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Asli ke Sketsa</string>
     <string name="gray_to_sketch">Abu-abu untuk Sketsa</string>
     <string name="gray_to_soft_sketch">Sketsa Abu-abu ke Lembut</string>
-    <string name="flowart_ar_drawing">FlowARt: Gambar AR</string>
-    <string name="sketch_art">Gunakan tripod, gelas, atau setumpuk buku untuk menahan ponsel Anda di tempatnya saat Anda menggambar.</string>
     <string name="this_action_can_contain_ad">Tindakan ini dapat berisi iklan</string>
     <string name="brush">Sikat</string>
     <string name="eraser">Penghapus</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="drawing_difficult">Menggambar Sulit:</string>
     <string name="step">Melangkah</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 </resources>

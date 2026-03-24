@@ -27,7 +27,6 @@
     <string name="home">Lar</string>
     <string name="lesson">Lição</string>
     <string name="hello_blank_fragment">Olá, fragmento em branco</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: Desenho em Realidade Aumentada - Esboço Artístico</string>
     <string name="what_will_you_explore_today">O que você vai explorar hoje?</string>
     <string name="your_drawing_journey">Sua jornada no desenho</string>
     <string name="let_s_tune_tour_app">Aplicativo Let\'s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Original para Esboço</string>
     <string name="gray_to_sketch">Cinza para Esboço</string>
     <string name="gray_to_soft_sketch">Esboço em tons de cinza a suave</string>
-    <string name="flowart_ar_drawing">FlowART: Desenho em Realidade Aumentada</string>
-    <string name="sketch_art">Use um tripé, um copo ou uma pilha de livros para manter o celular no lugar enquanto você desenha.</string>
     <string name="this_action_can_contain_ad">Esta ação pode conter anúncios.</string>
     <string name="brush">Escovar</string>
     <string name="eraser">Apagador</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">política de Privacidade</string>
     <string name="drawing_difficult">Desenho Difícil:</string>
     <string name="step">Etapa</string>
+    <string name="photo">Foto</string>
+    <string name="video">Vídeo</string>
 </resources>

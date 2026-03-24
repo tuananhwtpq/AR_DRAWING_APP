@@ -27,7 +27,6 @@
     <string name="home">Heim</string>
     <string name="lesson">Lektion</string>
     <string name="hello_blank_fragment">Hallo leeres Fragment</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: AR-Zeichenskizzenkunst</string>
     <string name="what_will_you_explore_today">Was wirst du heute erkunden?</string>
     <string name="your_drawing_journey">Deine Zeichenreise</string>
     <string name="let_s_tune_tour_app">Let’s Tune Tour App</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Original zu Skizze</string>
     <string name="gray_to_sketch">Grau bis Skizze</string>
     <string name="gray_to_soft_sketch">Grau bis weiche Skizze</string>
-    <string name="flowart_ar_drawing">FlowARt: AR-Zeichnung</string>
-    <string name="sketch_art">Verwenden Sie ein Stativ, ein Glas oder einen Bücherstapel, um Ihr Handy beim Zeichnen zu fixieren.</string>
     <string name="this_action_can_contain_ad">Diese Aktion kann Werbung enthalten</string>
     <string name="brush">Bürste</string>
     <string name="eraser">Radiergummi</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">Datenschutzrichtlinie</string>
     <string name="drawing_difficult">Zeichnen schwierig:</string>
     <string name="step">Schritt</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 </resources>

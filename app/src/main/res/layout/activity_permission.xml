@@ -46,9 +46,10 @@
 
             <TextView
                 android:id="@+id/tvMessage"
-                style="@style/mTxt.P2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:textSize="14sp"
                 android:layout_marginTop="20dp"
                 android:drawablePadding="20dp"
                 android:gravity="center"
@@ -64,39 +65,104 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingHorizontal="16dp"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
                 android:background="@drawable/bg_language_unselected"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/tvMessage">
 
                 <TextView
                     android:id="@+id/tvCamera"
-                    style="@style/mTxt.P1"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
+                    style="@style/mTxt.P1"
                     android:text="@string/camera"
-                    android:textColor="@color/mainTextColor"
-                    app:drawableEndCompat="@drawable/selector_switch" />
+                    android:textColor="@color/mainTextColor" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/selector_switch" />
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvCamera"-->
+                <!--                    style="@style/mTxt.P1"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:gravity="center_vertical"-->
+                <!--                    android:paddingHorizontal="16dp"-->
+                <!--                    android:paddingVertical="12dp"-->
+                <!--                    android:text="@string/camera"-->
+                <!--                    android:textColor="@color/mainTextColor"-->
+                <!--                    app:drawableEndCompat="@drawable/selector_switch" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_microphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="16dp"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
+                android:background="@drawable/bg_language_unselected"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/layout_camera">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:id="@+id/tvMicrophone"
+                    android:layout_height="wrap_content"
+                    style="@style/mTxt.P1"
+                    android:text="@string/microphone"
+                    android:textColor="@color/mainTextColor" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/selector_switch" />
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvCamera"-->
+                <!--                    style="@style/mTxt.P1"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:gravity="center_vertical"-->
+                <!--                    android:paddingHorizontal="16dp"-->
+                <!--                    android:paddingVertical="12dp"-->
+                <!--                    android:text="@string/camera"-->
+                <!--                    android:textColor="@color/mainTextColor"-->
+                <!--                    app:drawableEndCompat="@drawable/selector_switch" />-->
 
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvMicro"
-                style="@style/mTxt.P1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_language_unselected"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:text="@string/microphone"
-                android:textColor="@color/mainTextColor"
-                app:drawableEndCompat="@drawable/selector_switch"
-                app:layout_constraintTop_toBottomOf="@id/layout_camera" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/tvMicro"-->
+            <!--                style="@style/mTxt.P1"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="12dp"-->
+            <!--                android:background="@drawable/bg_language_unselected"-->
+            <!--                android:gravity="center_vertical"-->
+            <!--                android:paddingHorizontal="16dp"-->
+            <!--                android:paddingVertical="12dp"-->
+            <!--                android:text="@string/microphone"-->
+            <!--                android:textColor="@color/mainTextColor"-->
+            <!--                app:drawableEndCompat="@drawable/selector_switch"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/layout_camera" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -128,7 +194,7 @@
 
     <TextView
         android:id="@+id/btnGrantLater"
-        style="@style/mBtn.a1"
+        style="@style/mTxt.P1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="13sp"

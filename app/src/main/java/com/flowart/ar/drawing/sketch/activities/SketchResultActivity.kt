@@ -48,6 +48,10 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
         }
     }
 
+    private val hideControlsRunnable = Runnable {
+        binding.vPlay.isVisible = false
+    }
+
     override fun initData() {
         binding.lLoading.visible()
         binding.lVideo.isVisible = !isImage
@@ -77,16 +81,45 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
             saveMediaToGallery(mediaUri, isImage)
         }
 
-        binding.vPlay.setOnClickListener {
-            if (binding.videoView.isPlaying) {
-                binding.videoView.pause()
-            } else {
-                binding.videoView.resume()
-            }
-            binding.vPlay.setImageResource(if (binding.videoView.isPlaying) R.drawable.ic_play else R.drawable.ic_pause)
+//        binding.vPlay.setOnClickListener {
+//            if (binding.videoView.isPlaying) {
+//                binding.videoView.pause()
+//            } else {
+//                binding.videoView.resume()
+//            }
+//            binding.vPlay.setImageResource(if (binding.videoView.isPlaying) R.drawable.ic_play_2 else R.drawable.ic_pause_2)
+//        }
+//
+//        binding.sbTime.onProgressChange { binding.videoView.seekTo(it) }
+        binding.videoContainer.setOnClickListener {
+            toggleVideoState()
         }
 
-        binding.sbTime.onProgressChange { binding.videoView.seekTo(it) }
+        binding.vPlay.setOnClickListener {
+            toggleVideoState()
+        }
+
+        binding.sbTime.onProgressChange {
+            binding.videoView.seekTo(it)
+            setupController()
+        }
+    }
+
+    private fun toggleVideoState() {
+        if (binding.videoView.isPlaying) {
+            binding.videoView.pause()
+
+            handler.removeCallbacks(hideControlsRunnable)
+            binding.vPlay.isVisible = true
+
+            binding.vPlay.setImageResource(R.drawable.ic_pause_2)
+        } else {
+            binding.videoView.start()
+
+            binding.vPlay.setImageResource(R.drawable.ic_play_2)
+            setupController()
+            handler.post(runnable)
+        }
     }
 
     override fun onResume() {
@@ -99,24 +132,31 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
         binding.videoView.setVideoURI(mediaUri)
         binding.videoView.setOnPreparedListener { mp ->
             binding.sbTime.max = mp.duration
-//            binding.videoView.seekTo(1)
             binding.lLoading.gone()
+
             binding.videoView.start()
-            binding.vPlay.setImageResource(if (mp.isPlaying) R.drawable.ic_play else R.drawable.ic_pause)
-            if (mp.isPlaying) {
-                handler.postDelayed(runnable, 50)
-            } else {
-                handler.removeCallbacksAndMessages(null)
-            }
+            binding.vPlay.setImageResource(R.drawable.ic_play_2)
+
+            handler.postDelayed(runnable, 50)
+
+            setupController()
         }
 
         binding.videoView.setOnCompletionListener {
             handler.removeCallbacks(runnable)
-            binding.vPlay.setImageResource(R.drawable.ic_play)
+            handler.removeCallbacks(hideControlsRunnable)
+            binding.vPlay.isVisible = true
             binding.sbTime.progress = 0
-            binding.vPlay.setImageResource(R.drawable.ic_pause)
+            binding.vPlay.setImageResource(R.drawable.ic_pause_2)
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable)
+        handler.removeCallbacks(hideControlsRunnable)
+    }
+
 
     private fun saveMediaToGallery(uri: Uri, isImage: Boolean) {
         try {
@@ -153,6 +193,14 @@ class SketchResultActivity : BaseActivity<ActivitySketchResultBinding>(
             finish()
         } catch (e: Exception) {
             Toast.makeText(this, getString(R.string.has_error_now), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupController() {
+        binding.vPlay.isVisible = true
+        handler.removeCallbacks(hideControlsRunnable)
+        if (binding.videoView.isPlaying) {
+            handler.postDelayed(hideControlsRunnable, 2000)
         }
     }
 

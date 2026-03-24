@@ -27,7 +27,6 @@
     <string name="home">Hogar</string>
     <string name="lesson">Lección</string>
     <string name="hello_blank_fragment">Hola fragmento en blanco</string>
-    <string name="flowart_ar_drawing_sketch_art">FlowARt: Dibujo de AR, bocetos artísticos</string>
     <string name="what_will_you_explore_today">¿Qué explorarás hoy?</string>
     <string name="your_drawing_journey">Tu viaje de dibujo</string>
     <string name="let_s_tune_tour_app">Aplicación Let’s Tune Tour</string>
@@ -88,8 +87,6 @@
     <string name="original_to_sketch">Original a Sketch</string>
     <string name="gray_to_sketch">Gris para dibujar</string>
     <string name="gray_to_soft_sketch">Boceto de gris a suave</string>
-    <string name="flowart_ar_drawing">FlowARt: Dibujo en RA</string>
-    <string name="sketch_art">Utilice un trípode, un vaso o una pila de libros para mantener el teléfono en su lugar mientras dibuja.</string>
     <string name="this_action_can_contain_ad">Esta acción puede contener publicidad.</string>
     <string name="brush">Cepillar</string>
     <string name="eraser">Borrador</string>
@@ -110,4 +107,6 @@
     <string name="privacy_policy">política de privacidad</string>
     <string name="drawing_difficult">Dibujo difícil:</string>
     <string name="step">Paso</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 </resources>
