@@ -1,5 +1,6 @@
 package com.flowart.ar.drawing.sketch.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -15,6 +16,7 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +29,7 @@ import com.flowart.ar.drawing.sketch.models.SketchImage
 import com.flowart.ar.drawing.sketch.utils.BitmapUtils
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.MyCameraManager
+import com.flowart.ar.drawing.sketch.utils.PermissionUtils
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.enumz.SketchEffect
 import com.flowart.ar.drawing.sketch.utils.formatTime
@@ -142,6 +145,19 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
     private var currentEffect: SketchEffect? = null
     private var currentThickness: Int = 50
 
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val cameraPermission = PermissionUtils.checkCameraPermission(this)
+            val audioPermission = PermissionUtils.checkRecordAudioPermission(this)
+
+            if (cameraPermission && audioPermission) {
+                cameraManager.startCamera(binding.viewFinder)
+            } else {
+                showToast(getString(R.string.please_grant_these_permissions_to_use_this_feature))
+                finish()
+            }
+        }
+
     override fun initData() {
 
         if (OpenCVLoader.initDebug()) {
@@ -150,7 +166,15 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
             Log.e("SketchActivity", "OpenCV initialization failed!")
         }
 
-        cameraManager.startCamera(binding.viewFinder)
+        if (!PermissionUtils.checkCameraPermission(this) || !PermissionUtils.checkRecordAudioPermission(
+                this
+            )
+        ) {
+            handlePermission()
+        } else {
+            cameraManager.startCamera(binding.viewFinder)
+        }
+
         setListener()
 
     }
@@ -421,6 +445,7 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         binding.btnSave.isSelected = true
     }
 
+
     private fun setupBottomColor() {
         val selectedColor = ContextCompat.getColor(this, R.color.mainTextColor)
         val unSelectedColor = ContextCompat.getColor(this, R.color.unSelectedText)
@@ -499,6 +524,10 @@ class SketchActivity : BaseActivity<ActivitySketchBinding>(ActivitySketchBinding
         super.onResume()
         startTime = System.currentTimeMillis()
         showNativeColl()
+    }
+    private fun handlePermission() {
+        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+        permissionLauncher.launch(permissions)
     }
 
     override fun onPause() {

@@ -54,7 +54,7 @@
     <string name="video_capture_failed">ভিডিও ক্যাপচার ব্যর্থ হয়েছে</string>
     <string name="photo_capture_failed">ছবি তোলা ব্যর্থ হয়েছে</string>
     <string name="saved_to_gallery">গ্যালারিতে সংরক্ষিত</string>
-    <string name="lesson_num">%১$সেকেন্ড/%২$সেকেন্ড</string>
+    <string name="lesson_num">%1$s/%2$s</string>
     <string name="for_the_best_experience_ar_drawing_needs_access_to_the_following_permissions">সেরা অভিজ্ঞতার জন্য, %1$s-এর নিম্নলিখিত অনুমতিগুলিতে অ্যাক্সেস প্রয়োজন</string>
     <string name="please_grant_permission_to_use_this_feature">এই বৈশিষ্ট্যটি ব্যবহারের অনুমতি দিন!</string>
     <string name="no_image_selected">কোনও ছবি নির্বাচিত হয়নি</string>
