@@ -109,4 +109,9 @@
     <string name="step">Schritt</string>
     <string name="photo">Foto</string>
     <string name="video">Video</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Bitte erteilen Sie diese Berechtigungen, um diese Funktion nutzen zu können.</string>
+    <string name="please_enable_permission_in_settings">Bitte aktivieren Sie die Berechtigung in den Einstellungen.</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Limit für Rückgängigmachen erreicht (maximal 50 Schritte)</string>
+    <string name="there_are_no_more_strokes_to_undo">Es gibt keine weiteren Striche mehr rückgängig zu machen.</string>
+    <string name="there_are_no_more_strokes_to_redo">Es gibt keine weiteren Striche mehr zu wiederholen</string>
 </resources>

@@ -11,6 +11,10 @@ class DrawingState(
 
     private var actionsStacks = ActionsStacks()
 
+    fun setOnHistoryLimitReachedListener(listener: () -> Unit) {
+        actionsStacks.onHistoryLimitReached = listener
+    }
+
     fun addOnStateChangedListener(listener: (DrawingState) -> Unit) {
         listeners.add(listener)
     }

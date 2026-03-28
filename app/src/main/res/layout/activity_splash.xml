@@ -35,8 +35,8 @@
         android:id="@+id/tvName2"
         style="@style/mHeading.H2"
         android:layout_width="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:text="@string/sketch_art"
         android:textColor="@color/mainTextColor"
         app:layout_constraintEnd_toEndOf="@id/ivLogo"
@@ -51,21 +51,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/loading_flower"
-        app:lottie_loop="true" />
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_flower" />
 
     <TextView
         android:id="@+id/tvLoadingAds"
         style="@style/mTxt.P2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/this_action_can_contain_ad"
         android:textColor="@color/mainTextColor"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/whiteLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/frNative" />
+
+    <FrameLayout
+        android:id="@+id/frNative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frNativeExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

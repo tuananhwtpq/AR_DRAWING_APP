@@ -109,4 +109,9 @@
     <string name="step">Etapa</string>
     <string name="photo">Foto</string>
     <string name="video">Vídeo</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Por favor, conceda estas permissões para usar este recurso.</string>
+    <string name="please_enable_permission_in_settings">Por favor, habilite a permissão em Configurações.</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Limite de desfazer atingido (máximo de 50 passos)</string>
+    <string name="there_are_no_more_strokes_to_undo">Não há mais golpes a desfazer.</string>
+    <string name="there_are_no_more_strokes_to_redo">Não há mais golpes para refazer.</string>
 </resources>

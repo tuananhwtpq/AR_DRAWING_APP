@@ -23,6 +23,14 @@ userMessagingPlatform = "4.0.0"
 guava = "31.1-android"
 blurview = "1.6.6"
 simpleratingbar = "1.5.1"
+playServicesAds = "24.8.0"
+googleGmsGoogleServices = "4.4.4"
+firebaseAnalytics = "23.0.0"
+firebaseCrashlytics = "20.0.3"
+googleFirebaseCrashlytics = "3.0.6"
+firebaseMessaging = "25.0.1"
+firebaseConfig = "23.0.1"
+
 
 
 [libraries]
@@ -57,10 +65,20 @@ user-messaging-platform = { module = "com.google.android.ump:user-messaging-plat
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 blurview = { module = "com.eightbitlab:blurview", version.ref = "blurview" }
 simpleratingbar = { module = "com.github.ome450901:SimpleRatingBar", version.ref = "simpleratingbar" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
+
 
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
+
+
 

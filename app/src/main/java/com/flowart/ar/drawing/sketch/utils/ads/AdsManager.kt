@@ -1,92 +1,80 @@
 package com.flowart.ar.drawing.sketch.utils.ads
 
+import com.snake.squad.adslib.AdmobLib
+import com.snake.squad.adslib.models.AdmobInterModel
+import com.snake.squad.adslib.models.AdmobNativeModel
+
 object AdsManager {
 
-//    const val AOA_SPLASH = "ca-app-pub-2845820995656145/8148172426"
-//    val interSplashModel = AdmobInterModel("ca-app-pub-2845820995656145/3426661926")
-//    val nativeCollapsibleSplashModel = AdmobNativeModel("ca-app-pub-2845820995656145/5466168763")
-//    val nativeLanguageModel = AdmobNativeModel("ca-app-pub-2845820995656145/9679696195")
-//    val nativeLanguage2Model = AdmobNativeModel("ca-app-pub-2845820995656145/3813674739")
-//    val interLanguageModel = AdmobInterModel("ca-app-pub-2845820995656145/5117634656")
-//    val nativeIntroModel = AdmobNativeModel("ca-app-pub-2845820995656145/9257573104")
-//    val nativeFullScreenIntroModel = AdmobNativeModel("ca-app-pub-2845820995656145/6239144633")
-//    val nativeFullScreenIntro2Model = AdmobNativeModel("ca-app-pub-2845820995656145/2975736797")
-//    val interIntroModel = AdmobInterModel("ca-app-pub-2845820995656145/1239482287")
-//    val interHomeModel = AdmobInterModel("ca-app-pub-2845820995656145/4017355729")
-//    val interTabHomeModel = AdmobInterModel("ca-app-pub-2845820995656145/9800498584")
-//    val interBackToHomeModel = AdmobInterModel("ca-app-pub-2845820995656145/5861253577")
-//    val nativeHomeModel = AdmobNativeModel("ca-app-pub-2845820995656145/1762226462")
-//    val nativeCollapsibleHomeModel = AdmobNativeModel("ca-app-pub-2845820995656145/5657740454")
-//    val interOtherModel = AdmobInterModel("ca-app-pub-2845820995656145/4484259587")
-//    val nativeOtherModel = AdmobNativeModel("ca-app-pub-2845820995656145/5138865709")
-//    const val BANNER_OTHER = "ca-app-pub-2845820995656145/4947294019"
-//    val nativeFullScreenAfterInterModel = AdmobNativeModel("ca-app-pub-2845820995656145/5740451186")
-//    val nativeSettingModel = AdmobNativeModel("ca-app-pub-2845820995656145/3622103041")
-//    const val ON_RESUME = "ca-app-pub-2845820995656145/7743797999"
-//
-//    val bannerCollapseListItemModel = AdmobBannerCollapsibleModel(BANNER_OTHER)
-//    val bannerCollapsePreviewVideoModel = AdmobBannerCollapsibleModel(BANNER_OTHER)
-//
-//    var lastInterShown = 0L
-//    val isShowInter: Boolean
-//        get() = System.currentTimeMillis() - lastInterShown >= RemoteConfig.remoteTimeShowInter
-//
-//    private var isRatingShown = false
-//    fun isShowRating(): Boolean {
-//        if (!isRatingShown) {
-//            isRatingShown = true
-//            return true
-//        }
-//
-//        return false
+    const val AOA_SPLASH = "ca-app-pub-8475252859305547/6948934183"
+    val INTER_SPLASH = AdmobInterModel("ca-app-pub-8475252859305547/1147326054")
+    val NATIVE_COLLAPSIBLE_SPLASH = AdmobNativeModel("ca-app-pub-8475252859305547/4388567066")
+    val NATIVE_LANGUAGE = AdmobNativeModel("ca-app-pub-8475252859305547/3075485396")
+    val NATIVE_LANGUAGE_2 = AdmobNativeModel("ca-app-pub-8475252859305547/6208081046")
+    val INTER_LANGUAGE = AdmobInterModel("ca-app-pub-8475252859305547/7643795100")
+    val NATIVE_INTRO = AdmobNativeModel("ca-app-pub-8475252859305547/9181728747")
+    val NATIVE_FULL_SCREEN_INTRO = AdmobNativeModel("ca-app-pub-8475252859305547/6330713430")
+    val NATIVE_FULL_SCREEN_INTRO_2 = AdmobNativeModel("ca-app-pub-8475252859305547/4359156211")
+    val INTER_INTRO = AdmobInterModel("ca-app-pub-8475252859305547/1177732755")
+    val INTER_HOME = AdmobInterModel("ca-app-pub-8475252859305547/7519779825")
+    val INTER_BACK = AdmobInterModel("ca-app-pub-8475252859305547/5480666199")
+    val NATIVE_HOME = AdmobNativeModel("ca-app-pub-8475252859305547/2718771481")
+    val NATIVE_COLLAPSIBLE_HOME = AdmobNativeModel("ca-app-pub-8475252859305547/6757362495")
+    val INTER_SKETCH_TRACE_PREVIEW = AdmobInterModel("ca-app-pub-8475252859305547/5444280827")
+    val NATIVE_COLLAPSIBLE_DRAWING = AdmobNativeModel("ca-app-pub-8475252859305547/7532114462")
+    val INTER_DONE = AdmobInterModel("ca-app-pub-8475252859305547/3580534819")
+    val NATIVE_OTHER = AdmobNativeModel("ca-app-pub-8475252859305547/5947570056")
+    val NATIVE_FULL_SCREEN_AFTER_INTER = AdmobNativeModel("ca-app-pub-8475252859305547/2512378617")
+    val NATIVE_SETTING = AdmobNativeModel("ca-app-pub-8475252859305547/7779526474")
+    const val ON_RESUME = "ca-app-pub-8475252859305547/1457660702"
+
+
+    var isDebug = true
+    var isShowAd = true
+
+    private var lastInterShown = 0L
+
+    fun updateTime() {
+        lastInterShown = System.currentTimeMillis()
+    }
+
+    var countInterHome = 0
+    var countInterBackHome = 0
+    var countInterDrawSpin = 0
+    var countInterDoneReview = 0
+    var isShowedRate = false
+
+    fun isShowNativeFullScreen(): Boolean {
+        return RemoteConfig.remoteNativeFullScreenAfterInter != 0L && !AdmobLib.getCheckTestDevice()
+    }
+
+    private fun isShowInter(): Boolean {
+        return (System.currentTimeMillis() - lastInterShown) > 15000L
+    }
+
+    fun isShowInterHome(): Boolean {
+        if (RemoteConfig.remoteInterHome == 0L) return false
+        countInterHome++
+        return isShowInter() && (countInterHome % RemoteConfig.remoteInterHome == 0L)
+    }
+
+//    fun isShowInterBackHome() : Boolean {
+//        if (RemoteConfig.remoteInterBackToHome == 0L ) return false
+//        countInterBackHome++
+//        return isShowInter() && (countInterBackHome % RemoteConfig.remoteInterBackToHome == 0L)
 //    }
 //
-//    private var countInterHome = 0
-//    fun isShowInterHome(): Boolean {
-//        if (RemoteConfig.remoteInterHome < 1L) return false
-//        countInterHome++
-//        return isShowInter && countInterHome % RemoteConfig.remoteInterHome == 0L
+//    fun isShowInterDrawSpin() : Boolean {
+//        if (RemoteConfig.remoteInterDrawSpin == 0L ) return false
+//        countInterDrawSpin++
+//        return isShowInter() && (countInterDrawSpin % RemoteConfig.remoteInterDrawSpin == 0L)
 //    }
 //
-//    private var countInterBack = 0
-//    fun isShowInterBack(): Boolean {
-//        if (RemoteConfig.remoteInterBack < 1L) return false
-//        countInterBack++
-//        return isShowInter && countInterBack % RemoteConfig.remoteInterBack == 0L
+//    fun isShowInterDonePreview() : Boolean {
+//        if (RemoteConfig.remoteInterDonePreview == 0L ) return false
+//        countInterDoneReview++
+//        return isShowInter() && (countInterDoneReview % RemoteConfig.remoteInterDonePreview == 0L)
 //    }
-//
-//    private var countInterTabHome = 0
-//    fun isShowInterTabHome(): Boolean {
-//        if (RemoteConfig.remoteInterTabHome < 1L) return false
-//        countInterTabHome++
-//        return isShowInter && countInterTabHome % RemoteConfig.remoteInterTabHome == 0L
-//    }
-//
-//    private var countInterStart = 0
-//    fun isShowInterStart(): Boolean {
-//        if (RemoteConfig.remoteInterStart < 1L) return false
-//        countInterStart++
-//        return isShowInter && countInterStart % RemoteConfig.remoteInterStart == 0L
-//    }
-//
-//    private var countInterDone = 0
-//    fun isShowInterDone(): Boolean {
-//        if (RemoteConfig.remoteInterDone < 1L) return false
-//        countInterDone++
-//        return isShowInter && countInterDone % RemoteConfig.remoteInterDone == 0L
-//    }
-//
-//    fun isShowNativeFullScreen(): Boolean {
-//        return RemoteConfig.remoteNativeFullScreenAfterInter == 1L && !AdmobLib.getCheckTestDevice()
-//    }
-//
-//
-//    fun reset() {
-//        isRatingShown = false
-//        lastInterShown = 0L
-//        countInterHome = 0
-//        countInterBack = 0
-//        countInterStart = 0
-//        countInterDone = 0
-//    }
+
+
 }

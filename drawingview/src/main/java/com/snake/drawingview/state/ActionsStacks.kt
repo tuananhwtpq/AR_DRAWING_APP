@@ -12,6 +12,10 @@ private val MemoryLimit = Runtime.getRuntime().maxMemory() / 5 //TODO: allow cli
 private const val MAX_HISTORY_SIZE = 50
 class ActionsStacks {
 
+    var onHistoryLimitReached: (() -> Unit)? = null
+
+    private var hasNotifiedLimit = false
+
     private val undoStack = mutableListOf<Action>()
     private val redoStack = mutableListOf<Action>()
 
@@ -30,6 +34,7 @@ class ActionsStacks {
     fun clear() {
         undoStack.clear()
         redoStack.clear()
+        hasNotifiedLimit = false
     }
 
     fun popUndo(): Action {
@@ -63,6 +68,12 @@ class ActionsStacks {
     private fun MutableList<Action>.push(action: Action) {
         while (this.size >= MAX_HISTORY_SIZE) {
             this.removeAt(0)
+
+            if (!hasNotifiedLimit) {
+                hasNotifiedLimit = true
+                onHistoryLimitReached?.invoke()
+            }
+
         }
         add(action)
     }

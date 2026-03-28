@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "627685182598",
+    "project_id": "flowart---pova",
+    "storage_bucket": "flowart---pova.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627685182598:android:a0bb50d28f8ffd8b6d5507",
+        "android_client_info": {
+          "package_name": "com.flowart.ar.drawing.sketch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwiwRni1xYSh7tMYrBRqc2j0OP-VQMcbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

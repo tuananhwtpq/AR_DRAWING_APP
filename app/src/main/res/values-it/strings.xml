@@ -109,4 +109,9 @@
     <string name="step">Fare un passo</string>
     <string name="photo">Foto</string>
     <string name="video">Video</string>
+    <string name="please_grant_these_permissions_to_use_this_feature">Si prega di concedere queste autorizzazioni per utilizzare questa funzionalità</string>
+    <string name="please_enable_permission_in_settings">Abilita l\'autorizzazione nelle Impostazioni</string>
+    <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Limite di annullamento raggiunto (max 50 passaggi)</string>
+    <string name="there_are_no_more_strokes_to_undo">Non ci sono più tratti da annullare</string>
+    <string name="there_are_no_more_strokes_to_redo">Non ci sono più tratti da rifare</string>
 </resources>

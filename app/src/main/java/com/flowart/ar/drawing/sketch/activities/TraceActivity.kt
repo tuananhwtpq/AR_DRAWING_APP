@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -102,10 +103,10 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.vLock.isVisible = value
         }
 
-    private var backgroundColor = Color.WHITE
+    private var backgroundColor = Color.TRANSPARENT
         set(value) {
             field = value
-            //binding.drawingView.changeBackgroundColor(value)
+            binding.drawingView.changeBackgroundColor(value)
         }
 
     private var brushColor = Color.BLACK
@@ -165,7 +166,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         binding.lStep.isVisible = isFromLesson
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
         binding.drawingView.getState().addOnStateChangedListener {
-            binding.btnUndo.isEnabled = it.canCallUndo()
+            //binding.btnUndo.isEnabled = it.canCallUndo()
             binding.btnRedo.isEnabled = it.canCallRedo()
             binding.btnUndo.setImageResource(if (it.canCallUndo()) R.drawable.ic_undo_disable else R.drawable.ic_undo_enable)
             binding.btnRedo.setImageResource(if (it.canCallRedo()) R.drawable.ic_redo_enable else R.drawable.ic_redo_disable)
@@ -218,7 +219,15 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         }
 
         binding.btnUndo.setOnClickListener {
-            binding.drawingView.undo()
+            if (binding.drawingView.getState().canCallUndo()) {
+                binding.drawingView.undo()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.undo_limit_reached_max_50_steps_older_steps_will_be_removed),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         binding.btnRedo.setOnClickListener {
@@ -255,6 +264,16 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
                 )
             }
         }
+
+//        actionStack.onHistoryLimitReached = {
+//            runOnUiThread {
+//                Toast.makeText(
+//                    this,
+//                    getString(R.string.undo_limit_reached_max_50_steps_older_steps_will_be_removed),
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//        }
 
     }
 
@@ -411,7 +430,11 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             }
 
             withContext(Dispatchers.Main) {
-                //binding.drawingView.changeBackgroundColor(backgroundColor)
+                binding.drawingView.changeBackgroundColor(backgroundColor)
+
+                actionStack.clear()
+                binding.drawingView.getState().setActionStacks(actionStack)
+
                 binding.lLoading.gone()
             }
         }
@@ -433,10 +456,10 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
 
         if (currentStep != totalStep) {
             binding.btnSave.alpha = 0.5f
-            binding.btnSave.isClickable = false
+            binding.btnSave.isEnabled = false
         } else {
             binding.btnSave.alpha = 1f
-            binding.btnSave.isClickable = true
+            binding.btnSave.isEnabled = true
         }
 
     }
