@@ -40,10 +40,10 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
     }
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-//            loadAndShowInterBack(binding.vShowInterAds) {
-//                finish()
-//            }
-            finish()
+            loadAndShowInterBackHome(binding.vShowInterAds) {
+                finish()
+            }
+
         }
     }
 
@@ -111,6 +111,8 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
                 adapter?.submitList(newList)
             }
         }
+
+        loadAndShowNativeOther(binding.frBanner)
     }
 
     override fun onStop() {

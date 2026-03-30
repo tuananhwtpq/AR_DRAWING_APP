@@ -132,6 +132,7 @@ class PermissionActivity :
         super.onResume()
         updateUiPermission()
         showNativeAds()
+        loadAndShowNativeOther_2(binding.frNative)
     }
 
 //        private fun showPermissionDialog() {

@@ -28,7 +28,6 @@ object AdsManager {
     val NATIVE_SETTING = AdmobNativeModel("ca-app-pub-8475252859305547/7779526474")
     const val ON_RESUME = "ca-app-pub-8475252859305547/1457660702"
 
-
     var isDebug = true
     var isShowAd = true
 
@@ -40,16 +39,20 @@ object AdsManager {
 
     var countInterHome = 0
     var countInterBackHome = 0
-    var countInterDrawSpin = 0
-    var countInterDoneReview = 0
+    var countInterPreview = 0
+    var countInterDone = 0
     var isShowedRate = false
+
+    var lastCollapsibleHomeShow = 0L
+    var lastNativeHomeShow = 0L
+
 
     fun isShowNativeFullScreen(): Boolean {
         return RemoteConfig.remoteNativeFullScreenAfterInter != 0L && !AdmobLib.getCheckTestDevice()
     }
 
     private fun isShowInter(): Boolean {
-        return (System.currentTimeMillis() - lastInterShown) > 15000L
+        return (System.currentTimeMillis() - lastInterShown) > RemoteConfig.remoteTimeShowInter
     }
 
     fun isShowInterHome(): Boolean {
@@ -58,23 +61,41 @@ object AdsManager {
         return isShowInter() && (countInterHome % RemoteConfig.remoteInterHome == 0L)
     }
 
-//    fun isShowInterBackHome() : Boolean {
-//        if (RemoteConfig.remoteInterBackToHome == 0L ) return false
-//        countInterBackHome++
-//        return isShowInter() && (countInterBackHome % RemoteConfig.remoteInterBackToHome == 0L)
-//    }
-//
-//    fun isShowInterDrawSpin() : Boolean {
-//        if (RemoteConfig.remoteInterDrawSpin == 0L ) return false
-//        countInterDrawSpin++
-//        return isShowInter() && (countInterDrawSpin % RemoteConfig.remoteInterDrawSpin == 0L)
-//    }
-//
-//    fun isShowInterDonePreview() : Boolean {
-//        if (RemoteConfig.remoteInterDonePreview == 0L ) return false
-//        countInterDoneReview++
-//        return isShowInter() && (countInterDoneReview % RemoteConfig.remoteInterDonePreview == 0L)
-//    }
+    fun isShowInterSketchTracePreview(): Boolean {
+        if (RemoteConfig.remoteInterSketchTracePreview == 0L) return false
+        countInterPreview++
+        return isShowInter() && (countInterPreview % RemoteConfig.remoteInterSketchTracePreview == 0L)
+    }
+
+    fun isShowInterDone(): Boolean {
+        if (RemoteConfig.remoteInterDone == 0L) return false
+        countInterDone++
+        return isShowInter() && (countInterDone % RemoteConfig.remoteInterDone == 0L)
+    }
+
+    fun isShowInterBackHome(): Boolean {
+        if (RemoteConfig.remoteInterBack == 0L) return false
+        countInterBackHome++
+        return isShowInter() && (countInterBackHome % RemoteConfig.remoteInterBack == 0L)
+    }
+
+    fun isReloadingCollapsibleHome(): Boolean {
+        return (System.currentTimeMillis() - lastCollapsibleHomeShow) > RemoteConfig.remoteTimeLoadNative
+    }
+
+    fun isReloadingNativeHome(): Boolean {
+        return (System.currentTimeMillis() - lastNativeHomeShow) >= RemoteConfig.remoteTimeLoadNative
+    }
+
+    fun updateCollapsibleHome() {
+        lastCollapsibleHomeShow = System.currentTimeMillis()
+    }
+
+    fun updateNativeHome() {
+        lastNativeHomeShow = System.currentTimeMillis()
+    }
+
+
 
 
 }

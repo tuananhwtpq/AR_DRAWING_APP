@@ -4,20 +4,24 @@ import android.content.Intent
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityPreviewImageBinding
 import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.PermissionUtils
+import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.gone
+import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 
 class PreviewImageActivity :
     BaseActivity<ActivityPreviewImageBinding>(ActivityPreviewImageBinding::inflate) {
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            //loadAndShowInterBack(binding.vShowInterAds) { finish() }
-            finish()
+            loadAndShowInterBackHome(binding.vShowInterAds) {
+                finish()
+            }
         }
     }
 
@@ -82,18 +86,22 @@ class PreviewImageActivity :
 //        }
 
         binding.btnTrace.setOnClickListener {
-            goToTraceActivity()
+            loadAndShowInterPreview {
+                goToTraceActivity()
+            }
         }
 
         binding.btnSketch.setOnClickListener {
 
-            if (PermissionUtils.checkCameraPermission(this) &&
-                PermissionUtils.checkRecordAudioPermission(this)
-            ) {
-                gotoSketchActivity()
-            } else {
-                val intent = Intent(this, PermissionActivity::class.java)
-                launcher.launch(intent)
+            loadAndShowInterPreview {
+                if (PermissionUtils.checkCameraPermission(this) &&
+                    PermissionUtils.checkRecordAudioPermission(this)
+                ) {
+                    gotoSketchActivity()
+                } else {
+                    val intent = Intent(this, PermissionActivity::class.java)
+                    launcher.launch(intent)
+                }
             }
         }
 
@@ -105,6 +113,7 @@ class PreviewImageActivity :
     override fun onResume() {
         super.onResume()
         showNativeAds()
+        loadAndShowNativeOther_2(binding.frNative)
     }
 
     override fun onStop() {
@@ -137,6 +146,25 @@ class PreviewImageActivity :
         startActivity(intent)
         finish()
     }
+
+    fun loadAndShowInterPreview(navAction: () -> Unit) {
+        if (AdsManager.isShowInterSketchTracePreview()) {
+            AdmobLib.loadAndShowInterWithNativeAfter(
+                mActivity = this,
+                interModel = AdsManager.INTER_SKETCH_TRACE_PREVIEW,
+                nativeModel = AdsManager.NATIVE_FULL_SCREEN_AFTER_INTER,
+                vShowInterAds = binding.vShowInterAds,
+                isShowNativeAfter = AdsManager.isShowNativeFullScreen(),
+                nativeLayout = R.layout.native_ads_full_screen,
+                navAction = { navAction() },
+                onInterCloseOrFailed = { if (it) AdsManager.updateTime() }
+            )
+        } else {
+            navAction()
+        }
+    }
+
+
 
     private fun showNativeAds() {
 //        if (RemoteConfig.remoteNativePreview == 0L) return

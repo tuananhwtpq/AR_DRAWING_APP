@@ -87,63 +87,11 @@
 
     </LinearLayout>
 
-    <!--        <FrameLayout-->
-    <!--            android:id="@+id/lCamera"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="0dp"-->
-    <!--            android:layout_marginStart="16dp"-->
-    <!--            android:layout_marginEnd="6dp"-->
-    <!--            android:background="@drawable/img_camera"-->
-    <!--            app:layout_constraintDimensionRatio="W,88:158"-->
-    <!--            app:layout_constraintEnd_toStartOf="@id/lGallery"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--            <TextView-->
-    <!--                style="@style/mHeading.H3"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_marginStart="20dp"-->
-    <!--                android:layout_marginTop="18dp"-->
-    <!--                android:layout_marginEnd="16dp"-->
-    <!--                android:layout_gravity="bottom|center"-->
-    <!--                android:singleLine="false"-->
-    <!--                android:gravity="center"-->
-    <!--                android:text="Camera"-->
-    <!--                android:textColor="#269DFF" />-->
-    <!--        </FrameLayout>-->
-
-    <!--        <FrameLayout-->
-    <!--            android:id="@+id/lGallery"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="0dp"-->
-    <!--            android:layout_marginStart="6dp"-->
-    <!--            android:layout_marginEnd="16dp"-->
-    <!--            android:background="@drawable/bg_gallery1"-->
-    <!--            app:layout_constraintDimensionRatio="W,88:158"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toEndOf="@id/lCamera"-->
-    <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--            <TextView-->
-    <!--                style="@style/mHeading.H3"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_marginStart="20dp"-->
-    <!--                android:layout_marginTop="18dp"-->
-    <!--                android:layout_marginEnd="16dp"-->
-    <!--                android:singleLine="true"-->
-    <!--                android:text="@string/library"-->
-    <!--                android:textColor="#17C598"-->
-    <!--                app:strokeColor="@color/white"-->
-    <!--                app:strokeThickness="4dp" />-->
-    <!--        </FrameLayout>-->
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -157,8 +105,8 @@
                 android:id="@+id/frNative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:visibility="invisible"
+                android:layout_marginHorizontal="20dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
