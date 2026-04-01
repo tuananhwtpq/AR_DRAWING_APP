@@ -91,7 +91,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -117,6 +118,7 @@
                 android:layout_marginStart="20dp"
                 android:drawablePadding="4dp"
                 android:text="@string/trending"
+                android:layout_marginTop="12dp"
                 android:textColor="@color/mainTextColor"
                 app:drawableEndCompat="@drawable/ic_trending"
                 app:layout_constraintStart_toStartOf="parent"

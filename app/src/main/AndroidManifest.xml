@@ -6,6 +6,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -49,6 +50,7 @@
         <activity
             android:name=".activities.SketchActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TraceActivity"
@@ -79,7 +81,7 @@
             android:exported="true"
             android:screenOrientation="portrait">
 
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -96,6 +98,15 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:directBootAware="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -105,7 +105,7 @@ class IntroViewPagerAdapter(
     override fun getItemCount(): Int {
         return when {
             isShowNativeFull1 && isShowNativeFull2 -> 5
-            !isShowNativeFull1 && isShowNativeFull2 -> 3
+            !isShowNativeFull1 && !isShowNativeFull2 -> 3
             else -> 4
         }
     }

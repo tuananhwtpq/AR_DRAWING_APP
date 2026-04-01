@@ -26,6 +26,7 @@ import com.flowart.ar.drawing.sketch.bases.BaseFragment
 import com.flowart.ar.drawing.sketch.databinding.FragmentHomeBinding
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.showToast
@@ -119,12 +120,54 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             checkCameraPermission()
         }
 
-        binding.tvSeeAllTrending.setOnUnDoubleClick { goToCategory(0, R.string.trending) }
-        binding.tvSeeAllAnime.setOnUnDoubleClick { goToCategory(1, R.string.anime) }
-        binding.tvSeeAllCartoon.setOnUnDoubleClick { goToCategory(2, R.string.cartoon) }
-        binding.tvSeeAllAnimal.setOnUnDoubleClick { goToCategory(3, R.string.animal) }
-        binding.tvSeeAllChibi.setOnUnDoubleClick { goToCategory(4, R.string.chibi) }
-        binding.tvSeeAllCute.setOnUnDoubleClick { goToCategory(5, R.string.flower) }
+        binding.tvSeeAllTrending.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    0,
+                    R.string.trending
+                )
+            }
+        }
+        binding.tvSeeAllAnime.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    1,
+                    R.string.anime
+                )
+            }
+        }
+        binding.tvSeeAllCartoon.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    2,
+                    R.string.cartoon
+                )
+            }
+        }
+        binding.tvSeeAllAnimal.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    3,
+                    R.string.animal
+                )
+            }
+        }
+        binding.tvSeeAllChibi.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    4,
+                    R.string.chibi
+                )
+            }
+        }
+        binding.tvSeeAllCute.setOnUnDoubleClick {
+            (requireActivity() as MainActivity).loadAndShowInterHome {
+                goToCategory(
+                    5,
+                    R.string.flower
+                )
+            }
+        }
     }
 
     private fun checkCameraPermission() {
@@ -198,7 +241,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         ImageRepositories.INSTANCE.trendingImages.observe(this) { listImages ->
 
             trendingAdapter?.submitList(listImages.take(6)) {
-                //(activity as? MainActivity)?.showLoading(false)
             }
         }
         binding.rcvTrending.adapter = trendingAdapter
@@ -212,14 +254,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.rcvRecent.smoothScrollToPosition(0)
             }
         }
-//
-//        val gridLayoutManager =
-//            GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-//        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//            override fun getSpanSize(position: Int): Int {
-//                return if (position == 0) 2 else 1
-//            }
-//        }
+
         binding.rcvTrending.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
@@ -249,12 +284,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     ) {
         val adapter = ImageAdapter(
             requireContext(),
-            onItemClick = { handleImageClick(it) },
+            onItemClick = {
+                (requireActivity() as MainActivity).loadAndShowInterHome {
+                    handleImageClick(it)
+                }
+            },
             onFavoriteClick = { handleFavoriteClick(it) })
         ImageRepositories.INSTANCE.getImageByCategory(category).observe(this) {
-            // (activity as? MainActivity)?.showLoading(true)
             adapter.submitList(it.subList(0, min(it.size, 6))) {
-                //(activity as? MainActivity)?.showLoading(false)
             }
         }
         rcv.layoutManager =
@@ -263,23 +300,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun goToCategory(type: Int, categoryName: Int) {
-        //(activity as? MainActivity)?.showInterAds {
         val intent = Intent(requireContext(), CategoryDetailActivity::class.java)
         intent.putExtra("type", type)
         intent.putExtra("categoryName", categoryName)
         startActivity(intent)
-        //}
 
     }
 
     private fun handleImageClick(image: ImageModel) {
-        //(activity as? MainActivity)?.showInterAds {
         val intent = Intent(requireContext(), PreviewImageActivity::class.java)
         intent.putExtra(Constants.KEY_IMAGE_PATH, image.img)
         intent.putExtra("imageId", image.id)
-        //launcher.launch(intent)
+        intent.putExtra("isFromHome", true)
+        SharedPrefManager.putBoolean("wantShowRate", true)
         startActivity(intent)
-        //}
     }
 
     companion object {

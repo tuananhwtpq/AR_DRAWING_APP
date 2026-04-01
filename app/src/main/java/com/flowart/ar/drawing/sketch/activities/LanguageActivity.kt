@@ -146,12 +146,6 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         }
     }
 
-
-    /**
-     * Native language goi o onResume de chieu qc
-     * Native langaue 2 hien thi khi nguoi dung chon ngon ngu
-     */
-
     private fun loadAndShowNativeLanguage(model: AdmobNativeModel) {
         if (RemoteConfig.remoteNativeLanguage != 0L) {
             binding.frNativeExpand.visible()
@@ -176,10 +170,6 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
 
         }
     }
-
-    /**
-     * Hien thi QC sau khi da chon ngon ngu
-     */
     private fun loadAndShowInterLanguage(navAction: () -> Unit) {
         if (RemoteConfig.remoteInterLanguage != 0L) {
             AdmobLib.loadAndShowInterWithNativeAfter(

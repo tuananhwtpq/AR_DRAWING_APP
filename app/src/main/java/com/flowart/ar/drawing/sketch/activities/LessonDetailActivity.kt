@@ -11,6 +11,7 @@ import com.flowart.ar.drawing.sketch.databinding.ActivityLessonDetailBinding
 import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
 import com.flowart.ar.drawing.sketch.models.LessonModel
 import com.flowart.ar.drawing.sketch.utils.Constants
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.visible
@@ -24,17 +25,13 @@ class LessonDetailActivity :
     private val level by lazy {
         intent.getIntExtra("level", 0)
     }
-
-    private val isShowAds by lazy {
-        //RemoteConfig.remoteNativeListItem != 0L
-    }
-
     private var adapter: LessonAdapter? = null
     private var listLesson = listOf<LessonModel>()
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             loadAndShowInterBackHome(binding.vShowInterAds) {
+                SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
             }
         }
@@ -98,7 +95,6 @@ class LessonDetailActivity :
 
     override fun onResume() {
         super.onResume()
-        showBannerAds()
         adsItemId = System.currentTimeMillis().toInt()
         adapter?.submitList(listWithAdsItem(listLesson))
 
@@ -111,45 +107,11 @@ class LessonDetailActivity :
     }
 
     private fun listWithAdsItem(list: List<LessonModel>): List<LessonModel> {
-//        return if (list.isEmpty() || !isShowAds) {
-//            list
-//        } else {
-//            val newList = list.toMutableList().apply {
-//                add(1, LessonModel.ITEM_ADS.copy(id = adsItemId))
-//            }
-//            newList.toList()
-//        }
-
         return if (list.isEmpty()) {
             list
         } else {
             val newList = list.toMutableList()
             newList.toList()
         }
-    }
-
-    private fun showBannerAds() {
-//        if (RemoteConfig.remoteBannerListItem == 0L) return
-//        binding.frBanner.visible()
-//        binding.viewLine.visible()
-//        if (RemoteConfig.remoteBannerListItem == 1L) {
-//            AdmobLib.loadAndShowBanner(
-//                this,
-//                AdsManager.BANNER_OTHER,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
-//
-//        if (RemoteConfig.remoteBannerListItem == 2L) {
-//            AdmobLib.loadAndShowBannerCollapsible(
-//                this,
-//                AdsManager.bannerCollapseListItemModel,
-//                binding.frBanner,
-//                binding.viewLine
-//            )
-//            return
-//        }
     }
 }

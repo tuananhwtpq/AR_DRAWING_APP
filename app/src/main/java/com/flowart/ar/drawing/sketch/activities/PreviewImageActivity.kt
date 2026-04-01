@@ -10,6 +10,7 @@ import com.flowart.ar.drawing.sketch.databinding.ActivityPreviewImageBinding
 import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.PermissionUtils
+import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.snake.squad.adslib.AdmobLib
@@ -19,12 +20,24 @@ class PreviewImageActivity :
     BaseActivity<ActivityPreviewImageBinding>(ActivityPreviewImageBinding::inflate) {
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            loadAndShowInterBackHome(binding.vShowInterAds) {
+            if (isFromHome || isFromGallery) {
+                loadAndShowInterBackHome(binding.vShowInterAds) {
+                    finish()
+                }
+            } else {
+                SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
             }
         }
     }
 
+    private val isFromHome by lazy {
+        intent.getBooleanExtra("isFromHome", false)
+    }
+
+    private val isFromGallery by lazy {
+        intent.getBooleanExtra("isFromGallery", false)
+    }
     private val image by lazy {
         intent.getStringExtra(Constants.KEY_IMAGE_PATH)
     }
@@ -40,6 +53,11 @@ class PreviewImageActivity :
     private val imageUri by lazy {
         intent.getStringExtra(Constants.KEY_IMAGE_URI)
     }
+
+    private val isFromCategoryDetail by lazy {
+        intent.getBooleanExtra("isFromCategoryDetail", false)
+    }
+
 
     private val imageId by lazy {
         intent.getIntExtra("imageId", -1)
@@ -70,21 +88,6 @@ class PreviewImageActivity :
             onBackPressedDispatcher.onBackPressed()
         }
 
-//        binding.btnTrace.setOnClickListener {
-//            showInterStart {
-//                val intent = Intent(this, TraceActivity::class.java)
-//                intent.putExtra(Constants.KEY_IMAGE_PATH, image)
-//                intent.putExtra(Constants.KEY_IMAGE_URI, imageUri)
-//                intent.putExtra(Constants.IS_FROM_LESSON, isFromLesson)
-//                intent.putExtra(Constants.KEY_LESSON_ID, lessonId)
-//                startActivity(intent)
-//                finish()
-//                if (imageId != -1) {
-//                    ImageRepositories.INSTANCE.addToRecent(imageId)
-//                }
-//            }
-//        }
-
         binding.btnTrace.setOnClickListener {
             loadAndShowInterPreview {
                 goToTraceActivity()
@@ -112,8 +115,7 @@ class PreviewImageActivity :
 
     override fun onResume() {
         super.onResume()
-        showNativeAds()
-        loadAndShowNativeOther_2(binding.frNative)
+        loadAndShowNativeOtherMedium(binding.frNative)
     }
 
     override fun onStop() {
@@ -162,30 +164,5 @@ class PreviewImageActivity :
         } else {
             navAction()
         }
-    }
-
-
-
-    private fun showNativeAds() {
-//        if (RemoteConfig.remoteNativePreview == 0L) return
-//        binding.frNative.visible()
-//        AdmobLib.loadAndShowNative(
-//            this,
-//            AdsManager.nativeOtherModel,
-//            binding.frNative,
-//            size = GoogleENative.UNIFIED_MEDIUM,
-//            layout = R.layout.native_ads_custom_medium_bottom
-//        )
-    }
-
-    private fun showInterStart(navAction: () -> Unit) {
-//        if (AdsManager.isShowInterStart()) {
-//            loadAndShowInterWithNativeAfter(AdsManager.interOtherModel, binding.vShowInterAds) {
-//                navAction()
-//            }
-//        } else {
-//            navAction()
-//        }
-//    }
     }
 }

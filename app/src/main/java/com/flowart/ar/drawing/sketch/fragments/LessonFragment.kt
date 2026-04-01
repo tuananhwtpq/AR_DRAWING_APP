@@ -96,26 +96,10 @@ class LessonFragment : BaseFragment<FragmentLessonBinding>(FragmentLessonBinding
     }
 
     private fun gotoDetail(level: Int) {
-//        (activity as? MainActivity)?.showInterAds {
-//            val intent = Intent(requireContext(), LessonDetailActivity::class.java)
-//            intent.putExtra("level", level)
-//            startActivity(intent)
-//        }
 
         val intent = Intent(requireContext(), LessonDetailActivity::class.java)
         intent.putExtra("level", level)
         startActivity(intent)
     }
 
-    private fun showNativeAds() {
-//        if (RemoteConfig.remoteNativeLesson == 0L) return
-//        binding.frNative.visible()
-//        AdmobLib.loadAndShowNative(
-//            requireActivity(),
-//            AdsManager.nativeOtherModel,
-//            binding.frNative,
-//            size = GoogleENative.UNIFIED_MEDIUM_LIKE_BUTTON,
-//            layout = R.layout.native_ads_lesson
-//        )
-    }
 }

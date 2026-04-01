@@ -3,7 +3,7 @@
     android:id="@+id/native_ad_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorNeutralOnSurface"
+    android:background="@color/white"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,10 +51,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="@color/primaryColor"
+            android:background="@drawable/done_bg"
             android:paddingHorizontal="8dp"
             android:text="AD"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/ad_headline"
             app:layout_constraintStart_toStartOf="parent" />
@@ -68,7 +68,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/fredoka_regular"
             android:text="Test Ads"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColor"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ad_stars"
@@ -81,7 +81,7 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progressTint="@color/primaryColor"
+            android:progressTint="@color/green_light"
             android:layout_marginBottom="4dp"
             android:isIndicator="true"
             android:numStars="5"
@@ -99,7 +99,7 @@
             android:fontFamily="@font/fredoka_regular"
             android:maxLines="2"
             android:text="Ads"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/ad_call_to_action"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
@@ -108,13 +108,14 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ad_call_to_action"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="Install"
+            android:background="@drawable/done_bg"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
