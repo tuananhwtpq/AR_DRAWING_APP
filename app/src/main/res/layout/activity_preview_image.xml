@@ -59,15 +59,67 @@
         app:layout_constraintBottom_toTopOf="@id/frNative"
         app:layout_constraintTop_toBottomOf="@id/lTitle">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivPreview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="44dp"
-            android:adjustViewBounds="true"
-            app:shapeAppearanceOverlay="@style/PreviewImage"
-            tools:src="@drawable/ic_camera" />
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="44dp"
+                android:adjustViewBounds="true"
+                app:shapeAppearanceOverlay="@style/PreviewImage"
+                tools:src="@drawable/ic_camera" />
+
+            <!-- AI Detection: Labels chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupLabels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="44dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <!-- AI Detection: Suggestion banner -->
+            <LinearLayout
+                android:id="@+id/layoutSuggestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="44dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/done_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvSuggestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="13sp"
+                    tools:text="🐾 Xem thêm templates Animal?" />
+
+                <TextView
+                    android:id="@+id/btnViewCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:text="Xem →"
+                    android:textColor="@color/mainTextColor"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <FrameLayout

@@ -3,6 +3,7 @@ package com.flowart.ar.drawing.sketch.activities
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.ai.BackgroundRemover
+import com.flowart.ar.drawing.sketch.ai.CategoryMapper
+import com.flowart.ar.drawing.sketch.ai.ImageAnalyzer
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityPreviewImageBinding
 import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
@@ -21,6 +24,7 @@ import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
 import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.visible
+import com.google.android.material.chip.Chip
 import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.Dispatchers
@@ -83,9 +87,11 @@ class PreviewImageActivity :
 
     // === AI Features ===
     private val backgroundRemover = BackgroundRemover()
-    private var isShowingRemovedBg = false          // Đang hiển thị ảnh đã xóa nền?
-    private var removedBgBitmapUri: String? =
-        null   // URI của ảnh đã xóa nền (để truyền sang activity khác)
+    private val imageAnalyzer = ImageAnalyzer()
+    private var isShowingRemovedBg = false
+    private var removedBgBitmapUri: String? = null
+    private var suggestedCategoryId: Int = -1
+    private var suggestedCategoryName: Int = -1  // String resource ID
 
     override fun initData() {
 
@@ -100,8 +106,12 @@ class PreviewImageActivity :
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
         // Chỉ hiện nút AI Remove BG khi user chọn ảnh từ gallery (có imageUri)
-        // Ảnh từ assets (templates có sẵn) thường đã sạch nền rồi
         binding.btnRemoveBg.isVisible = imageUri != null
+
+        // Tự động chạy AI nhận diện khi có ảnh từ gallery
+        if (imageUri != null) {
+            analyzeImage()
+        }
     }
 
     override fun initActionView() {
@@ -175,7 +185,7 @@ class PreviewImageActivity :
 
     /**
      * Chạy AI xóa nền ảnh.
-     * Flow: lấy bitmap → gọi BackgroundRemover.analyze() (1 lần) → applyThreshold() → hiển thị
+     * Flow: lấy bitmap → resize nếu quá lớn → gọi BackgroundRemover.analyze() → applyThreshold() → hiển thị
      */
     private fun removeBackground() {
         val uri = imageUri ?: return
@@ -186,46 +196,52 @@ class PreviewImageActivity :
         binding.btnRemoveBg.isEnabled = false
 
         lifecycleScope.launch {
-            // Lấy bitmap từ URI (chạy trên IO thread)
-            val originalBitmap = withContext(Dispatchers.IO) {
-                BitmapUtils.getBitmapFromUri(this@PreviewImageActivity, Uri.parse(uri))
-            }
+            try {
+                // Lấy bitmap từ URI (chạy trên IO thread)
+                val originalBitmap = withContext(Dispatchers.IO) {
+                    BitmapUtils.getBitmapFromUri(this@PreviewImageActivity, Uri.parse(uri))
+                }
 
-            if (originalBitmap == null) {
-                showError("Không thể đọc ảnh")
-                resetRemoveBgButton()
-                return@launch
-            }
+                if (originalBitmap == null) {
+                    showError("Không thể đọc ảnh")
+                    resetRemoveBgButton()
+                    return@launch
+                }
 
-            // Bước 1: Gọi AI analyze (chỉ chạy 1 lần — tốn thời gian nhất)
-            val success = backgroundRemover.analyze(originalBitmap)
+                // Resize nếu ảnh quá lớn để tránh OOM
+                val resizedBitmap = BitmapUtils.resizeBitmapForAI(originalBitmap)
+                Log.d(
+                    TAG,
+                    "Remove BG: original=${originalBitmap.width}x${originalBitmap.height}, resized=${resizedBitmap.width}x${resizedBitmap.height}"
+                )
 
-            if (success) {
-                // Bước 2: Áp mask với threshold mặc định 0.5
-                val threshold = binding.seekBarThreshold.progress / 100f
-                val resultBitmap = backgroundRemover.applyThreshold(threshold)
+                // Bước 1: Gọi AI analyze
+                val success = backgroundRemover.analyze(resizedBitmap)
 
-                if (resultBitmap != null) {
-                    // Hiển thị ảnh đã xóa nền
-                    binding.ivPreview.setImageBitmap(resultBitmap)
-                    isShowingRemovedBg = true
+                if (success) {
+                    // Bước 2: Áp mask với threshold mặc định
+                    val threshold = binding.seekBarThreshold.progress / 100f
+                    val resultBitmap = backgroundRemover.applyThreshold(threshold)
 
-                    // Lưu cache
-                    saveToCacheAndUpdateUri(resultBitmap)
-
-                    // Hiện slider để user điều chỉnh
-                    binding.layoutThreshold.visible()
-
-                    // Đổi text nút
-                    binding.btnRemoveBg.text = "🔄 Show Original"
-                    binding.btnRemoveBg.isEnabled = true
-                    binding.progressAi.gone()
+                    if (resultBitmap != null) {
+                        binding.ivPreview.setImageBitmap(resultBitmap)
+                        isShowingRemovedBg = true
+                        saveToCacheAndUpdateUri(resultBitmap)
+                        binding.layoutThreshold.visible()
+                        binding.btnRemoveBg.text = "🔄 Show Original"
+                        binding.btnRemoveBg.isEnabled = true
+                        binding.progressAi.gone()
+                    } else {
+                        showError("AI không thể xóa nền ảnh này")
+                        resetRemoveBgButton()
+                    }
                 } else {
-                    showError("AI không thể xóa nền ảnh này")
+                    showError("AI không thể phân tích ảnh này. Kiểm tra kết nối mạng (lần đầu cần tải model).")
                     resetRemoveBgButton()
                 }
-            } else {
-                showError("AI không thể phân tích ảnh này")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error in removeBackground: ${e.message}", e)
+                showError("Lỗi khi xóa nền: ${e.localizedMessage ?: "Lỗi không xác định"}")
                 resetRemoveBgButton()
             }
         }
@@ -275,7 +291,127 @@ class PreviewImageActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        backgroundRemover.close()  // Giải phóng tài nguyên ML Kit
+        backgroundRemover.close()
+        imageAnalyzer.close()
+    }
+
+    // ===========================================
+    // === AI Object Detection & Smart Suggest ===
+    // ===========================================
+
+    /**
+     * Tự động phân tích ảnh khi user chọn từ gallery.
+     * Chạy ngầm (không hiện loading) — kết quả hiện ra nhẹ nhàng bên dưới ảnh.
+     */
+    private fun analyzeImage() {
+        val uri = imageUri ?: return
+
+        lifecycleScope.launch {
+            try {
+                val bitmap = withContext(Dispatchers.IO) {
+                    BitmapUtils.getBitmapFromUri(this@PreviewImageActivity, Uri.parse(uri))
+                } ?: return@launch
+
+                // Resize nếu ảnh quá lớn
+                val resizedBitmap = BitmapUtils.resizeBitmapForAI(bitmap, 1024)
+
+                // Gọi AI nhận diện
+                val labels = imageAnalyzer.analyze(resizedBitmap)
+
+                if (labels.isNotEmpty()) {
+                    showDetectedLabels(labels)
+
+                    val suggestion = CategoryMapper.findBestCategory(labels)
+                    if (suggestion != null) {
+                        showCategorySuggestion(suggestion)
+                    }
+                }
+            } catch (e: Exception) {
+                // Không hiện lỗi cho user vì đây là tính năng chạy ngầm
+                Log.e(TAG, "Error in analyzeImage: ${e.message}", e)
+            }
+        }
+    }
+
+    /**
+     * Hiển thị các labels AI nhận diện dưới dạng chips với animation.
+     * Mỗi chip xuất hiện lần lượt (staggered fade-in).
+     */
+    private fun showDetectedLabels(labels: List<ImageAnalyzer.DetectedLabel>) {
+        binding.chipGroupLabels.removeAllViews()
+        binding.chipGroupLabels.visible()
+
+        // Chỉ hiển tối đa 5 labels
+        labels.take(5).forEachIndexed { index, detectedLabel ->
+            val emoji = getEmojiForLabel(detectedLabel.label)
+            val chip = Chip(this).apply {
+                text = "$emoji ${detectedLabel.toDisplayString()}"
+                isClickable = false
+                setTextColor(getColor(R.color.mainTextColor))
+                alpha = 0f // Bắt đầu ẩn
+            }
+            binding.chipGroupLabels.addView(chip)
+
+            // Staggered fade-in: mỗi chip delay 100ms
+            chip.animate()
+                .alpha(1f)
+                .setDuration(400)
+                .setStartDelay((index * 100).toLong())
+                .start()
+        }
+    }
+
+    /**
+     * Trả về emoji phù hợp với label nhận diện.
+     */
+    private fun getEmojiForLabel(label: String): String {
+        val lower = label.lowercase()
+        return when {
+            lower.contains("cat") || lower.contains("kitten") -> "🐱"
+            lower.contains("dog") || lower.contains("puppy") -> "🐶"
+            lower.contains("bird") -> "🐦"
+            lower.contains("fish") -> "🐟"
+            lower.contains("animal") || lower.contains("pet") -> "🐾"
+            lower.contains("flower") || lower.contains("plant") || lower.contains("rose") -> "🌸"
+            lower.contains("tree") || lower.contains("forest") -> "🌳"
+            lower.contains("car") || lower.contains("vehicle") -> "🚗"
+            lower.contains("food") || lower.contains("fruit") -> "🍎"
+            lower.contains("person") || lower.contains("people") || lower.contains("face") -> "👤"
+            lower.contains("building") || lower.contains("house") -> "🏠"
+            lower.contains("sky") || lower.contains("cloud") -> "☁️"
+            lower.contains("water") || lower.contains("sea") || lower.contains("ocean") -> "🌊"
+            lower.contains("mountain") -> "⛰️"
+            lower.contains("art") || lower.contains("drawing") || lower.contains("paint") -> "🎨"
+            else -> "🏷️"
+        }
+    }
+
+    /**
+     * Hiển gợi ý category + xử lý navigate.
+     * VD: "🐾 Xem thêm templates Animal? [Xem →]"
+     */
+    private fun showCategorySuggestion(suggestion: CategoryMapper.SuggestedCategory) {
+        binding.layoutSuggestion.visible()
+        binding.tvSuggestion.text =
+            "${suggestion.emoji} Xem thêm templates ${suggestion.displayName}?"
+
+        // Lưu category info để navigate
+        suggestedCategoryId = suggestion.categoryId
+        suggestedCategoryName = when (suggestion.categoryId) {
+            1 -> R.string.anime
+            2 -> R.string.cartoon
+            3 -> R.string.animal
+            4 -> R.string.chibi
+            5 -> R.string.flower
+            else -> R.string.animal
+        }
+
+        binding.btnViewCategory.setOnClickListener {
+            val intent = Intent(this, CategoryDetailActivity::class.java)
+            intent.putExtra("type", suggestedCategoryId)
+            intent.putExtra("categoryName", suggestedCategoryName)
+            startActivity(intent)
+        }
     }
 
     private fun goToTraceActivity() {
@@ -327,5 +463,9 @@ class PreviewImageActivity :
         } else {
             navAction()
         }
+    }
+
+    companion object {
+        private const val TAG = "PreviewImageActivity"
     }
 }
