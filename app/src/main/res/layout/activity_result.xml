@@ -43,19 +43,155 @@
         android:id="@+id/lScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnShare"
         app:layout_constraintTop_toBottomOf="@id/lTitle">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivPreview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="12dp"
-            android:adjustViewBounds="true"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@id/lTitle"
-            app:shapeAppearanceOverlay="@style/PreviewImage"
-            tools:src="@drawable/ic_alarm" />
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="12dp"
+                android:adjustViewBounds="true"
+                app:shapeAppearanceOverlay="@style/PreviewImage"
+                tools:src="@drawable/ic_alarm" />
+
+            <!-- === AI Evaluation Section === -->
+            <LinearLayout
+                android:id="@+id/layoutEvaluation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Điểm tổng -->
+                <TextView
+                    android:id="@+id/tvOverallScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    tools:text="✨ 78%" />
+
+                <!-- Feedback -->
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="14sp"
+                    tools:text="👏 Rất tốt! Bạn đã nắm bắt được hầu hết chi tiết." />
+
+                <!-- Metric: Structure (SSIM) -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Cấu trúc (SSIM)"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="12sp" />
+
+                <ProgressBar
+                    android:id="@+id/progressSsim"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    android:max="100" />
+
+                <!-- Metric: Distribution (Histogram) -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Phân bố sáng/tối (Histogram)"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="12sp" />
+
+                <ProgressBar
+                    android:id="@+id/progressHistogram"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    android:max="100" />
+
+                <!-- Metric: Shape (Contour) -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Hình dạng (Contour)"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="12sp" />
+
+                <ProgressBar
+                    android:id="@+id/progressContour"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    android:max="100" />
+
+                <!-- Heatmap Toggle -->
+                <TextView
+                    android:id="@+id/btnToggleHeatmap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/done_bg"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="🔥 Xem Heatmap"
+                    android:textColor="@color/mainTextColor" />
+
+                <!-- Heatmap Image -->
+                <ImageView
+                    android:id="@+id/ivHeatmap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:visibility="gone" />
+
+                <!-- Nút Vẽ lại -->
+                <TextView
+                    android:id="@+id/btnRedraw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/done_bg"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="🔄 Vẽ lại"
+                    android:textColor="@color/mainTextColor"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- Loading khi AI đang chạy -->
+            <ProgressBar
+                android:id="@+id/progressEvaluation"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <TextView
@@ -65,13 +201,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="6dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/done_bg"
         android:gravity="center"
         android:minHeight="50dp"
         android:text="@string/share"
-        app:layout_constraintTop_toBottomOf="@id/lScroll"
         android:textColor="@color/mainTextColor"
+        app:layout_constraintBottom_toTopOf="@id/whiteLine"
         app:layout_constraintEnd_toStartOf="@id/btnDownload"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -82,13 +218,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/done_bg"
         android:gravity="center"
         android:minHeight="50dp"
         android:text="@string/download"
         android:textColor="@color/mainTextColor"
-        app:layout_constraintTop_toBottomOf="@id/lScroll"
+        app:layout_constraintBottom_toTopOf="@id/whiteLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnShare" />
 

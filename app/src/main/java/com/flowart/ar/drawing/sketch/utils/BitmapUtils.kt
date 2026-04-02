@@ -217,4 +217,28 @@ object BitmapUtils {
         return fileUri
     }
 
+    /**
+     * Resize ảnh nếu quá lớn để tránh OOM khi xử lý AI.
+     * Chỉ resize nếu ảnh lớn hơn maxDimension.
+     * Giữ nguyên tỷ lệ (aspect ratio).
+     */
+    fun resizeBitmapForAI(bitmap: Bitmap, maxDimension: Int = 1920): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        if (width <= maxDimension && height <= maxDimension) {
+            return bitmap // Ảnh đủ nhỏ, không cần resize
+        }
+
+        val ratio = minOf(
+            maxDimension.toFloat() / width,
+            maxDimension.toFloat() / height
+        )
+
+        val newWidth = (width * ratio).toInt()
+        val newHeight = (height * ratio).toInt()
+
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+
 }
