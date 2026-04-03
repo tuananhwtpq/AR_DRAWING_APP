@@ -5,7 +5,7 @@ import com.snake.squad.adslib.AdsApplication
 import com.ssquad.ar.drawing.sketch.db.ImageDB
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 
-class MyApplication : AdsApplication("", isProduction = true, isEnabledAdjust = false) {
+class MyApplication : AdsApplication() {
 
     override fun onCreate() {
         super.onCreate()
