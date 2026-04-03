@@ -179,6 +179,59 @@
                     android:textColor="@color/mainTextColor"
                     android:visibility="gone" />
 
+                <!-- Thống kê lịch sử -->
+                <LinearLayout
+                    android:id="@+id/layoutStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="#33FFFFFF" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📊 Thống kê của bạn"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvStatsBest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="14sp"
+                        tools:text="🏆 Điểm cao nhất: 92%" />
+
+                    <TextView
+                        android:id="@+id/tvStatsAvg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="14sp"
+                        tools:text="📈 Điểm trung bình: 68%" />
+
+                    <TextView
+                        android:id="@+id/tvStatsTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="14sp"
+                        tools:text="🎨 Tổng số lần vẽ: 15" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <!-- Loading khi AI đang chạy -->
