@@ -104,6 +104,11 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
         binding.btnRedraw.setOnClickListener {
             finish() // Quay về TraceActivity
         }
+
+        // Nút xem biểu đồ tiến bộ
+        binding.btnViewHistory.setOnClickListener {
+            startActivity(Intent(this, ScoreHistoryActivity::class.java))
+        }
     }
 
     /**
