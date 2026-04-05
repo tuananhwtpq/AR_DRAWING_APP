@@ -55,7 +55,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@id/viewLine"
+        app:layout_constraintBottom_toTopOf="@id/whiteLine"
         app:layout_constraintTop_toBottomOf="@id/lTitle"
         app:layout_goneMarginBottom="0dp"
         tools:listitem="@layout/item_lesson" />
@@ -90,6 +90,28 @@
 
     <FrameLayout
         android:id="@+id/frBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <View
+        android:id="@+id/whiteLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/frNativeSmall" />
+
+    <FrameLayout
+        android:id="@+id/frNativeSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frNativeExpand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
