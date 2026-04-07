@@ -128,6 +128,7 @@
     <string name="undo_limit_reached_max_50_steps_older_steps_will_be_removed">Undo limit reached (Max 50 steps)</string>
     <string name="there_are_no_more_strokes_to_undo">There are no more strokes to undo</string>
     <string name="there_are_no_more_strokes_to_redo">There are no more strokes to redo</string>
+    <string name="no_data_for_this_lesson">No data for this lesson</string>
 
 
 </resources>
