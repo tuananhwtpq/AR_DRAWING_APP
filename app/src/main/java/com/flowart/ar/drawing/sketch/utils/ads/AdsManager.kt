@@ -29,7 +29,7 @@ object AdsManager {
     val NATIVE_SETTING = AdmobNativeModel("ca-app-pub-8475252859305547/7779526474")
     const val ON_RESUME = "ca-app-pub-8475252859305547/1457660702"
 
-    var isDebug = true
+    var isDebug = false
     var isShowAd = true
 
     private var lastInterShown = 0L
