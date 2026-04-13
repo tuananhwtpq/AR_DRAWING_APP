@@ -13,6 +13,7 @@ espressoCore = "3.7.0"
 appcompat = "1.7.1"
 cameraCamera2 = "1.4.2"
 kotlinxCoroutinesAndroid = "1.10.2"
+kotlinxCoroutinesPlayServices = "1.10.2"
 lottie = "6.7.1"
 roomRuntime = "2.8.4"
 material = "1.13.0"
@@ -30,6 +31,8 @@ firebaseCrashlytics = "20.0.3"
 googleFirebaseCrashlytics = "3.0.6"
 firebaseMessaging = "25.0.1"
 firebaseConfig = "23.0.1"
+mlkitSubjectSegmentation = "16.0.0-beta1"
+mlkitImageLabeling = "17.0.9"
 
 
 
@@ -56,6 +59,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -70,6 +74,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
+mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "mlkitSubjectSegmentation" }
+mlkit-image-labeling = { module = "com.google.mlkit:image-labeling", version.ref = "mlkitImageLabeling" }
 
 
 

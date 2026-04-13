@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services) // Cho phép dùng .await() với ML Kit
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
@@ -120,5 +121,8 @@ dependencies {
     implementation(libs.simpleratingbar)
     implementation(libs.play.services.ads)
 
+    // ML Kit - AI Features
+    implementation(libs.mlkit.subject.segmentation) // Background Removal
+    implementation(libs.mlkit.image.labeling)        // Object Detection & Smart Suggest
 
 }
