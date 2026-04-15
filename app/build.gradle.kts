@@ -125,4 +125,6 @@ dependencies {
     implementation(libs.mlkit.subject.segmentation) // Background Removal
     implementation(libs.mlkit.image.labeling)        // Object Detection & Smart Suggest
 
+    // OpenCV — dùng module local :openCV đã có sẵn trong project
+
 }
