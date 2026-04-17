@@ -349,6 +349,8 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         val bmp = BitmapUtils.setBackgroundForBitmap(bitmap, backgroundColor)
         ResultActivity.bitmap = bmp
         ResultActivity.templateBitmap = templateBitmap  // Truyền template cho AI Evaluation
+        ResultActivity.templateName =
+            "Drawing_${System.currentTimeMillis()}"  // Tên cho score history
         startActivity(intent)
     }
 

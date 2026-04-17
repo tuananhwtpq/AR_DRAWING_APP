@@ -18,7 +18,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.ai.DrawingEvaluator
+import com.flowart.ar.drawing.sketch.ai.EvaluationResult
 import com.flowart.ar.drawing.sketch.ai.HeatmapGenerator
+import com.flowart.ar.drawing.sketch.ai.ScoreDao
+import com.flowart.ar.drawing.sketch.ai.ScoreDatabase
+import com.flowart.ar.drawing.sketch.ai.ScoreRecord
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityResultBinding
 import com.flowart.ar.drawing.sketch.utils.BitmapUtils
@@ -44,13 +48,14 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
     private val heatmapGenerator = HeatmapGenerator()
     private var heatmapBitmap: Bitmap? = null
     private var isShowingHeatmap = false
+    private lateinit var scoreDao: ScoreDao
 
     private var isOpenCvReady = false
 
     override fun initData() {
         if (bitmap == null) finish()
 
-        // Khởi tạo OpenCV — nếu fail thì bỏ qua evaluation (app vẫn hoạt động bình thường)
+        // Khởi tạo OpenCV
         try {
             isOpenCvReady = OpenCVLoader.initLocal()
             if (!isOpenCvReady) {
@@ -60,6 +65,9 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
             Log.e(TAG, "OpenCV init error: ${e.message}", e)
             isOpenCvReady = false
         }
+
+        // Khởi tạo Score DB
+        scoreDao = ScoreDatabase.getInstance(this).scoreDao()
     }
 
     override fun initView() {
@@ -144,6 +152,12 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
                 binding.btnToggleHeatmap.isVisible = heatmapBitmap != null
                 binding.btnRedraw.visible()
 
+                // Lưu điểm vào Room DB
+                saveScore(result)
+
+                // Hiện thống kê
+                showStats()
+
             } catch (e: Exception) {
                 Log.e(TAG, "Evaluation failed: ${e.message}", e)
                 binding.progressEvaluation.gone()
@@ -210,6 +224,49 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
         animator.start()
     }
 
+    /**
+     * Lưu điểm vào Room DB.
+     */
+    private fun saveScore(result: EvaluationResult) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val record = ScoreRecord(
+                    templateName = templateName ?: "Unknown",
+                    ssimScore = result.ssimScore,
+                    histogramScore = result.histogramScore,
+                    contourScore = result.contourScore,
+                    overallScore = result.overallScore
+                )
+                scoreDao.insert(record)
+                Log.d(TAG, "Score saved: ${result.overallPercent}%")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to save score: ${e.message}", e)
+            }
+        }
+    }
+
+    /**
+     * Hiện thống kê từ lịch sử: điểm cao nhất, trung bình, tổng số lần vẽ.
+     */
+    private fun showStats() {
+        lifecycleScope.launch {
+            try {
+                val best = withContext(Dispatchers.IO) { scoreDao.getHighestScore() }
+                val avg = withContext(Dispatchers.IO) { scoreDao.getAverageScore() }
+                val total = withContext(Dispatchers.IO) { scoreDao.getTotalDrawings() }
+
+                if (total > 0) {
+                    binding.layoutStats.visible()
+                    binding.tvStatsBest.text = "🏆 Điểm cao nhất: ${((best ?: 0f) * 100).toInt()}%"
+                    binding.tvStatsAvg.text = "📈 Điểm trung bình: ${((avg ?: 0f) * 100).toInt()}%"
+                    binding.tvStatsTotal.text = "🎨 Tổng số lần vẽ: $total"
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to load stats: ${e.message}", e)
+            }
+        }
+    }
+
     private fun gotoMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -219,6 +276,7 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
     override fun onDestroy() {
         bitmap = null
         templateBitmap = null
+        templateName = null
         heatmapBitmap = null
         super.onDestroy()
     }
@@ -232,6 +290,7 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
         private const val TAG = "ResultActivity"
         var bitmap: Bitmap? = null
         var templateBitmap: Bitmap? = null  // Template cho AI Evaluation
+        var templateName: String? = null    // Tên template cho score history
     }
 
     private fun saveBitmap(bitmap: Bitmap?) {
