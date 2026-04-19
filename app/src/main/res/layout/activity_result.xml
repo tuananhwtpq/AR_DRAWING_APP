@@ -230,6 +230,17 @@
                         android:textSize="14sp"
                         tools:text="🎨 Tổng số lần vẽ: 15" />
 
+                    <TextView
+                        android:id="@+id/btnViewHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/done_bg"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="📊 Xem biểu đồ tiến bộ →"
+                        android:textColor="@color/mainTextColor" />
+
                 </LinearLayout>
 
             </LinearLayout>
