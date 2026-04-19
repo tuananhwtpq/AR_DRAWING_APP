@@ -85,13 +85,12 @@ class PreviewImageActivity :
             }
         }
 
-    // === AI Features ===
     private val backgroundRemover = BackgroundRemover()
     private val imageAnalyzer = ImageAnalyzer()
     private var isShowingRemovedBg = false
     private var removedBgBitmapUri: String? = null
     private var suggestedCategoryId: Int = -1
-    private var suggestedCategoryName: Int = -1  // String resource ID
+    private var suggestedCategoryName: Int = -1
 
     override fun initData() {
 
@@ -105,10 +104,8 @@ class PreviewImageActivity :
         }
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
-        // Chỉ hiện nút AI Remove BG khi user chọn ảnh từ gallery (có imageUri)
         binding.btnRemoveBg.isVisible = imageUri != null
 
-        // Tự động chạy AI nhận diện khi có ảnh từ gallery
         if (imageUri != null) {
             analyzeImage()
         }
@@ -143,18 +140,14 @@ class PreviewImageActivity :
             DrawGuideDialog().init(true).show(supportFragmentManager, "DrawGuideDialog")
         }
 
-        // === AI Remove Background Button ===
         binding.btnRemoveBg.setOnClickListener {
             if (isShowingRemovedBg) {
-                // Đang xem ảnh đã xóa nền → bấm lại để xem ảnh gốc
                 showOriginalImage()
             } else {
-                // Chạy AI xóa nền
                 removeBackground()
             }
         }
 
-        // === Slider điều chỉnh threshold ===
         binding.seekBarThreshold.setOnSeekBarChangeListener(object :
             android.widget.SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
@@ -163,9 +156,7 @@ class PreviewImageActivity :
                 fromUser: Boolean
             ) {
                 if (fromUser && backgroundRemover.hasAnalyzed()) {
-                    // Chuyển progress (0-100) thành threshold (0.0-1.0)
                     val threshold = progress / 100f
-                    // Áp mask với threshold mới — rất nhanh, không chạy lại AI
                     val result = backgroundRemover.applyThreshold(threshold)
                     result?.let { binding.ivPreview.setImageBitmap(it) }
                 }
@@ -173,7 +164,6 @@ class PreviewImageActivity :
 
             override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {
-                // Khi user thả tay → lưu cache ảnh mới để truyền sang activity khác
                 if (backgroundRemover.hasAnalyzed()) {
                     val threshold = (seekBar?.progress ?: 50) / 100f
                     val result = backgroundRemover.applyThreshold(threshold)
@@ -182,22 +172,15 @@ class PreviewImageActivity :
             }
         })
     }
-
-    /**
-     * Chạy AI xóa nền ảnh.
-     * Flow: lấy bitmap → resize nếu quá lớn → gọi BackgroundRemover.analyze() → applyThreshold() → hiển thị
-     */
     private fun removeBackground() {
         val uri = imageUri ?: return
 
-        // Hiện loading, ẩn text nút
         binding.progressAi.visible()
         binding.btnRemoveBg.text = ""
         binding.btnRemoveBg.isEnabled = false
 
         lifecycleScope.launch {
             try {
-                // Lấy bitmap từ URI (chạy trên IO thread)
                 val originalBitmap = withContext(Dispatchers.IO) {
                     BitmapUtils.getBitmapFromUri(this@PreviewImageActivity, Uri.parse(uri))
                 }
@@ -208,18 +191,15 @@ class PreviewImageActivity :
                     return@launch
                 }
 
-                // Resize nếu ảnh quá lớn để tránh OOM
                 val resizedBitmap = BitmapUtils.resizeBitmapForAI(originalBitmap)
                 Log.d(
                     TAG,
                     "Remove BG: original=${originalBitmap.width}x${originalBitmap.height}, resized=${resizedBitmap.width}x${resizedBitmap.height}"
                 )
 
-                // Bước 1: Gọi AI analyze
                 val success = backgroundRemover.analyze(resizedBitmap)
 
                 if (success) {
-                    // Bước 2: Áp mask với threshold mặc định
                     val threshold = binding.seekBarThreshold.progress / 100f
                     val resultBitmap = backgroundRemover.applyThreshold(threshold)
 
@@ -258,15 +238,11 @@ class PreviewImageActivity :
             removedBgBitmapUri = cachedUri.toString()
         }
     }
-
-    /**
-     * Hiển thị lại ảnh gốc (khi user muốn so sánh)
-     */
     private fun showOriginalImage() {
         Glide.with(this).load(imageUri).into(binding.ivPreview)
         isShowingRemovedBg = false
         binding.btnRemoveBg.text = "✨ AI Remove Background"
-        binding.layoutThreshold.gone()  // Ẩn slider khi xem ảnh gốc
+        binding.layoutThreshold.gone()
     }
 
     private fun showError(message: String) {
@@ -295,14 +271,6 @@ class PreviewImageActivity :
         imageAnalyzer.close()
     }
 
-    // ===========================================
-    // === AI Object Detection & Smart Suggest ===
-    // ===========================================
-
-    /**
-     * Tự động phân tích ảnh khi user chọn từ gallery.
-     * Chạy ngầm (không hiện loading) — kết quả hiện ra nhẹ nhàng bên dưới ảnh.
-     */
     private fun analyzeImage() {
         val uri = imageUri ?: return
 
@@ -312,10 +280,8 @@ class PreviewImageActivity :
                     BitmapUtils.getBitmapFromUri(this@PreviewImageActivity, Uri.parse(uri))
                 } ?: return@launch
 
-                // Resize nếu ảnh quá lớn
                 val resizedBitmap = BitmapUtils.resizeBitmapForAI(bitmap, 1024)
 
-                // Gọi AI nhận diện
                 val labels = imageAnalyzer.analyze(resizedBitmap)
 
                 if (labels.isNotEmpty()) {
@@ -327,32 +293,25 @@ class PreviewImageActivity :
                     }
                 }
             } catch (e: Exception) {
-                // Không hiện lỗi cho user vì đây là tính năng chạy ngầm
                 Log.e(TAG, "Error in analyzeImage: ${e.message}", e)
             }
         }
     }
 
-    /**
-     * Hiển thị các labels AI nhận diện dưới dạng chips với animation.
-     * Mỗi chip xuất hiện lần lượt (staggered fade-in).
-     */
     private fun showDetectedLabels(labels: List<ImageAnalyzer.DetectedLabel>) {
         binding.chipGroupLabels.removeAllViews()
         binding.chipGroupLabels.visible()
 
-        // Chỉ hiển tối đa 5 labels
         labels.take(5).forEachIndexed { index, detectedLabel ->
             val emoji = getEmojiForLabel(detectedLabel.label)
             val chip = Chip(this).apply {
                 text = "$emoji ${detectedLabel.toDisplayString()}"
                 isClickable = false
                 setTextColor(getColor(R.color.mainTextColor))
-                alpha = 0f // Bắt đầu ẩn
+                alpha = 0f
             }
             binding.chipGroupLabels.addView(chip)
 
-            // Staggered fade-in: mỗi chip delay 100ms
             chip.animate()
                 .alpha(1f)
                 .setDuration(400)
@@ -386,16 +345,11 @@ class PreviewImageActivity :
         }
     }
 
-    /**
-     * Hiển gợi ý category + xử lý navigate.
-     * VD: "🐾 Xem thêm templates Animal? [Xem →]"
-     */
     private fun showCategorySuggestion(suggestion: CategoryMapper.SuggestedCategory) {
         binding.layoutSuggestion.visible()
         binding.tvSuggestion.text =
             "${suggestion.emoji} Xem thêm templates ${suggestion.displayName}?"
 
-        // Lưu category info để navigate
         suggestedCategoryId = suggestion.categoryId
         suggestedCategoryName = when (suggestion.categoryId) {
             1 -> R.string.anime
@@ -417,7 +371,6 @@ class PreviewImageActivity :
     private fun goToTraceActivity() {
         val intent = Intent(this, TraceActivity::class.java)
         intent.putExtra(Constants.KEY_IMAGE_PATH, image)
-        // Nếu đang dùng ảnh đã xóa nền → truyền URI đã xóa nền
         intent.putExtra(
             Constants.KEY_IMAGE_URI,
             if (isShowingRemovedBg) removedBgBitmapUri else imageUri
@@ -436,7 +389,6 @@ class PreviewImageActivity :
         intent.putExtra(Constants.KEY_IMAGE_PATH, image)
         intent.putExtra(Constants.IS_FROM_LESSON, isFromLesson)
         intent.putExtra(Constants.KEY_LESSON_ID, lessonId)
-        // Nếu đang dùng ảnh đã xóa nền → truyền URI đã xóa nền
         intent.putExtra(
             Constants.KEY_IMAGE_URI,
             if (isShowingRemovedBg) removedBgBitmapUri else imageUri
