@@ -1,7 +1,6 @@
 package com.snake.drawingview.brushtool.handler
 
 import com.snake.drawingview.brushtool.model.TouchEvent
-import kotlin.math.sqrt
 
 internal class LinearInterpolationTouchHandler(
     private val step: Float,
@@ -26,7 +25,6 @@ internal class LinearInterpolationTouchHandler(
         nextHandler.flush()
     }
 
-    //Return true if any drawing has been performed
     private fun interpolateTo(event: TouchEvent): Boolean {
         val dX = event.x - lastTouchEvent.x
         val dY = event.y - lastTouchEvent.y

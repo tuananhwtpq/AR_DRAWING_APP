@@ -17,11 +17,11 @@ android {
         applicationId = "com.flowart.ar.drawing.sketch"
         minSdk = 29
         targetSdk = 36
-        versionCode = 100
-        versionName = "1.0.0"
+//        versionCode = 100
+//        versionName = "1.0.0"
 
-//        versionCode = 1
-//        versionName = "test"
+        versionCode = 1
+        versionName = "test"
 
         val dateTime = SimpleDateFormat("dd-MM-yyyy").format(System.currentTimeMillis())
         setProperty("archivesBaseName", "drawing.sketch ($versionCode)_$dateTime")
@@ -107,7 +107,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services) // Cho phép dùng .await() với ML Kit
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
@@ -124,7 +124,5 @@ dependencies {
     // ML Kit - AI Features
     implementation(libs.mlkit.subject.segmentation) // Background Removal
     implementation(libs.mlkit.image.labeling)        // Object Detection & Smart Suggest
-
-    // OpenCV — dùng module local :openCV đã có sẵn trong project
 
 }

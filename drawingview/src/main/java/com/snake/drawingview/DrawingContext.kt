@@ -41,14 +41,6 @@ class DrawingContext internal constructor() {
         nullableBrushToolBitmaps = BrushToolBitmaps.createFromDrawing(bitmap)
         if (isReset) state.reset()
     }
-
-//    fun exportDrawingView(): Bitmap {
-//        val bitmap = Bitmap.createBitmap(drawingWidth, drawingHeight, ARGB_8888)
-//        val drawingRenderer = DrawingRendererFactory().createOffscreenRenderer(this)
-//        drawingRenderer.render(Canvas(bitmap))
-//        return bitmap
-//    }
-
     fun clear() {
         state.update(
             ClearAction(),
@@ -60,17 +52,6 @@ class DrawingContext internal constructor() {
             ChangeBackgroundAction(color),
         )
     }
-
-    //todo: reset drawing position here
-//    internal fun resetTransformation(containerWidth: Int, containerHeight: Int) {
-//        transformation.setRectToRect(
-//            RectF(0F, 0F, drawingWidth.toFloat(), drawingHeight.toFloat()),
-//            RectF(0f, 0f, containerWidth.toFloat(), containerHeight.toFloat()),
-//            Matrix.ScaleToFit.CENTER,
-//        )
-//        Log.e("DrawingView", "resetTransformation c: $containerWidth - $containerHeight")
-//        Log.e("DrawingView", "resetTransformation: $drawingWidth - $drawingHeight")
-//    }
 
     internal fun resetTransformation(containerWidth: Int, containerHeight: Int) {
         transformation.reset()
