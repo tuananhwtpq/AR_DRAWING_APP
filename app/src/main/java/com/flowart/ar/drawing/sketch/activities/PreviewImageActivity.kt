@@ -21,11 +21,9 @@ import com.flowart.ar.drawing.sketch.utils.BitmapUtils
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.PermissionUtils
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.visible
 import com.google.android.material.chip.Chip
-import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,9 +34,7 @@ class PreviewImageActivity :
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (isFromHome || isFromGallery) {
-                loadAndShowInterBackHome(binding.vShowInterAds) {
                     finish()
-                }
             } else {
                 SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
@@ -117,14 +113,11 @@ class PreviewImageActivity :
         }
 
         binding.btnTrace.setOnClickListener {
-            loadAndShowInterPreview {
                 goToTraceActivity()
-            }
         }
 
         binding.btnSketch.setOnClickListener {
 
-            loadAndShowInterPreview {
                 if (PermissionUtils.checkCameraPermission(this) &&
                     PermissionUtils.checkRecordAudioPermission(this)
                 ) {
@@ -133,7 +126,6 @@ class PreviewImageActivity :
                     val intent = Intent(this, PermissionActivity::class.java)
                     launcher.launch(intent)
                 }
-            }
         }
 
         binding.ivInfo.setOnClickListener {
@@ -253,11 +245,6 @@ class PreviewImageActivity :
         binding.progressAi.gone()
         binding.btnRemoveBg.text = "✨ AI Remove Background"
         binding.btnRemoveBg.isEnabled = true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loadAndShowNativeOtherMedium(binding.frNative)
     }
 
     override fun onStop() {
@@ -399,24 +386,6 @@ class PreviewImageActivity :
         startActivity(intent)
         finish()
     }
-
-    fun loadAndShowInterPreview(navAction: () -> Unit) {
-        if (AdsManager.isShowInterSketchTracePreview()) {
-            AdmobLib.loadAndShowInterWithNativeAfter(
-                mActivity = this,
-                interModel = AdsManager.INTER_SKETCH_TRACE_PREVIEW,
-                nativeModel = AdsManager.NATIVE_FULL_SCREEN_AFTER_INTER,
-                vShowInterAds = binding.vShowInterAds,
-                isShowNativeAfter = AdsManager.isShowNativeFullScreen(),
-                nativeLayout = R.layout.native_ads_full_screen,
-                navAction = { navAction() },
-                onInterCloseOrFailed = { if (it) AdsManager.updateTime() }
-            )
-        } else {
-            navAction()
-        }
-    }
-
     companion object {
         private const val TAG = "PreviewImageActivity"
     }

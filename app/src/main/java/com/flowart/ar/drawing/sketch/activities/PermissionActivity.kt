@@ -123,6 +123,5 @@ class PermissionActivity :
     override fun onResume() {
         super.onResume()
         updateUiPermission()
-        loadAndShowNativeOtherMedium(binding.frNative)
     }
 }

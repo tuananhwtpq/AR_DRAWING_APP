@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">FlowARt: AR Drawing Sketch Art</string>
+    <string name="app_name" translatable="false">AeroDraw</string>
 
     <string name="admob_app_id" translatable="false">ca-app-pub-8475252859305547~8930447305</string>
     <string name="fb_app_id" translatable="false">1375404854195357</string>

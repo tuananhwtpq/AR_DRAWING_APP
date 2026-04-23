@@ -24,7 +24,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="8dp"
             android:scrollHorizontally="true"
-            android:text="@string/flowart_ar_drawing_sketch_art"
+            android:text="AeroDraw"
             android:textColor="@color/mainTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

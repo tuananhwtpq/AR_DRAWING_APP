@@ -6,8 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -26,8 +24,6 @@ import com.flowart.ar.drawing.sketch.utils.BitmapUtils
 import com.flowart.ar.drawing.sketch.utils.Common
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
-import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.convertToPx
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.onProgressChange
@@ -35,8 +31,6 @@ import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.visible
 import com.snake.drawingview.brushtool.data.Brush
 import com.snake.drawingview.state.ActionsStacks
-import com.snake.squad.adslib.AdmobLib
-import com.snake.squad.adslib.utils.GoogleENative
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -131,11 +125,9 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         override fun handleOnBackPressed() {
             ExitDialog().init(
                 onExit = {
-                    loadAndShowInterBackHome(binding.vShowInterAds) {
                         SharedPrefManager.putBoolean("wantShowRate", true)
                         startTime = System.currentTimeMillis()
                         finish()
-                    }
                 },
                 onDismiss = {
                     startTime = System.currentTimeMillis()
@@ -147,23 +139,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
                 spentTime + System.currentTimeMillis() - startTime
             )
             //finish()
-        }
-    }
-
-    private var isLoading = false
-    private val handler = Handler(Looper.getMainLooper())
-
-
-    private var isCountingCollapsibleHome = false
-
-    private val runnableCollapsibleSketchTrace: kotlinx.coroutines.Runnable = object :
-        kotlinx.coroutines.Runnable {
-        override fun run() {
-            if (AdsManager.isReloadingCollapsibleSketchTrace() && !isLoading) {
-                loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleSketchTrace() }
-            }
-            handler.postDelayed(this, 1000L)
-
         }
     }
 
@@ -260,7 +235,7 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
         }
 
         binding.btnSave.setOnUnDoubleClick {
-            loadAndShowInterDone(binding.vShowInterAds) { done() }
+            done()
         }
 
         binding.btnPrevStep.setOnClickListener {
@@ -507,13 +482,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
-        loadAndShowNativeCollapsibleDrawing { AdsManager.updateCollapsibleSketchTrace() }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        handler.post(runnableCollapsibleSketchTrace)
-        isCountingCollapsibleHome = true
     }
 
     override fun onPause() {
@@ -523,15 +491,6 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             spentTime + System.currentTimeMillis() - startTime
         )
         super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        binding.vShowInterAds.gone()
-        if (isCountingCollapsibleHome) {
-            handler.removeCallbacks(runnableCollapsibleSketchTrace)
-            isCountingCollapsibleHome = false
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -582,58 +541,5 @@ class TraceActivity : BaseActivity<ActivityTraceBinding>(ActivityTraceBinding::i
             binding.drawingView.setBrushOrEraser(Brush.HardEraser)
             binding.drawingView.setBrushOrEraserSize((binding.sbEraser.progress + 1) / 100f)
         }
-    }
-
-    fun loadAndShowNativeCollapsibleDrawing(onShowOrFailed: () -> Unit) {
-        if (isLoading) return
-        when (RemoteConfig.remoteNativeCollapsibleDrawing) {
-            1L -> {
-                isLoading = true
-                binding.frNativeSmall.visible()
-                AdmobLib.loadAndShowNative(
-                    activity = this,
-                    admobNativeModel = AdsManager.NATIVE_COLLAPSIBLE_DRAWING,
-                    viewGroup = binding.frNativeSmall,
-                    size = GoogleENative.UNIFIED_SMALL_LIKE_BANNER,
-                    layout = R.layout.native_ads_custom_small_like_banner,
-                    onAdsLoaded = {
-                        binding.viewLine.visible()
-                        onShowOrFailed()
-                        isLoading = false
-                    },
-                    onAdsLoadFail = {
-                        binding.viewLine.gone()
-                        onShowOrFailed()
-                        isLoading = false
-                    }
-                )
-            }
-
-            2L -> {
-                isLoading = true
-                binding.frNativeSmall.visible()
-                binding.frNativeExpand.visible()
-                AdmobLib.loadAndShowNativeCollapsibleSingle(
-                    activity = this@TraceActivity,
-                    admobNativeModel = AdsManager.NATIVE_COLLAPSIBLE_DRAWING,
-                    viewGroupExpanded = binding.frNativeExpand,
-                    viewGroupCollapsed = binding.frNativeSmall,
-                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
-                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
-                    onAdsLoaded = {
-                        binding.viewLine.visible()
-                        onShowOrFailed()
-                        isLoading = false
-                    },
-                    onAdsLoadFail = {
-                        binding.viewLine.gone()
-                        onShowOrFailed()
-                        isLoading = false
-                    }
-                )
-            }
-        }
-
-
     }
 }

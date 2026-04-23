@@ -13,13 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * ScoreHistoryActivity — Màn hình hiển thị lịch sử tiến bộ.
- *
- * Hiển thị:
- * - 3 stat cards (Best, Average, Total)
- * - Line chart tiến bộ qua thời gian
- */
 class ScoreHistoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

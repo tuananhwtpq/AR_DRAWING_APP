@@ -1,6 +1,7 @@
 package com.flowart.ar.drawing.sketch.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flowart.ar.drawing.sketch.BuildConfig
 import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.activities.CategoryDetailActivity
-import com.flowart.ar.drawing.sketch.activities.MainActivity
 import com.flowart.ar.drawing.sketch.activities.PermissionActivity
 import com.flowart.ar.drawing.sketch.activities.PreviewImageActivity
 import com.flowart.ar.drawing.sketch.adapters.ImageAdapter
@@ -27,7 +27,6 @@ import com.flowart.ar.drawing.sketch.databinding.FragmentHomeBinding
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.showToast
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
@@ -45,19 +44,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var imageUri: Uri? = null
 
     private val handler = Handler(Looper.getMainLooper())
-    private var isLoadingAds = false
-    private var runnable = object : Runnable {
-        override fun run() {
-            if (!isLoadingAds && AdsManager.isReloadingNativeHome()) {
-                isLoadingAds = true
-                (requireActivity() as MainActivity).loadAndShowNativeHome(binding.frNative) {
-                    AdsManager.updateNativeHome()
-                    isLoadingAds = false
-                }
-            }
-            handler.postDelayed(this, 5000L)
-        }
-    }
 
     val requestLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -91,14 +77,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onResume() {
         super.onResume()
-        AdsManager.lastNativeHomeShow = 0L
-        handler.removeCallbacksAndMessages(null)
-        handler.post(runnable)
     }
 
     override fun onPause() {
         super.onPause()
-        handler.removeCallbacksAndMessages(null)
     }
 
 
@@ -121,52 +103,40 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         binding.tvSeeAllTrending.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     0,
                     R.string.trending
                 )
-            }
         }
         binding.tvSeeAllAnime.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     1,
                     R.string.anime
                 )
-            }
         }
         binding.tvSeeAllCartoon.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     2,
                     R.string.cartoon
                 )
-            }
         }
         binding.tvSeeAllAnimal.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     3,
                     R.string.animal
                 )
-            }
         }
         binding.tvSeeAllChibi.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     4,
                     R.string.chibi
                 )
-            }
         }
         binding.tvSeeAllCute.setOnUnDoubleClick {
-            (requireActivity() as MainActivity).loadAndShowInterHome {
                 goToCategory(
                     5,
                     R.string.flower
                 )
-            }
         }
     }
 
@@ -208,6 +178,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): File {
         val currentTime = System.currentTimeMillis()
         val simpleFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
@@ -221,18 +192,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             requireContext(),
             isTrending = false,
             onItemClick = {
-                (requireActivity() as MainActivity).loadAndShowInterHome {
                     handleImageClick(it)
-                }
             },
             onFavoriteClick = { handleFavoriteClick(it) })
 
         recentAdapter = ImageAdapter(
             requireContext(),
             onItemClick = {
-                (requireActivity() as MainActivity).loadAndShowInterHome {
                     handleImageClick(it)
-                }
             },
             onFavoriteClick = { handleFavoriteClick(it) })
 
@@ -285,9 +252,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val adapter = ImageAdapter(
             requireContext(),
             onItemClick = {
-                (requireActivity() as MainActivity).loadAndShowInterHome {
                     handleImageClick(it)
-                }
             },
             onFavoriteClick = { handleFavoriteClick(it) })
         ImageRepositories.INSTANCE.getImageByCategory(category).observe(this) {

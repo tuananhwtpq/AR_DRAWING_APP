@@ -5,20 +5,10 @@ import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.activities.IntroActivity
 import com.flowart.ar.drawing.sketch.bases.BaseFragment
 import com.flowart.ar.drawing.sketch.databinding.FragmentIntroBinding
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
-import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
-import com.flowart.ar.drawing.sketch.utils.gone
-import com.flowart.ar.drawing.sketch.utils.visible
-import com.snake.squad.adslib.AdmobLib
-import com.snake.squad.adslib.utils.GoogleENative
 
 class IntroFragment : BaseFragment<FragmentIntroBinding>(FragmentIntroBinding::inflate) {
 
     private val ARG_OBJECT = "position"
-
-    private val position by lazy {
-        requireArguments().getInt(ARG_OBJECT)
-    }
 
     override fun initData() {}
 
@@ -28,23 +18,23 @@ class IntroFragment : BaseFragment<FragmentIntroBinding>(FragmentIntroBinding::i
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        showNativeIntro2 { isShowAds ->
-            if (isShowAds) {
-                binding.dotIndicator1.gone()
-                binding.btnNext1.gone()
-                binding.dotIndicator2.visible()
-                binding.btnNext2.visible()
-            } else {
-                binding.dotIndicator1.visible()
-                binding.btnNext1.visible()
-                binding.dotIndicator2.gone()
-                binding.btnNext2.gone()
-            }
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//
+//        showNativeIntro2 { isShowAds ->
+//            if (isShowAds) {
+//                binding.dotIndicator1.gone()
+//                binding.btnNext1.gone()
+//                binding.dotIndicator2.visible()
+//                binding.btnNext2.visible()
+//            } else {
+//                binding.dotIndicator1.visible()
+//                binding.btnNext1.visible()
+//                binding.dotIndicator2.gone()
+//                binding.btnNext2.gone()
+//            }
+//        }
+//    }
 
     override fun initActionView() {
         binding.btnNext2.setOnClickListener {
@@ -92,23 +82,4 @@ class IntroFragment : BaseFragment<FragmentIntroBinding>(FragmentIntroBinding::i
             }
         }
     }
-
-    private fun showNativeIntro2(updateView: (Boolean) -> Unit) {
-        if (RemoteConfig.remoteNativeIntro == 0L || position != 1) return
-        binding.frNative.visible()
-        AdmobLib.showNative(
-            requireActivity(),
-            AdsManager.NATIVE_INTRO,
-            binding.frNative,
-            GoogleENative.UNIFIED_MEDIUM,
-            R.layout.native_ads_custom_medium_bottom,
-            onAdsShowFail = {
-                updateView(false)
-            },
-            onAdsShowed = {
-                updateView(true)
-            }
-        )
-    }
-
 }

@@ -84,9 +84,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //ads library
-    implementation(libs.ssquadadslibrary)
-
     //other library
     implementation(libs.lottie)
     implementation(libs.dotsindicator)

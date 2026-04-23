@@ -21,7 +21,6 @@ class FullScreenFragment :
 
     override fun onResume() {
         super.onResume()
-        (activity as? IntroActivity)?.showNativeFullScreen(binding.frNative)
     }
 
 

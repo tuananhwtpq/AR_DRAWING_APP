@@ -28,14 +28,11 @@ import com.flowart.ar.drawing.sketch.databinding.ActivityResultBinding
 import com.flowart.ar.drawing.sketch.utils.BitmapUtils
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
-import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.formatDateTime
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.showToast
 import com.flowart.ar.drawing.sketch.utils.visible
-import com.snake.squad.adslib.AdmobLib
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -89,10 +86,8 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
         }
 
         binding.backHome.setOnUnDoubleClick {
-            loadAndShowInterBackHome(binding.vShowInterAds) {
                 SharedPrefManager.putBoolean("wantShowRate", true)
                 gotoMain()
-            }
         }
 
         // Heatmap toggle button
@@ -288,7 +283,6 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
 
     override fun onResume() {
         super.onResume()
-        loadAndShowNativeOther()
     }
 
     companion object {
@@ -344,28 +338,5 @@ class ResultActivity : BaseActivity<ActivityResultBinding>(ActivityResultBinding
         }
 
         BitmapUtils.shareBitmap(this, bitmap)
-    }
-
-    fun loadAndShowNativeOther() {
-        when (RemoteConfig.remoteNativeOther) {
-            1L -> {
-                binding.frNativeSmall.visible()
-                binding.frNativeExpand.visible()
-                AdmobLib.loadAndShowNativeCollapsibleSingle(
-                    activity = this,
-                    admobNativeModel = AdsManager.NATIVE_OTHER,
-                    viewGroupExpanded = binding.frNativeExpand,
-                    viewGroupCollapsed = binding.frNativeSmall,
-                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
-                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
-                    onAdsLoaded = {
-                        binding.whiteLine.visible()
-                    },
-                    onAdsLoadFail = {
-                        binding.whiteLine.gone()
-                    }
-                )
-            }
-        }
     }
 }

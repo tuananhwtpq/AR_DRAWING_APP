@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.flowart.ar.drawing.sketch.R
 import com.flowart.ar.drawing.sketch.adapters.ImageAdapter
 import com.flowart.ar.drawing.sketch.bases.BaseActivity
 import com.flowart.ar.drawing.sketch.databinding.ActivityCategoryDetailBinding
@@ -12,12 +11,9 @@ import com.flowart.ar.drawing.sketch.fragments.DrawGuideDialog
 import com.flowart.ar.drawing.sketch.models.ImageModel
 import com.flowart.ar.drawing.sketch.utils.Constants
 import com.flowart.ar.drawing.sketch.utils.SharedPrefManager
-import com.flowart.ar.drawing.sketch.utils.ads.AdsManager
-import com.flowart.ar.drawing.sketch.utils.ads.RemoteConfig
 import com.flowart.ar.drawing.sketch.utils.gone
 import com.flowart.ar.drawing.sketch.utils.setOnUnDoubleClick
 import com.flowart.ar.drawing.sketch.utils.visible
-import com.snake.squad.adslib.AdmobLib
 import com.ssquad.ar.drawing.sketch.db.ImageRepositories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,10 +38,8 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
     }
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            loadAndShowInterBackHome(binding.vShowInterAds) {
                 SharedPrefManager.putBoolean("wantShowRate", true)
                 finish()
-            }
 
         }
     }
@@ -106,7 +100,6 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
             }
         }
 
-        loadAndShowNativeOther()
     }
 
     override fun onStop() {
@@ -145,28 +138,5 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>(
 
     private fun handleFavoriteClick(image: ImageModel) {
         ImageRepositories.INSTANCE.updateImageFavorite(image.isFavorite, image.id)
-    }
-
-    fun loadAndShowNativeOther() {
-        when (RemoteConfig.remoteNativeOther) {
-            1L -> {
-                binding.frNativeSmall.visible()
-                binding.frNativeExpand.visible()
-                AdmobLib.loadAndShowNativeCollapsibleSingle(
-                    activity = this,
-                    admobNativeModel = AdsManager.NATIVE_OTHER,
-                    viewGroupExpanded = binding.frNativeExpand,
-                    viewGroupCollapsed = binding.frNativeSmall,
-                    layoutExpanded = R.layout.native_ads_custom_medium_bottom,
-                    layoutCollapsed = R.layout.native_ads_custom_small_like_banner,
-                    onAdsLoaded = {
-                        binding.whiteLine.visible()
-                    },
-                    onAdsLoadFail = {
-                        binding.whiteLine.gone()
-                    }
-                )
-            }
-        }
     }
 }
