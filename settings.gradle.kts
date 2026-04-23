@@ -28,7 +28,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FlowARt - SSQUAD"
+rootProject.name = "AeroDraw"
 include(":app")
 include(":openCV")
 include(":drawingview")
